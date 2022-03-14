@@ -1,0 +1,31 @@
+﻿@page "/"
+
+<h1>Hello, world!</h1>
+
+<div><span>Welcome to your demise.</span></div>
+
+<div>
+@if (IsLoading)
+{
+    <span>Page is still loading</span>
+}
+else
+{
+    @if (_weatherGuess is not null)
+    {
+        <span>We predict the temp will be @_weatherGuess.TemperatureF Fahrenheit, or @_weatherGuess.TemperatureC Celsius.</span>
+    }
+    else
+    {
+        <span><i>The weather is currently unavailable.</i></span>
+        @if (IsDebug)
+        {
+            <div>
+                <span style="color: red">
+                    Something probably went wrong. Feel free to check the <a href="https://developer.mozilla.org/en-US/docs/Tools/Browser_Console">browser console</a> for an error message.
+                </span>
+            </div>
+        }
+    }
+}
+</div>

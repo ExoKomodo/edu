@@ -1,0 +1,39 @@
+name: 'Publish example static site to Github Pages'
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        # Checkout the code
+        - uses: actions/checkout@v2
+
+        # Install .NET SDK
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: '6.0.*'
+
+        # Generate the website
+        - name: Publish website
+          run: |
+            cd src/Client
+            cp wwwroot/index.html wwwroot/404.html
+            dotnet publish --configuration Release
+
+        # Publish the website
+        - name: GitHub Pages action
+          if: ${{ github.ref == 'refs/heads/main' }} # Publish only when the push is on main
+          uses: peaceiris/actions-gh-pages@v3.6.1
+          with:
+            github_token: ${{ secrets.PUBLISH_TOKEN }}
+            publish_branch: gh-pages
+            publish_dir: src/Client/bin/Release/net6.0/publish/wwwroot
+            allow_empty_commit: false
+            keep_files: false
+            force_orphan: true
+            # Custom Domain
+            cname: example.exokomodo.com

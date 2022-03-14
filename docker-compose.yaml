@@ -1,0 +1,27 @@
+version: '3'
+services:
+  test:
+    build:
+      context: .
+    command: bash compose_scripts/test.sh
+    volumes:
+      - .:/app
+  build:
+    build:
+      context: .
+    command: bash compose_scripts/build.sh
+    volumes:
+      - .:/app
+  publish:
+    build:
+      context: .
+      dockerfile: jenkins.Dockerfile
+    command: bash compose_scripts/publish.sh
+    volumes:
+      - .:/app
+  fix_ownership:
+    build:
+      context: .
+    command: bash compose_scripts/fix_ownership.sh
+    volumes:
+      - .:/app
