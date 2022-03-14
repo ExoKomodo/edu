@@ -1,4 +1,4 @@
-# ExoKomood Edu
+# ExoKomodo Edu
 
 TODO: Description
 
