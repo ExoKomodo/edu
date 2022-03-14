@@ -1,9 +1,9 @@
-# Template Blazor Client
+# ExoKomood Edu
 
 TODO: Description
 
 ## Important Links
-- [Github](https://github.com/ExoKomodo/template-repo-blazor-client)
+- [Github](https://github.com/ExoKomodo/Edu)
 - [Client - Production](https://example.exokomodo.com)
 - [Dotnet Installation Page](https://dotnet.microsoft.com/download)
 
