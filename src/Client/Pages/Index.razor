@@ -1,8 +1,6 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
-
-<div><span>Welcome to your demise.</span></div>
+<h1>ExoKomodo Edu</h1>
 
 <div>
 @if (IsLoading)
@@ -11,21 +9,16 @@
 }
 else
 {
-    @if (_weatherGuess is not null)
-    {
-        <span>We predict the temp will be @_weatherGuess.TemperatureF Fahrenheit, or @_weatherGuess.TemperatureC Celsius.</span>
-    }
-    else
-    {
-        <span><i>The weather is currently unavailable.</i></span>
-        @if (IsDebug)
-        {
-            <div>
-                <span style="color: red">
-                    Something probably went wrong. Feel free to check the <a href="https://developer.mozilla.org/en-US/docs/Tools/Browser_Console">browser console</a> for an error message.
-                </span>
-            </div>
-        }
-    }
+    <div>
+        <h2>Welcome to your informal Computer Science education!</h2>
+        <br/><br/>
+        <p>
+            ExoKomodo Edu is intended to be a completely <strong>FREE</strong> to use <i>school</i> to teach Computer Science to any who are willing and able.
+            <br/><br/>
+            Some of the courses will have a companion textbook that could be beneficial to have, but the courses themselves will never require the textbooks or rely on them.
+            <br/><br/>
+            To get started, click on the <a href="/courses">Courses</a> tab and start learning!
+        </p>
+    </div>
 }
 </div>
