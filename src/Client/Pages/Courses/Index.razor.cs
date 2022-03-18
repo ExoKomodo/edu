@@ -1,10 +1,12 @@
 using Client.Config;
-using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
+using Client.Models;
 using Client.Services;
+using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System;
 
-namespace Client.Pages
+namespace Client.Pages.Courses
 {
   public partial class Index
     {
@@ -16,6 +18,14 @@ namespace Client.Pages
             false
             #endif
             ;
+        
+        private ICollection<Course> _courses = new List<Course> {
+            new Course {
+                Id = "dld",
+                Name = "Digital Logic Design",
+            },
+        };
+
         protected override void OnAfterRender(bool firstRender)
         {
             if (firstRender)

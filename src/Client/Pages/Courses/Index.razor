@@ -1,0 +1,37 @@
+﻿@page "/courses"
+
+@using Client.Components
+
+<div>
+@if (IsLoading)
+{
+    <span>Page is still loading</span>
+}
+else
+{
+    <div>
+
+@if (_courses is not null)
+{
+    <div id="body">
+        <BackLink Link="/" PageName="home" />
+        <h1>Courses</h1>
+        <div>
+            <ul>
+                @foreach (var course in _courses)
+                {
+                    <li>
+                        <h3>
+                            <a href="@($"/courses/{course.Id}")">
+                                @course.Name
+                            </a>
+                        </h3>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+    </div>
+}
+</div>
