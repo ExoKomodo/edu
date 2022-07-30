@@ -1,0 +1,23 @@
+﻿@page "/school/baby"
+
+@using Client.Components
+@using Client.Models.School
+
+<div id="body">
+    <BackLink Link="/" PageName="home" />
+    <h1>Courses</h1>
+    <div>
+        <ul>
+            @foreach (var course in Curriculum.Courses)
+            {
+                <li>
+                    <h3>
+                        <a href="@($"/school/{Curriculum.Id}/{course.Id}")">
+                            @course.Name
+                        </a>
+                    </h3>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

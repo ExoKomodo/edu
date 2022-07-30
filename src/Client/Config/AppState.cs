@@ -22,18 +22,7 @@ namespace Client.Config
                 NotifyStateChanged();
             }
         }
-        public static bool IsSideNavHidden
-        {
-            get => _isSideNavHidden;
-            set
-            {
-                _isSideNavHidden = value;
-                OnIsSideNavHiddenChange?.Invoke();
-                NotifyStateChanged();
-            }
-        }
         public static event Action OnFaviconUriChange;
-        public static event Action OnIsSideNavHiddenChange;
         public static event Action OnChange;
         #endregion
 
@@ -41,7 +30,6 @@ namespace Client.Config
         public static void Reset()
         {
             FaviconUri = DEFAULT_FAVICON_URI;
-            IsSideNavHidden = DEFAULT_IS_SIDENAV_HIDDEN;
         }
         #endregion
 

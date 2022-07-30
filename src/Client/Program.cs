@@ -19,11 +19,6 @@ namespace Client
                     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
                 }
             );
-            builder.Services.AddHttpClient<ServerApiClient>(
-                client => {
-                    client.BaseAddress = new Uri("https://services.exokomodo.com/api/");
-                }
-            );
 
             await builder.Build().RunAsync();
         }
