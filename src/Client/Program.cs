@@ -20,6 +20,9 @@ namespace Client
                 }
             );
 
+            builder.Services.AddSingleton<BabyCarrierBlogService>();
+            builder.Services.AddSingleton<GeneralBlogService>();
+
             await builder.Build().RunAsync();
         }
     }

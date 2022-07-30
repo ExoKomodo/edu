@@ -1,0 +1,26 @@
+@page "/webring/jorson/food"
+@using Client.Pages.Webring.Jorson.Components
+
+<link href="css/jorson/styles.css" rel="stylesheet" />
+
+@if (_blogs is not null)
+{
+    <div id="body">
+        <BackLink Link="/webring/jorson" PageName="home" />
+        <h1>Vegan Food Excursions!</h1>
+        <div>
+            <ul>
+                @foreach (var blog in _blogs.Where(x => !x.IsHidden))
+                {
+                    <li>
+                        <h3>
+                            <a href="@($"/webring/jorson/food/{blog.Id}")">
+                                @blog.Date.ToShortDateString() - @((MarkupString)blog.Title)
+                            </a>
+                        </h3>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}

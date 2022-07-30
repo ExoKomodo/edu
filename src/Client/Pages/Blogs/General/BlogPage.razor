@@ -1,0 +1,13 @@
+@page "/blogs/general/{Id}"
+@using Client.Helpers.Browser
+
+@if (_blog is not null)
+{
+    <div id="body">
+        <BackLink Link="/blogs/general" PageName="general blogs" />
+        <h1>@_blog.Title</h1>
+        <div>
+            @((MarkupString)_blog.Content.Text)
+        </div>
+    </div>
+}
