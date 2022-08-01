@@ -19,7 +19,6 @@ namespace Client.Pages.Blogs
                 foreach (
                     var blogKind in new List<string>
                     {
-                        "baby-carrier",
                         "general",
                     }
                 )
