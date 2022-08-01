@@ -7,30 +7,12 @@ namespace Client.Shared
 {
     public partial class MainLayout : IDisposable
     {
-        #region Public
-
-        #region Member Methods
-        public void Dispose()
-        {
-            AppState.OnFaviconUriChange -= UpdateFavicon;
-            AppState.OnIsSideNavHiddenChange -= StateHasChanged;
-        }
-        #endregion
-
-        #endregion
-
-        #region Protected
-
-        #region Members
         [Inject]
         protected IJSRuntime _jsRuntime { get; set; }
-        #endregion
 
-        #region Member Methods
         protected override void OnInitialized()
         {
             AppState.OnFaviconUriChange += UpdateFavicon;
-            AppState.OnIsSideNavHiddenChange += StateHasChanged;
         }
 
         protected void UpdateFavicon()
@@ -38,8 +20,10 @@ namespace Client.Shared
             _jsRuntime.InvokeVoidAsync("updateFavicon", AppState.FaviconUri);
             StateHasChanged();
         }
-        #endregion
 
-        #endregion
+        public void Dispose()
+        {
+            AppState.OnFaviconUriChange -= UpdateFavicon;
+        }
     }
 }

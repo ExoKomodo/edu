@@ -1,0 +1,21 @@
+@page "/school/baby/blogs/baby-carrier/{Id}"
+
+@using Client.Components
+
+@if (_blog is not null)
+{
+    <div id="body">
+        <BackLink Link="/blogs/general" PageName="baby carrier blogs" />
+        @if (IsLoading)
+        {
+            <span>Loading...</span>
+        }
+        else
+        {
+            <h1>@_blog.Title</h1>
+            <div>
+                @((MarkupString)_blog.Content)
+            </div>
+        }
+    </div>
+}

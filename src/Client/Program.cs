@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Client.Http;
+using Client.Services;
 
 namespace Client
 {
@@ -19,11 +20,8 @@ namespace Client
                     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
                 }
             );
-            builder.Services.AddHttpClient<ServerApiClient>(
-                client => {
-                    client.BaseAddress = new Uri("https://services.exokomodo.com/api/");
-                }
-            );
+
+            builder.Services.AddSingleton<BlogService>();
 
             await builder.Build().RunAsync();
         }

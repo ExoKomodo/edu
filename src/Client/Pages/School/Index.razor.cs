@@ -1,10 +1,13 @@
 using Client.Config;
-using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
+using Client.Models.School;
+using Client.Models.School.Baby;
 using Client.Services;
+using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System;
 
-namespace Client.Pages
+namespace Client.Pages.School
 {
   public partial class Index
     {
@@ -16,6 +19,15 @@ namespace Client.Pages
             false
             #endif
             ;
+        public ICollection<Curriculum> Curricula { get; set; }
+
+        protected override void OnInitialized()
+        {
+            Curricula = new List<Curriculum>
+            {
+                new BabyCurriculum(),
+            };
+        }
 
         protected override void OnAfterRender(bool firstRender)
         {

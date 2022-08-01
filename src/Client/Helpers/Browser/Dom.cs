@@ -5,9 +5,6 @@ namespace Client.Helpers.Browser
 {
     public static class Dom
     {
-        #region Public
-
-        #region Methods
         public static void ScrollIntoView(IJSRuntime jsRuntime, string nodeId)
         {
             if (nodeId.StartsWith("#")) {
@@ -23,8 +20,5 @@ namespace Client.Helpers.Browser
         {
             jsRuntime.InvokeVoidAsync("updateFavicon", faviconUri);
         }
-        #endregion
-
-        #endregion
     }
 }

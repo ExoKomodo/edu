@@ -1,16 +1,15 @@
 using Client.Config;
-using Client.Models.Courses;
+using Client.Models.School.Baby;
 using Client.Services;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 
-namespace Client.Pages.Courses
+namespace Client.Pages.School.Baby
 {
   public partial class Index
     {
-        public bool IsLoading { get; set; }
         public const bool IsDebug =
             #if DEBUG
             true
@@ -18,6 +17,12 @@ namespace Client.Pages.Courses
             false
             #endif
             ;
+        public BabyCurriculum Curriculum { get; set; }
+
+        protected override void OnInitialized()
+        {
+            Curriculum = new BabyCurriculum();
+        }
 
         protected override void OnAfterRender(bool firstRender)
         {

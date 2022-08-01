@@ -2,18 +2,7 @@
 
 @inherits LayoutComponentBase
 
-<div hidden="@(AppState.IsSideNavHidden)" class="sidenav">
-    <NavMenu />
-</div>
-
 <div class="main">
-    <div class="top-row px-4">
-        <div style="float: right;">
-            <input id="hide-sidenav" type="checkbox" @bind="AppState.IsSideNavHidden" />
-            <label for="hide-sidenav">Hide nav?</label>
-        </div>
-    </div>
-
     <div class="content px-4">
         @Body
     </div>

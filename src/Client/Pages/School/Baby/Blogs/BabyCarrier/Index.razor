@@ -1,0 +1,32 @@
+@page "/school/baby/blogs/baby-carrier"
+
+@using Client.Components
+
+@if (_blogs is not null)
+{
+    <div id="body">
+        <BackLink Link="/school/baby/blogs" PageName="baby blog home" />
+        <h1>Baby Carrier blogs!</h1>
+        <div>
+            @if (IsLoading)
+            {
+                <span>Loading...</span>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var blog in _blogs)
+                    {
+                        <li>
+                            <h3>
+                                <a href="@($"/school/baby/blogs/baby-carrier/{blog.Id}")">
+                                    @blog.Title
+                                </a>
+                            </h3>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+}

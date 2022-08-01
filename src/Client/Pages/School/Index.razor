@@ -1,0 +1,30 @@
+﻿@page "/school"
+
+@using Client.Components
+@using Client.Models.School
+
+<div id="body">
+    <BackLink Link="/" PageName="home" />
+    <h1>Curricula</h1>
+    <div>
+        @if (IsLoading)
+        {
+            <span>Curriculum are loading...</span>
+        }
+        else
+        {
+            <ul>
+                @foreach (var curriculum in Curricula)
+                {
+                    <li>
+                        <h3>
+                            <a href="@($"/school/{curriculum.Id}")">
+                                @curriculum.Name
+                            </a>
+                        </h3>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

@@ -1,0 +1,32 @@
+@page "/blogs/general"
+
+@using Client.Components
+
+@if (_blogs is not null)
+{
+    <div id="body">
+        <BackLink Link="/" PageName="home" />
+        <h1>General blogs!</h1>
+        <div>
+            @if (IsLoading)
+            {
+                <span>Loading...</span>
+            }
+            else
+            {
+                <ul>
+                    @foreach (var blog in _blogs)
+                    {
+                        <li>
+                            <h3>
+                                <a href="@($"/blogs/general/{blog.Id}")">
+                                    @blog.Title
+                                </a>
+                            </h3>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
+}
