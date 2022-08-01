@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+using System;
 
 namespace Client.Models
 {
     public class Blog : Model<string>
     {
-        public BlogContent Content { get; set; }
+        public string Content { get; set; }
         public DateTime Date { get; set; }
-        public string Title { get; protected set; }
+        public string Title { get; set; }
     }
 }

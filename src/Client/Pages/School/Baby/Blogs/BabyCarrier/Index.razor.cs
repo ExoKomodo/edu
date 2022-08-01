@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Client.Models;
 using Client.Services;
 
-namespace Client.Pages.Blogs.General
+namespace Client.Pages.School.Baby.Blogs.BabyCarrier
 {
     public partial class Index
     {
@@ -15,7 +15,7 @@ namespace Client.Pages.Blogs.General
             try
             {
                 IsLoading = true;
-                _blogService.Id = "general";
+                _blogService.Id = "baby-carrier";
                 _blogs = await _blogService.GetAsync();
             }
             finally

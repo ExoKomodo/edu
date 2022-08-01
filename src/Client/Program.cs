@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Client.Http;
+using Client.Services;
 
 namespace Client
 {
@@ -20,8 +21,7 @@ namespace Client
                 }
             );
 
-            builder.Services.AddSingleton<BabyCarrierBlogService>();
-            builder.Services.AddSingleton<GeneralBlogService>();
+            builder.Services.AddSingleton<BlogService>();
 
             await builder.Build().RunAsync();
         }

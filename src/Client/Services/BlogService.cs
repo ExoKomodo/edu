@@ -9,7 +9,7 @@ using Client.Services.Mixins;
 
 namespace Client.Services
 {
-    public abstract class BlogService :
+    public class BlogService :
         HttpResourceService<string>,
         HttpResourceGetServiceMixin<BlogService, Blog, string>
     {
@@ -17,12 +17,12 @@ namespace Client.Services
     
         public override HttpClient GetHttpClient() => _client.Client;
 
-        protected BlogService(LocalClient client)
+        public BlogService(LocalClient client)
         {
             _client = client;
         }
 
-        public abstract string Id { get; }
+        public string Id { get; set; } = "general";
 
         public IEnumerable<Blog> Get() => GetAsync().Result;
 
@@ -30,10 +30,21 @@ namespace Client.Services
 
         public async Task<IEnumerable<Blog>> GetAsync() => await this.GetAsync($"blogs/{Id}/blogs.json");
         
-        public async Task<IEnumerable<Blog>> GetAsync(string dataFilePath) =>
-            await this.GetAsync<BlogService, Blog, string>(
+        public async Task<IEnumerable<Blog>> GetAsync(string dataFilePath)
+        {
+            var blogs = await this.GetAsync<BlogService, Blog, string>(
                 $"data/{dataFilePath}"
             );
+            if (blogs is null)
+            {
+                throw new Exception($"Could not find blogs from data file: {dataFilePath}");
+            }
+            foreach (var blog in blogs)
+            {
+                blog.Content = await this.GetHtmlAsync(blog.Id);
+            }
+            return blogs;
+        }
 
         public Blog GetById(string id) => GetByIdAsync(id).Result;
 
@@ -44,7 +55,17 @@ namespace Client.Services
         public async Task<Blog> GetByIdAsync(string id, string dataFilePath)
         {
             var blog = (await GetAsync(dataFilePath)).SingleOrDefault(blog => blog.Id == id);
-            return blog ?? throw new Exception($"Could not find blog with id: {id}");
+            if (blog is null) {
+                throw new Exception($"Could not find blog with id: {id}");
+            }
+            blog.Content = await this.GetHtmlAsync(id);
+            return blog;
         }
+
+        protected string GetHtml(string id) =>
+            this.GetHttpClient().GetStringAsync($"/data/blogs/{Id}/{id}.html").Result;
+
+        protected async Task<string> GetHtmlAsync(string id) =>
+            await this.GetHttpClient().GetStringAsync($"/data/blogs/{Id}/{id}.html");
     }
 }

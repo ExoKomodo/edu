@@ -5,7 +5,7 @@
 
 <div id="body">
     <BackLink Link="/" PageName="home" />
-    <h1>Courses</h1>
+    <h2>Courses</h2>
     <div>
         <ul>
             @foreach (var course in Curriculum.Courses)
@@ -19,5 +19,10 @@
                 </li>
             }
         </ul>
+    </div>
+
+    <h2>Blogs</h2>
+    <div>
+        <span>Check out our <a href="@($"/school/{Curriculum.Id}/blogs")">baby blogs</a>!</span>
     </div>
 </div>

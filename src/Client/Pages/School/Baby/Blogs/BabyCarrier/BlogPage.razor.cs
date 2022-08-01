@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Client.Services;
 using Client.Models;
 
-namespace Client.Pages.Blogs.General
+namespace Client.Pages.School.Baby.Blogs.BabyCarrier
 {
     public partial class BlogPage
     {
@@ -17,11 +17,11 @@ namespace Client.Pages.Blogs.General
             try
             {
                 IsLoading = true;
-                _blogService.Id = "general";
+                _blogService.Id = "baby-carrier";
                 _blog = await _blogService.GetByIdAsync(Id);
                 if (_blog is null)
                 {
-                    _navigation.NavigateTo("/blogs/general");
+                    _navigation.NavigateTo($"/school/baby/blogs/{_blogService.Id}");
                     return;
                 }
             }
