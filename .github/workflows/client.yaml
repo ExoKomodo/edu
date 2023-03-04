@@ -32,9 +32,13 @@ jobs:
     - name: Build
       run: |
         npm run build --if-present
-    - Unit tests
+    - name: Unit tests
       run: |
         npm run test:unit
-    - E2E tests
+    - name: E2E tests [dev]
       run: |
         npm run test:e2e:dev
+    - name: E2E tests [prod]
+      if: github.ref == 'refs/heads/main'
+      run: |
+        npm run test:e2e
