@@ -10,6 +10,9 @@ on:
     branches: [ "main" ]
 
 jobs:
+  defaults:
+    run:
+      working-directory: ./server
   build:
 
     runs-on: ubuntu-latest
@@ -21,8 +24,12 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: |
+        dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: |
+        dotnet test --no-build --verbosity normal
+      working-directory: ./server.tests
