@@ -37,10 +37,9 @@ jobs:
       run: |
         npm run test:unit
     - name: E2E tests [dev]
-      if: ${{ false }}
       run: |
         npm run test:e2e:dev
     - name: E2E tests [prod]
-      if: github.ref == 'refs/heads/main' && ${{ false }}
+      if: github.ref == 'refs/heads/main'
       run: |
         npm run test:e2e
