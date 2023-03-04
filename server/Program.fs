@@ -3,10 +3,15 @@ open Microsoft.AspNetCore.Builder
 open Routes
 
 let webApp =
-  choose [
-    route "/" >=> Index.get ()
-    route "/ping" >=> Ping.get ()
-  ]
+  subRoute "/api"
+    (choose [
+      subRoute "/v1"
+        (choose [
+          GET >=> choose [
+            routex "(/?)" >=> Index.get
+            route  "/ping" >=> Ping.get
+          ]
+        ]) ])
 
 let app = WebApplication.CreateBuilder().Build()
 app.UseGiraffe webApp

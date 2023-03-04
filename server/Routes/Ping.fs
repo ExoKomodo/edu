@@ -2,4 +2,4 @@ module Routes.Ping
 
 open Giraffe
 
-let get() = text "pong"
+let get : HttpHandler = text "pong"
