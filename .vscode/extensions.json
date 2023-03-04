@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "Ionide.Ionide-fsharp",
+    "Vue.volar",
+    "Vue.vscode-typescript-vue-plugin"
+  ]
+}
