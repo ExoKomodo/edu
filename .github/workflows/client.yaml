@@ -36,10 +36,6 @@ jobs:
     - name: Unit tests
       run: |
         npm run test:unit
-    - name: E2E tests [dev]
-      run: |
-        npm run test:e2e:dev
-    - name: E2E tests [prod]
-      if: github.ref == 'refs/heads/main'
+    - name: E2E tests
       run: |
         npm run test:e2e
