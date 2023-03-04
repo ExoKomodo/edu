@@ -6,11 +6,12 @@ let webApp =
   subRoute "/api"
     (choose [
       subRoute "/v1"
-        (choose
+        (choose [
           GET >=> choose [
             routex "(/?)" >=> Index.get
             route  "/ping" >=> Ping.get
-          ]) ])
+          ]
+        ]) ])
 
 let app = WebApplication.CreateBuilder().Build()
 app.UseGiraffe webApp
