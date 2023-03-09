@@ -2,8 +2,7 @@ name: Client
 
 on:
   push:
-    # branches: [main]
-    branches: [ "*" ]
+    branches: [main]
   pull_request:
     branches: [main]
 
@@ -41,7 +40,7 @@ jobs:
       run: |
         npm run test:e2e
     - name: Deploy
-      if: ${{ github.ref == 'refs/heads/main' }}
+      # if: ${{ github.ref == 'refs/heads/main' }}
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.PUBLISH_TOKEN }}
