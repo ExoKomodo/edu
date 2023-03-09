@@ -1,5 +1,7 @@
 {
   "recommendations": [
+    "christian-kohler.npm-intellisense",
+    "davidanson.vscode-markdownlint",
     "gruntfuggly.todo-tree",
     "ionide.ionide-fsharp",
     "jakob101.relativepath",
