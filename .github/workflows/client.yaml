@@ -39,3 +39,14 @@ jobs:
     - name: E2E tests
       run: |
         npm run test:e2e
+    - name: Deploy
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.PUBLISH_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: ./client/dist
+        allow_empty_commit: false
+        keep_files: false
+        force_orphan: true
+        cname: edu.exokomodo.com
