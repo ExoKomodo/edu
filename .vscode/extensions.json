@@ -1,7 +1,12 @@
 {
   "recommendations": [
-    "Ionide.Ionide-fsharp",
-    "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin"
+    "gruntfuggly.todo-tree",
+    "ionide.ionide-fsharp",
+    "jakob101.relativepath",
+    "sonarsource.sonarlint-vscode",
+    "tyriar.sort-lines",
+    "vue.volar",
+    "vue.vscode-typescript-vue-plugin",
+    "wayou.vscode-todo-highlight"
   ]
 }
