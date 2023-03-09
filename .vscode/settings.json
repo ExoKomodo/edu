@@ -1,0 +1,6 @@
+{
+  "yaml.schemas": {
+    "file:///home/jamesaaronorson/.vscode/extensions/docsmsft.docs-yaml-0.2.9/out/yaml-support/toc.schema.json": "/toc\\.yml/i",
+    "https://json.schemastore.org/github-workflow.json": "file:///home/jamesaaronorson/Projects/Edu/.github/workflows/deploy.yaml"
+  }
+}
