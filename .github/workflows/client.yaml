@@ -2,13 +2,13 @@ name: Client
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
   pull_request:
-    branches: [ "main" ]
+    branches: [main]
 
 defaults:
-      run:
-        working-directory: ./client
+  run:
+    working-directory: ./client
 
 jobs:
   build:
@@ -25,8 +25,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: './client/package-lock.json'
+        cache: npm
+        cache-dependency-path: ./client/package-lock.json
     - name: Install dependencies
       run: |
         npm ci
@@ -39,3 +39,14 @@ jobs:
     - name: E2E tests
       run: |
         npm run test:e2e
+    - name: Deploy
+      if: ${{ github.ref == 'refs/heads/main' }}
+      uses: peaceiris/actions-gh-pages@v3.6.1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: ./client/dist
+        allow_empty_commit: false
+        keep_files: false
+        force_orphan: true
+        cname: edu.exokomodo.com
