@@ -50,3 +50,9 @@ jobs:
         keep_files: false
         force_orphan: true
         cname: edu.exokomodo.com
+    - name: Send status to Discord
+      uses: nebularg/actions-discord-webhook@v1
+      with:
+        webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK }}
+        status: ${{ job.status }}
+      if: always()
