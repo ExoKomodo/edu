@@ -26,3 +26,9 @@ jobs:
     - name: Test
       run: |
         dotnet test --no-build --verbosity normal
+    - name: Send status to Discord
+      uses: nebularg/actions-discord-webhook@v1
+      with:
+        webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK }}
+        status: ${{ job.status }}
+      if: always()
