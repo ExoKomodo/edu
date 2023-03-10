@@ -4,7 +4,9 @@
         <div class="flex items-center justify-between h-16">
           <div class="flex-shrink-0">
             <a href="#" class="flex items-center">
-              <span class="ml-2 p-2 rounded text-white text-xl transition duration-250 hover:text-white hover:bg-midnightGreen font-bold"><span class="text-tiffanyBlue">EK</span>.<strong>Edu</strong></span>
+              <span class="ml-2 p-2 rounded text-white text-xl transition duration-250 hover:text-white hover:bg-midnightGreen font-bold">
+                <span class="text-tiffanyBlue">EK</span>.<strong>Edu</strong>
+              </span>
             </a>
           </div>
           <div class="hidden md:block">
