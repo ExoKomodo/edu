@@ -1,6 +1,3 @@
-############
-# Builder #
-############
 FROM mcr.microsoft.com/dotnet/sdk:7.0 as builder
 
 COPY ./server /server
@@ -9,9 +6,6 @@ WORKDIR /server
 
 RUN dotnet publish --configuration Release
 
-############
-# Deployer #
-############
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 as deployer
 
 COPY --from=builder /server /server
