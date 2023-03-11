@@ -5,7 +5,7 @@ name: edu
 region: sfo
 services:
 - github:
-    branch: 19_digital-ocean
+    branch: main
     deploy_on_push: false
     repo: ExoKomodo/Edu
   http_port: 80
