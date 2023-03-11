@@ -30,7 +30,7 @@ export default class BlogService {
   };
 
   static get(id: Id): Blog {
-    return this.store[id] ?? this.emptyBlog;
+    return BlogService.store[id] ?? BlogService.emptyBlog;
   }
 
   static getMany(ids: Id[]): Blog[] {
@@ -38,7 +38,7 @@ export default class BlogService {
   }
 
   static getStub(id: Id): Blog {
-    const blogStub = (this.store[id] ?? this.emptyBlog);
+    const blogStub = (BlogService.store[id] ?? BlogService.emptyBlog);
     blogStub.content = undefined;
     return blogStub;
   }

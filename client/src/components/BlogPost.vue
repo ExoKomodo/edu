@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h1>{{ blog.title }}</h1>
+    <h2>{{ blog.description }}</h2>
     <p>{{ blog.content ?? "Missing blog content..." }}</p>
   </div>
 </template>
