@@ -38,6 +38,10 @@ export default defineComponent({
           href: '/',
         },
         {
+          text: 'Blog',
+          href: '/blog',
+        },
+        {
           text: 'About',
           href: '/about',
         },
@@ -47,7 +51,6 @@ export default defineComponent({
         },
       ]
     };
-  }
+  },
 });
 </script>
-
