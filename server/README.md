@@ -1,6 +1,15 @@
 # Server
 
-## Running
-```bash
-$ dotnet run # dotnet watch run for hot reloading
+## Run
+
+Without hot reloading:
+
+```shell
+dotnet run
+```
+
+With hot reloading:
+
+```shell
+dotnet watch run
 ```

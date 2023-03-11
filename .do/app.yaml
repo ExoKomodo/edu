@@ -1,0 +1,17 @@
+domains:
+- domain: services.edu.exokomodo.com
+  type: PRIMARY
+name: edu
+region: sfo
+services:
+- github:
+    branch: main
+    deploy_on_push: false
+    repo: ExoKomodo/Edu
+  http_port: 80
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: edu
+  routes:
+  - path: /
+  dockerfile_path: server.Dockerfile

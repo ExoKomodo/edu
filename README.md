@@ -1,19 +1,37 @@
 # Edu
 
+### Important Links
+
+- [Deployed client](https://edu.exokomodo.com)
+- [Deployed server](https://services.edu.exokomodo.com/api/v1)
+- [Digital Ocean App](https://cloud.digitalocean.com/apps/49add3d3-1578-4b2a-916d-8c8b9a197fd4)
+
 ## Client
-### Setup
+
+### Setup the client
+
 Install nodejs v18+. Using [`nvm`](https://github.com/nvm-sh/nvm) is the best option.
 
-### Run
-Refer to the [`README`](./client/README.md)
+After installing, refer to the [`README`](./client/README.md#project-setup)
+
+### Run the client
+
+Refer to the [`README`](./client/README.md#compile-and-hot-reload-for-development)
+
+### Test the client
+
+Refer to the [`README`](./client/README.md#run-unit-tests-with-vitest)
 
 ## Server
 
-### Setup
+### Setup the server
+
 Install [.Net 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
-### Run
-Refer to the [`README`](./server/README.md)
+### Run the server
 
-### Test
+Refer to the [`README`](./server/README.md#run)
+
+### Test the server
+
 Install .Net 7. For everything else, refer to the [`README`](./server.tests/README.md)
