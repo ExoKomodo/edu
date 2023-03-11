@@ -6,7 +6,7 @@ region: sfo
 services:
 - github:
     branch: 19_digital-ocean
-    deploy_on_push: true
+    deploy_on_push: false
     repo: ExoKomodo/Edu
   http_port: 80
   instance_count: 1
