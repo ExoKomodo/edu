@@ -16,8 +16,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 as deployer
 
 COPY --from=builder /server /server
 
-RUN apt-get update -y
-RUN apt-get install nginx -y
+RUN apt-get update -qy
+RUN apt-get install nginx -qy
 
 WORKDIR /server
 
