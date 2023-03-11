@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.hover\:bg-midnightGreen:hover .text-tiffanyBlue {
+    color: #FFFFFF;
+    transition-duration: 250ms;
+}
