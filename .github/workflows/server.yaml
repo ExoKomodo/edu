@@ -28,10 +28,11 @@ jobs:
         dotnet test --no-build --verbosity normal
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
-      if: ${{ github.ref == 'refs/heads/main' }}
+      # if: ${{ github.ref == 'refs/heads/main' }}
       with:
         token: ${{ secrets.DOCTL_TOKEN }}
     - name: Deploy
+      # if: ${{ github.ref == 'refs/heads/main' }}
       run: |
         doctl apps update ${{ secrets.DO_APP_ID }} --spec ./.do/app.yaml --wait
     - name: Send status to Discord
