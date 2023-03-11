@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>{{ blog?.content }}</p>
+    <p>{{ blog.content ?? "Missing blog content..." }}</p>
   </div>
 </template>
 
