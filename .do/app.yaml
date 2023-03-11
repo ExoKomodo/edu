@@ -14,5 +14,4 @@ services:
   name: edu
   routes:
   - path: /
-  source_dir: /
   dockerfile_path: server.Dockerfile
