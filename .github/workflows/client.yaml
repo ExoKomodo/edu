@@ -49,7 +49,7 @@ jobs:
         cname: edu.exokomodo.com
     - name: Send status to Discord
       uses: nebularg/actions-discord-webhook@v1
+      if: always()
       with:
         webhook_url: ${{ secrets.DISCORD_CI_WEBHOOK }}
         status: ${{ job.status }}
-      if: always()
