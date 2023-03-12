@@ -4,10 +4,13 @@
     </PropertyGroup>
     
     <ItemGroup>
+       <PackageReference Include="FSharp.SystemTextJson" Version="1.1.23" />
        <PackageReference Include="Giraffe" Version="6.0.0" />
     </ItemGroup>
     
     <ItemGroup>
+        <Compile Include="Models/Blog.fs" />
+        <Compile Include="Routes/Blog.fs" />
         <Compile Include="Routes/Index.fs" />
         <Compile Include="Routes/Ping.fs" />
         <Compile Include="Program.fs" />
