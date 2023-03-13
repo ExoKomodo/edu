@@ -1,6 +1,6 @@
 <template>
   <div class="contact">
-    <h1>Don't</h1>
+    <h1 class="text-virgil">Don't</h1>
   </div>
 </template>
 
