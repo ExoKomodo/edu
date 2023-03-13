@@ -9,5 +9,5 @@ describe('Navbar', () => {
     expect(wrapper.text()).toContain('Edu')
   })
 })
-// TODO - why are we using vitest AND cypress?
+
 export {}
