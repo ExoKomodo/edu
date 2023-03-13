@@ -16,6 +16,8 @@ import { ref } from 'vue';
 import { calls } from '../server_calls/calls';
 const apiData: object = await calls.get()
 const finalData: ApiPost[] = Object.values(apiData)
+// TODO - figure out versioning of compiler here
+// TODO - update: apparently it works now with ESNext - check configs for app and node
 interface ApiPost {
     _id: string,
     title: string,

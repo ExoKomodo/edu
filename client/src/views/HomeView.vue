@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InfoTile from '@/components/InfoTile.vue';
+import Instructors from '@/components/Instructors.vue';
 </script>
 
 <template>
@@ -13,14 +14,15 @@ import InfoTile from '@/components/InfoTile.vue';
         </div>
     </div>
   </main>
-  <div class="bg-black h-10"></div>
-  <section class="altBackground flex justify-center">
+  <div class="bg-richBlack h-10"></div>
+  <section class="altBackground flex justify-center mb-5">
     <div class="container p-3 flex flex-row justify-center items-center">
       <InfoTile header="Learn stuff" />
       <InfoTile header="Tea is yummy"/>
     </div>
   </section>
-  <div class="bg-black h-10"></div>
-  <div class="bg-virgil h-10"></div>
+  <div class="bg-richBlack h-10 py-5"></div>
+  <Instructors />
+  <div class="bg-richBlack h-10 py-5"></div>
 
 </template>

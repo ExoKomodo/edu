@@ -8,9 +8,9 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "target": "es2017",
+    "target": "ESNext",
     "lib": [
-      "es2017",
+      "ESNext",
       "dom"
     ],
   }
