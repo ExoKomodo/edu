@@ -13,11 +13,11 @@
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
             <!-- TODO - fix hidden items, swap with hamburger menu & dropdown -->
-            <a v-for="link in links"
-               :href=link.href
-               class="px-3 py-2 transition duration-250 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-midnightGreen bg-gray-800">
-              {{ link.text }}
-            </a>
+            <RouterLink v-for="route in routes"
+               :to=route.path
+               class="px-3 m-2 py-2 transition duration-250 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-midnightGreen bg-gray-800">
+              {{ route.name }}
+            </RouterLink>
           </div>
         </div>
       </div>
@@ -25,32 +25,11 @@
   </nav>
 </template>
   
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { RouterLink } from 'vue-router';
+import router from '@/router';
 
-export default defineComponent({
-  name: 'Navbar',
-  data() {
-    return {
-      links: [
-        {
-          text: 'Home',
-          href: '/',
-        },
-        {
-          text: 'Blog',
-          href: '/blog',
-        },
-        {
-          text: 'About',
-          href: '/about',
-        },
-        {
-          text: 'Contact',
-          href: '/contact',
-        },
-      ]
-    };
-  },
-});
+const routes = router.options.routes
+
+
 </script>
