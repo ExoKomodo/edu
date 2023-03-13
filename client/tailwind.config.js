@@ -18,6 +18,9 @@ module.exports = {
         "rufous": "#AE2012",
         "auburn": "#9B2226",
         "virgil": "#EDF6F9",
+      },
+      screens: {
+        'xs': '1px',
       }
     },
   },

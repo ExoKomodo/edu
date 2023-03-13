@@ -4,10 +4,10 @@ import Instructors from '@/components/Instructors.vue';
 </script>
 
 <template>
-  <main class="mainBackground h-[92vh]">
+  <main class="mainBackground md:h-[92vh]">
     <div class="flex flex-row justify-center items-center">
-        <div class="flex flex-col justify-center items-center h-screen">
-          <div class="relative rounded-lg p-6 bg-opacity-25 backdrop-filter backdrop-blur-lg bg-white shadow-xl">
+        <div class="flex flex-col justify-center items-center md:h-screen xs:h-4/5 xs:m-10">
+          <div class="relative rounded-lg p-6 bg-opacity-25 backdrop-filter backdrop-blur-lg bg-white shadow-xl m-3">
             <p class="p-1 text-2xl font-bold text-virgil drop-shadow-lg">Bing Bong.</p>
             <p class="p-1 text-virgil">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id, eius.</p>
           </div>
@@ -16,7 +16,7 @@ import Instructors from '@/components/Instructors.vue';
   </main>
   <div class="bg-richBlack h-10"></div>
   <section class="altBackground flex justify-center mb-5">
-    <div class="container p-3 flex flex-row justify-center items-center">
+    <div class="container p-3 sm:flex sm:flex-row xs:flex xs:flex-row justify-center items-center">
       <InfoTile header="Learn stuff" />
       <InfoTile header="Tea is yummy"/>
     </div>

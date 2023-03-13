@@ -18,7 +18,7 @@
             <RouterLink v-for="route in routes"
                 :to=route.path
                 class="px-3 m-2 py-2 transition duration-250 rounded-md text-sm 
-                font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-gray-800"
+                font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-gray-800 xs:hidden sm:block"
                 >
                 <div v-if="!route.props">
                   {{ route.name }}

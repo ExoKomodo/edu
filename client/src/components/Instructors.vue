@@ -1,10 +1,11 @@
 <template>
         <div class="flex flex-col justify-center items-center px-10">
-            <div class="flex items-center p-5">
-                <img src="../assets/images/james.jpg" alt="James Pic" class="rounded-3xl w-[40%]"/>
-                <div class="ml-4">
+            <p class="text-virgil text-2xl">Instructors</p>
+            <div class="flex xs:flex xs:flex-col md:flex-row items-center rounded-lg my-10 p-6 m-5 bg-opacity-50 backdrop-filter backdrop-blur-lg bg-white shadow-xl">
+                <img src="../assets/images/james.jpg" alt="James Pic" class="rounded w-[40%]"/>
+                <div class="ml-4 xs:my-3 ">
                     <p class="text-virgil">James Orson</p>
-                    <p class="text-virgil">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    <p class="text-virgil xs:hidden sm:block">Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Consectetur illum ducimus, deserunt ad, ab a quaerat aspernatur
                         dolore perferendis accusamus vel iure placeat distinctio odit
                         quisquam voluptatibus eaque provident, voluptates et numquam
@@ -13,10 +14,10 @@
                         natus suscipit qui necessitatibus iste.</p>
                 </div>
             </div>
-            <div class="flex items-center p-5 my-5">
-                <div class="ml-4">
+            <div class="xs:flex xs:flex-col-reverse md:flex-row rounded-lg my-10 p-6 m-5 bg-opacity-50 backdrop-filter backdrop-blur-lg bg-white shadow-xl flex items-center">
+                <div class="ml-4 xs:my-3">
                     <p class="text-virgil">Brandon Apol</p>
-                    <p class="text-virgil">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    <p class="text-virgil xs:hidden sm:block">Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Consectetur illum ducimus, deserunt ad, ab a quaerat aspernatur
                         dolore perferendis accusamus vel iure placeat distinctio odit
                         quisquam voluptatibus eaque provident, voluptates et numquam
@@ -24,7 +25,7 @@
                         consequatur eveniet minima laudantium repudiandae placeat
                         natus suscipit qui necessitatibus iste.</p>
                 </div>
-                <img src="../assets/images/brandon.jpg" alt="Brandon Pic" class="rounded-3xl w-[40%]"/>
+                <img src="../assets/images/brandon.jpg" alt="Brandon Pic" class="rounded w-[40%]"/>
                 
             </div>
         </div>
