@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    background: #001219;
+}
+
 .hover\:bg-midnightGreen:hover .text-tiffanyBlue {
     color: #FFFFFF;
     transition-duration: 250ms;
@@ -10,6 +14,11 @@
 .mainBackground {
     background: rgb(0,18,25);
     background: linear-gradient(143deg, rgba(0,18,25,1) 0%, rgba(0,95,115,1) 26%, rgba(233,216,166,1) 100%);    
+}
+
+.altBackground {
+    background: rgb(0,18,25);
+    background: linear-gradient(257deg, rgba(0,18,25,1) 0%, rgba(0,95,115,1) 26%, rgba(233,216,166,1) 100%);
 }
 
 *::-webkit-scrollbar {
