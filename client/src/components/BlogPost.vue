@@ -2,22 +2,27 @@
   <div>
     <h1>{{ blog.title }}</h1>
     <h2>{{ blog.description }}</h2>
-    <p>{{ blog.content ?? "Missing blog content..." }}</p>
+    <p>{{ blog.content }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BlogService from '../services/BlogService';
 
 export default defineComponent({
   name: 'BlogPost',
   props: {
-    id: String,
+    title: String,
+    description: String,
+    content: String,
   },
-  async asyncData() {
+  data() {
     return {
-      blog: await BlogService.get(this.id as string),
+      blog: {
+        title: this.title,
+        description: this.description,
+        content: this.content,
+      },
     };
   }
 });
