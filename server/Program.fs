@@ -2,7 +2,6 @@ open Giraffe
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.DependencyInjection
 open Routes
-open System.Text.Json
 open System.Text.Json.Serialization
 
 let webApp =
@@ -13,6 +12,8 @@ let webApp =
           GET >=> choose [
             routex "(/?)" >=> Index.get
             route  "/ping" >=> Ping.get
+            route  "/blog" >=> Blog.getAll
+            routef  "/blog/%s" Blog.get
           ]
         ]) ])
 

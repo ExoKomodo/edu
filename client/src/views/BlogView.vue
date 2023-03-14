@@ -3,7 +3,7 @@ import BlogService from '@/services/BlogService';
 import BlogLink from '../components/BlogLink.vue';
 import type { Blog } from '../models';
 
-const blogs: Blog[] = BlogService.getManyStubs(['1', '2', '3']);
+const blogs: Blog[] = await BlogService.getAllStubs();
 </script>
 
 <template>

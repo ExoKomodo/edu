@@ -5,7 +5,7 @@ open Giraffe
 
 let blogs = [
   {
-    Id = "2"
+    Id = "1"
     Description = "A short first post"
     Title = "I am a blog"
     Content = "Lorem ipsum 1"
@@ -30,7 +30,11 @@ let defaultBlog = {
   Content = "Whoopsie! You got a non-existent blog!"
 }
 
-let get : HttpHandler =
-  let blog = blogs |> List.find (fun x -> x.Id = "1")
-    
-  json blog
+
+let get (id: string) : HttpHandler =
+  match blogs |> List.tryFind (fun x -> x.Id = id) with
+  | Some blog -> json blog
+  | None -> RequestErrors.NOT_FOUND $"Blog not found with id {id}"
+
+let getAll : HttpHandler =
+  json blogs

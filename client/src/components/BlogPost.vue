@@ -15,9 +15,9 @@ export default defineComponent({
   props: {
     id: String,
   },
-  data() {
+  async asyncData() {
     return {
-      blog: BlogService.get(this.id as string),
+      blog: await BlogService.get(this.id as string),
     };
   }
 });
