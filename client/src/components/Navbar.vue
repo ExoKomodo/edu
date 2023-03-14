@@ -14,13 +14,12 @@
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
             <!-- TODO - fix hidden items, swap with hamburger menu & dropdown -->
-            <!-- TODO - fix v-if !route.props type error -->
             <RouterLink v-for="route in routes"
                 :to=route.path
                 class="px-3 m-2 py-2 transition duration-250 rounded-md text-sm 
                 font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-gray-800 xs:hidden sm:block"
                 >
-                <div v-if="!route.props">
+                <div>
                   {{ route.name }}
                 </div>
             </RouterLink>
@@ -35,7 +34,5 @@
 import { RouterLink } from 'vue-router';
 import router from '../router/index';
 
-const routes = router.options.routes;
-
-
+const routes = router.options.routes.filter(route => !route.props);
 </script>
