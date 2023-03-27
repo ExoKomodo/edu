@@ -1,6 +1,8 @@
 open Giraffe
 open Microsoft.AspNetCore.Builder
+open Microsoft.Extensions.DependencyInjection
 open Routes
+open System.Text.Json.Serialization
 
 let webApp =
   subRoute "/api"
@@ -10,10 +12,25 @@ let webApp =
           GET >=> choose [
             routex "(/?)" >=> Index.get
             route  "/ping" >=> Ping.get
+            route  "/blog" >=> Blog.getAll
+            routef  "/blog/%s" Blog.get
           ]
         ]) ])
 
-let app = WebApplication.CreateBuilder().Build()
+let configureServices (services : IServiceCollection) =
+  services
+    .AddGiraffe()
+  |> ignore
+
+  let serializationOptions = SystemTextJson.Serializer.DefaultOptions
+  serializationOptions.Converters.Add(JsonFSharpConverter(JsonUnionEncoding.FSharpLuLike))
+  services.AddSingleton<Json.ISerializer>(SystemTextJson.Serializer(serializationOptions)) |> ignore
+
+let builder = WebApplication.CreateBuilder()
+
+configureServices builder.Services
+
+let app = builder.Build()
 app.UseGiraffe webApp
 app.Run()
 
