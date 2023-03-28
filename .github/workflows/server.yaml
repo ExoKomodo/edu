@@ -28,7 +28,7 @@ jobs:
         dotnet test --no-build --verbosity normal
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
-      # if: ${{ github.ref == 'refs/heads/main' }}
+      if: ${{ github.ref == 'refs/heads/main' }}
       with:
         token: ${{ secrets.DOCTL_TOKEN }}
     - name: Deploy
