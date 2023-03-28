@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 as builder
 
-COPY . /server
+COPY ./server /server
 
 WORKDIR /server
 
@@ -16,6 +16,7 @@ RUN apt-get install nginx -qy
 WORKDIR /server
 
 RUN rm -f /etc/nginx/sites-enabled/*
+RUN ls
 RUN ln -f /server/nginx/server.conf /etc/nginx/sites-available/server.conf
 RUN ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf
 
