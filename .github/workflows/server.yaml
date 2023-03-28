@@ -32,7 +32,7 @@ jobs:
       with:
         token: ${{ secrets.DOCTL_TOKEN }}
     - name: Deploy
-      # if: ${{ github.ref == 'refs/heads/main' }}
+      if: ${{ github.ref == 'refs/heads/main' }}
       run: |
         doctl apps update ${{ secrets.DO_APP_ID }} --spec ./.do/app.yaml --wait
     - name: Send status to Discord
