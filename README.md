@@ -1,6 +1,6 @@
 # Edu
 
-### Important Links
+## Important Links
 
 - [Deployed client](https://edu.exokomodo.com)
 - [Deployed server](https://services.edu.exokomodo.com/api/v1)
