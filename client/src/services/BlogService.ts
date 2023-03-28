@@ -1,7 +1,7 @@
 import type { Blog, Id } from '../models';
 
 export default class BlogService {
-  static baseUrl: string = 'http://localhost:5000/api/v1/blog'
+  static baseUrl: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com/api/v1/blog' : 'http://localhost:5000/api/v1/blog';
 
   static async get(id: Id): Promise<Blog> {
     const response = await fetch(`${BlogService.baseUrl}/${id}`);
