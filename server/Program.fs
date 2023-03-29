@@ -18,12 +18,12 @@ let webApp =
           ]
         ]) ])
 
-let configureCors (builder : CorsPolicyBuilder) =
-  builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader() |> ignore
+// let configureCors (builder : CorsPolicyBuilder) =
+//   builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader() |> ignore
 
 let configureServices (services : IServiceCollection) =
   services
-    .AddCors()
+    // .AddCors()
     .AddGiraffe()
   |> ignore
 
@@ -37,7 +37,7 @@ configureServices builder.Services
 
 let app = builder.Build()
 app.UseGiraffe webApp
-app.UseCors configureCors |> ignore
+// app.UseCors configureCors |> ignore
 app.Run()
 
 type Program() = class end
