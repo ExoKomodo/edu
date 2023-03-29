@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: Explain what improvement or additions you believe Edu should have
-title: "[FEATURE]"
+title: "[FEATURE] <name your feature here>"
 labels: enhancement
 assignees: ''
 
