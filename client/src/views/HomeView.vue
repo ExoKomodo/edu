@@ -8,8 +8,8 @@ import Instructors from '@/components/Instructors.vue';
     <div class="flex flex-row justify-center items-center">
         <div class="flex flex-col justify-center items-center md:h-screen xs:h-4/5 xs:m-10">
           <div class="relative rounded-lg p-6 bg-opacity-25 backdrop-filter backdrop-blur-lg bg-white shadow-xl m-3">
-            <p class="p-1 text-2xl font-bold text-virgil drop-shadow-lg">Bing Bong.</p>
-            <p class="p-1 text-virgil">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Id, eius.</p>
+            <p class="p-1 text-2xl font-bold text-virgil drop-shadow-lg">After the bootcamp.</p>
+            <p class="p-1 text-virgil">Learn what wasn't taught to you. Upskill and grow.</p>
           </div>
         </div>
     </div>
@@ -17,8 +17,8 @@ import Instructors from '@/components/Instructors.vue';
   <div class="bg-richBlack h-10"></div>
   <section class="altBackground flex justify-center mb-5">
     <div class="container p-3 sm:flex sm:flex-row xs:flex xs:flex-row justify-center items-center">
-      <InfoTile header="Learn stuff" />
-      <InfoTile header="Tea is yummy"/>
+      <InfoTile header="Advance your knowledge" />
+      <InfoTile header="Strengthen your fundamentals"/>
     </div>
   </section>
   <div class="bg-richBlack h-10 py-5"></div>
