@@ -1,10 +1,12 @@
 name: Client
 
 on:
-  # push:
-  #   branches: ["*"]
+  push:
+    branches:
+      - "*"
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 defaults:
   run:
@@ -15,7 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version:
+          - 18.x
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -37,7 +40,7 @@ jobs:
       run: |
         npm run test:e2e
     - name: Deploy
-      # if: ${{ github.ref == 'refs/heads/main' }}
+      if: ${{ github.ref == 'refs/heads/main' }}
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}

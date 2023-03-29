@@ -5,8 +5,8 @@ name: edu
 region: sfo
 services:
 - github:
-    branch: 24_navbar-routing
-    deploy_on_push: true
+    branch: main
+    deploy_on_push: false
     repo: ExoKomodo/Edu
   http_port: 80
   instance_count: 1
