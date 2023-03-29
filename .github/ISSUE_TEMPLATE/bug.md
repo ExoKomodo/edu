@@ -1,7 +1,7 @@
 ---
 name: Bugs (for Exo the komodo to eat)
 about: Report a bug, or something that just doesn't feel quite right or intentional
-title: "[BUG]"
+title: "[BUG] <name your bug>"
 labels: bug
 assignees: ''
 
