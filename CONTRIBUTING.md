@@ -35,22 +35,58 @@ Forks are frustrating to work with, as they are:
 
 I am sad to say, you must use a [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo)
 
-A fork is a total copy of this repository's branches, but nested under your user namespace
+A fork is a copy of this repository, but nested under your user namespace
 
-For example, James Orson has a fork of Edu under [his namespace](https://github.com/JamesOrson/Edu)
+For example, [James Orson](https://www.exokomodo.com/jorson) has a [fork of Edu](https://github.com/JamesOrson/Edu) under [his namespace](https://github.com/JamesOrson)
 
 <img width="1717" alt="Screenshot 2023-03-29 at 7 56 25 AM" src="https://user-images.githubusercontent.com/17893076/228579896-91ff5434-62b4-48e7-81b3-578e0448cc0a.png">
 
 Now you can push to the `main` branch of your fork directly and not clobber anything on the actual [Edu repo](https://github.com/ExoKomodo/Edu)
 
+## Creating a pull request
+
+The moment you create a branch to work on an issue, you should go ahead and create a `Draft pull request`
+
+By having a draft pull request, you signal Edu's CI to start automatically building and testing your changes, preparing you for merge!
+
+You can technically develop on Edu without ever running the code yourself, by delegating your testing to the CI system, but making changes like CSS updates don't make sense to only let the CI handle because you must see the change yourself
+
+### Team members
 
 ## Syncing changes from main
 
 ### Team member
 
-Say the main branch is updated before you can merge your change in, no biggie
+Say the `main` branch is updated before you can merge your change in, no biggie
 
 You have 2 options:
-# TODO
+- Update the branch in the Github UI
+<img width="916" alt="Screenshot 2023-03-29 at 8 03 15 AM" src="https://user-images.githubusercontent.com/17893076/228582048-f242d46c-e8af-462b-abb3-2cb6e505decb.png">
+- Update the branch locally
 
+```shell
+git checkout main
+git pull
+git checkout my-branch
+# Now pick one of these following two
+## 1. rebase
+git rebase main
+## 2. merge
+git merge main
+```
+
+### Helpful user
+
+#### Updating a PR
+
+Update a PR branch in the Github UI
+<img width="916" alt="Screenshot 2023-03-29 at 8 03 15 AM" src="https://user-images.githubusercontent.com/17893076/228582048-f242d46c-e8af-462b-abb3-2cb6e505decb.png">
+
+#### Updating a fork's `main`
+
+To keep your fork up-to-date, you can do this in the home page of your fork, by clicking the `Sync fork` button
 <img width="1140" alt="Screenshot 2023-03-29 at 7 58 11 AM" src="https://user-images.githubusercontent.com/17893076/228580555-1930402d-0d02-4e5b-9448-2db2b76743a2.png">
+
+## Closing a pull request
+
+Once the CI is happy, and an ExoKomodo developer has reviewed your changes, go ahead and merge your PR!
