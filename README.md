@@ -1,6 +1,6 @@
 # Edu
 
-### Important Links
+## Important Links
 
 - [Github Repository](https://github.com/ExoKomodo/Edu)
 - [Deployed client](https://edu.exokomodo.com)
