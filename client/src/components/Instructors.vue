@@ -5,8 +5,8 @@
                 <img src="../assets/images/james.jpg" alt="James Pic" class="rounded w-[40%]"/>
                 <div class="ml-4 xs:my-3 ">
                     <p class="text-virgil">James Orson</p>
-                    <p class="text-virgil xs:hidden sm:block">James is a chief Site Reliability Engineer at Pure Storage Solutions 
-                        in San Jose, California. He and his wife love their daughter, eating healthy, and participating 
+                    <p class="text-virgil xs:hidden sm:block">James is a chief Site Reliability Engineer at Pure Storage  
+                        in Mountain View, California. He and his wife love their daughter, eating healthy, and participating 
                         in their local church life. James has written his own programming language, Daybreak, which you can 
                         look at and learn about <a href="https://github.com/ExoKomodo/daybreak">here.</a>
                     </p>

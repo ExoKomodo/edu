@@ -5,7 +5,6 @@
             Learn more about coding with our highly qualified instructors. <a href="#">EK.edu</a> is oriented around
             bootcamp graduates, CS graduates, and others who are interested in becoming artisans of software. We aim to 
             take learners beyond the basics of how to write code, and focus on transforming into an artist of programming.
-
         </p>
     </div>
 </template>
