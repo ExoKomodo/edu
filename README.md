@@ -2,6 +2,7 @@
 
 ## Important Links
 
+- [Github Repository](https://github.com/ExoKomodo/Edu)
 - [Deployed client](https://edu.exokomodo.com)
 - [Deployed server](https://services.edu.exokomodo.com/api/v1)
 - [Digital Ocean App](https://cloud.digitalocean.com/apps/49add3d3-1578-4b2a-916d-8c8b9a197fd4)
