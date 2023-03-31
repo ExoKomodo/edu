@@ -1,5 +1,6 @@
 open Giraffe
 open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
 open Routes
 open System.Text.Json.Serialization
@@ -17,8 +18,12 @@ let webApp =
           ]
         ]) ])
 
+// let configureCors (builder : CorsPolicyBuilder) =
+//   builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader() |> ignore
+
 let configureServices (services : IServiceCollection) =
   services
+    // .AddCors()
     .AddGiraffe()
   |> ignore
 
@@ -32,6 +37,7 @@ configureServices builder.Services
 
 let app = builder.Build()
 app.UseGiraffe webApp
+// app.UseCors configureCors |> ignore
 app.Run()
 
 type Program() = class end

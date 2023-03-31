@@ -16,7 +16,7 @@ RUN apt-get install nginx -qy
 WORKDIR /server
 
 RUN rm -f /etc/nginx/sites-enabled/*
-RUN ln -f ./nginx/server.conf /etc/nginx/sites-available/server.conf
+RUN ln -f /server/nginx/server.conf /etc/nginx/sites-available/server.conf
 RUN ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf
 
 EXPOSE 80
