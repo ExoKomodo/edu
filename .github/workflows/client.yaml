@@ -3,7 +3,7 @@ name: Client
 on:
   push:
     branches:
-      - "*"
+      - main
   pull_request:
     branches:
       - main
