@@ -3,7 +3,7 @@ name: Client
 on:
   push:
     branches:
-      - "*"
+      - main
   pull_request:
     branches:
       - main
@@ -33,6 +33,7 @@ jobs:
     - name: Build
       run: |
         npm run build --if-present
+        cp ./dist/index.html ./dist/404.html
     - name: Unit tests
       run: |
         npm run test:unit
