@@ -8,7 +8,9 @@ on:
       - client/**
   pull_request:
     branches:
-      - main
+      - mai
+    paths:
+      - client/**
 
 defaults:
   run:
