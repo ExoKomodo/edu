@@ -17,7 +17,7 @@ let webApp = (choose
             GET >=> (choose
               [
                 routex "(/?)" >=> Api.V1.Index.get
-                route  "/blog" >=> Api.V1.Blog.getAll
+                routex  "/blog(/?)" >=> Api.V1.Blog.getAll
                 routef  "/blog/%s" Api.V1.Blog.get
               ]
             )
