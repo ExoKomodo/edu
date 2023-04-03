@@ -15,7 +15,7 @@ import Instructors from '@/components/Instructors.vue';
     </div>
   </main>
   <div class="bg-richBlack h-10"></div>
-  <section class="altBackground flex justify-center mb-5">
+  <section class="altBackground flex justify-center pb-5">
     <div class="container p-3 sm:flex sm:flex-row xs:flex xs:flex-row justify-center items-center">
       <InfoTile header="Advance your knowledge" />
       <InfoTile header="Strengthen your fundamentals"/>
