@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import BlogService from '@/services/BlogService';
 import BlogLink from '../components/BlogLink.vue';
-import type { Blog } from '../models';
+import type { BlogIndex } from '../models';
 
-const blogs: Blog[] = await BlogService.getAllStubs();
-
+const blogIndex: BlogIndex = await BlogService.getAll();
 </script>
 
 <template>
@@ -13,8 +12,8 @@ const blogs: Blog[] = await BlogService.getAllStubs();
       <h1 class="p-2 bg-gray-800 text-white rounded flex justify-center text-3xl font-bold my-3">blogs</h1>
         <BlogLink
                   class="p-2 bg-gray-800 text-white rounded flex pl-5 my-3"
-                  v-for="blog in blogs"
-                  :id=blog.id
+                  v-for="(blog, id) in blogIndex.blogs"
+                  :id=id
                   :title=blog.title
                   :description=blog.description.slice(0,150) />
     </div>
