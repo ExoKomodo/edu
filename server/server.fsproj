@@ -19,7 +19,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
 
-
         <Compile Include="Helpers.fs" />
         <Compile Include="Models/BlogMetadata.fs" />
         <Compile Include="Models/Blog.fs" />
