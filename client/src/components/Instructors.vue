@@ -1,5 +1,5 @@
 <template>
-        <div class="flex flex-col justify-center items-center px-10">
+        <div class="flex flex-col justify-center items-center px-10 bg-richBlack">
             <p class="text-virgil text-2xl">Instructors</p>
             <div class="flex xs:flex xs:flex-col md:flex-row items-center rounded-lg my-10 p-6 m-5 bg-opacity-50 backdrop-filter backdrop-blur-lg bg-white shadow-xl">
                 <img src="../assets/images/james.jpg" alt="James Pic" class="rounded w-[40%]"/>

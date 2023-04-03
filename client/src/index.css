@@ -21,6 +21,11 @@ body {
     background: linear-gradient(257deg, rgba(0,18,25,1) 0%, rgba(0,95,115,1) 26%, rgba(233,216,166,1) 100%);
 }
 
+.blogBackground {
+    background: rgb(0,18,25);
+    background: linear-gradient(70deg, rgba(0,18,25,1) 0%, rgba(148,210,189,1) 26%, rgba(233,216,166,1) 100%);
+}
+
 *::-webkit-scrollbar {
     width: 1px;
 }
