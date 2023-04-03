@@ -18,12 +18,20 @@ let webApp =
           ]
         ]) ])
 
-// let configureCors (builder : CorsPolicyBuilder) =
-//   builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader() |> ignore
+let configureCors (builder : CorsPolicyBuilder) =
+  builder
+    .WithOrigins(
+      // NOTE: Development client
+      "http://localhost:5173",
+      // NOTE: Production client
+      "https://edu.exokomodo.com"
+    )
+    .AllowAnyMethod()
+    .AllowAnyHeader() |> ignore
 
 let configureServices (services : IServiceCollection) =
   services
-    // .AddCors()
+    .AddCors()
     .AddGiraffe()
   |> ignore
 
@@ -36,8 +44,9 @@ let builder = WebApplication.CreateBuilder()
 configureServices builder.Services
 
 let app = builder.Build()
+// NOTE: Order matters. CORS must be configured before starting Giraffe.
+app.UseCors configureCors |> ignore
 app.UseGiraffe webApp
-// app.UseCors configureCors |> ignore
 app.Run()
 
 type Program() = class end
