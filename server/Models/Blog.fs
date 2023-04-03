@@ -1,7 +1,8 @@
 module Models.Blog
 
+open Models
+
 type T =
-  { Id : string
-    Description: string
+  { Id: string
     Content: string
-    Title: string }
+    Metadata: BlogMetadata.T }
