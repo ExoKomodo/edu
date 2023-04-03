@@ -23,8 +23,12 @@ let configureCors (builder : CorsPolicyBuilder) =
     .WithOrigins(
       // NOTE: Development client
       "http://localhost:5173",
+      // NOTE: Development server
+      "http://localhost:5000",
       // NOTE: Production client
-      "https://edu.exokomodo.com"
+      "https://edu.exokomodo.com",
+      // NOTE: Production server
+      "https://services.edu.exokomodo.com"
     )
     .AllowAnyMethod()
     .AllowAnyHeader() |> ignore
