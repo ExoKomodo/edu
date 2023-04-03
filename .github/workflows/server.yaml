@@ -6,11 +6,10 @@ on:
       - main
     paths:
       - server/**
+      - Edu.sln
   pull_request:
     branches:
       - main
-    paths:
-      - server/**
 
 jobs:
   build:
