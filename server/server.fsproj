@@ -27,7 +27,6 @@
         <Compile Include="Api/Index.fs" />
         <Compile Include="Api/V1/Blog.fs" />
         <Compile Include="Api/V1/Index.fs" />
-        <Compile Include="Api/V1/Ping.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 </Project>
