@@ -1,4 +1,4 @@
-module Routes.Ping
+module Api.V1.Ping
 
 open Giraffe
 

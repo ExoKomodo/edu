@@ -1,4 +1,4 @@
-module Routes.Blog
+module Api.V1.Blog
 
 open Giraffe
 open Giraffe.EndpointRouting

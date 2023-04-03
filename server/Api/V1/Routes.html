@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <title>Edu - Routes - /api</title>
+  <script>
+    function getBlogById() {
+      const input = document.getElementById('blog-id-input');
+      const id = input.value;
+      window.location.href = `/api/v1/blog/${id}`;
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Edu - Routes - /api/v1</h1>
+  <ul>
+    <li>
+      <a href="/api/v1/blog">GET: List blogs</a>
+    </li>
+    <li>
+      <a href="/api/v1/blog/{id}">GET: Get blog by ID</a>
+      <form onsubmit="return false">
+        <input id="blog-id-input" type="text" placeholder="Blog ID" />
+        <input type="submit" value="Get blog" onclick="getBlogById()" />
+      </form>
+    </li>
+  </ul>
+</body>
+
+</html>

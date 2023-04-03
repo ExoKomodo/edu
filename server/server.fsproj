@@ -7,15 +7,28 @@
        <PackageReference Include="FSharp.SystemTextJson" Version="1.1.23" />
        <PackageReference Include="Giraffe" Version="6.0.0" />
     </ItemGroup>
-    
+
     <ItemGroup>
+        <Content Include="Routes.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Api/Routes.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Api/V1/Routes.html">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+
+
         <Compile Include="Helpers.fs" />
         <Compile Include="Models/BlogMetadata.fs" />
         <Compile Include="Models/Blog.fs" />
         <Compile Include="Models/BlogIndex.fs" />
-        <Compile Include="Routes/Blog.fs" />
-        <Compile Include="Routes/Index.fs" />
-        <Compile Include="Routes/Ping.fs" />
+        <Compile Include="Index.fs" />
+        <Compile Include="Api/Index.fs" />
+        <Compile Include="Api/V1/Blog.fs" />
+        <Compile Include="Api/V1/Index.fs" />
+        <Compile Include="Api/V1/Ping.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 </Project>
