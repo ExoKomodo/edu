@@ -94,7 +94,7 @@ let ``/api/v1/blog/1 should succeed`` () =
   }
 
 [<Fact>]
-let ``/api/v1/blog/0 should return 404`` () =
+let ``/api/v1/blog/asd should return 404`` () =
   task {
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/blog/0")
