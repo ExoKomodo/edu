@@ -14,6 +14,14 @@ let ``/ should succeed`` () =
   }
 
 [<Fact>]
+let ``/asd should return 404`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/asd")
+    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
+  }
+
+[<Fact>]
 let ``/api should succeed`` () =
   task {
     let api = runTestApi().CreateClient()
@@ -30,6 +38,14 @@ let ``/api/ should succeed`` () =
   }
 
 [<Fact>]
+let ``/api/asd should return 404`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/asd")
+    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
+  }
+
+[<Fact>]
 let ``/api/v1 should succeed`` () =
   task {
     let api = runTestApi().CreateClient()
@@ -43,6 +59,14 @@ let ``/api/v1/ should succeed`` () =
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/")
     Assert.True(response.IsSuccessStatusCode)
+  }
+
+[<Fact>]
+let ``/api/v1/asd should return 404`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/asd")
+    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
   }
 
 [<Fact>]
@@ -74,13 +98,5 @@ let ``/api/v1/blog/0 should return 404`` () =
   task {
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/blog/0")
-    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
-  }
-
-[<Fact>]
-let ``/api/v1/bloo should return 404`` () =
-  task {
-    let api = runTestApi().CreateClient()
-    let! response = api.GetAsync("/api/v1/bloo")
     Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
   }
