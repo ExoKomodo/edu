@@ -2,7 +2,7 @@
   <div>
     <h1>{{ blog.title }}</h1>
     <h2>{{ blog.description }}</h2>
-    <p>{{ blog.content }}</p>
+    <p v-html="blog.content"></p>
   </div>
 </template>
 

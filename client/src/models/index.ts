@@ -1,8 +1,16 @@
 export type Id = string;
 
 export interface Blog {
-  description: string
   id: Id
-  title: string
-  content?: string
+  content: string
+  metadata: BlogMetadata
 };
+
+export interface BlogIndex {
+  blogs: Map<Id, BlogMetadata>
+}
+
+export interface BlogMetadata {
+  description: string
+  title: string
+}

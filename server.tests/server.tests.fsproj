@@ -1,19 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <GenerateProgramFile>true</GenerateProgramFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="TestApi.fs" />
-    <Compile Include="Tests.fs" />
-  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5" />
   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\server\server.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="TestApi.fs" />
+    <Compile Include="Tests.fs" />
   </ItemGroup>
 </Project>
