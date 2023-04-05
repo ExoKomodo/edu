@@ -9,7 +9,10 @@
     </ItemGroup>
     
     <ItemGroup>
+        <Compile Include="Helpers.fs" />
+        <Compile Include="Models/BlogMetadata.fs" />
         <Compile Include="Models/Blog.fs" />
+        <Compile Include="Models/BlogIndex.fs" />
         <Compile Include="Routes/Blog.fs" />
         <Compile Include="Routes/Index.fs" />
         <Compile Include="Routes/Ping.fs" />
