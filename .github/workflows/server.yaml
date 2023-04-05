@@ -33,10 +33,10 @@ jobs:
       if: ${{ github.ref == 'refs/heads/main' }}
       with:
         token: ${{ secrets.DOCTL_TOKEN }}
-    - name: Deploy
+    - name: Update DigitalOcean app spec
       if: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        doctl apps update ${{ secrets.DO_APP_ID }} --spec ./.do/app.yaml --wait
+        doctl apps update ${{ secrets.DO_APP_ID }} --spec ./.do/app.yaml
     - name: Send status to Discord
       uses: nebularg/actions-discord-webhook@v1
       if: always()
