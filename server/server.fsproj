@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <Content Include="Data/**/*.html">
-           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <Content Include="Routes.html">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
