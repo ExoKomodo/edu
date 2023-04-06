@@ -43,7 +43,7 @@ let get (id: string) : HttpHandler =
       | Some value -> value
 
     match accept with
-    | StringPrefix "application/json" _ -> getAsJson id next ctx
+    | StringPrefix "application/json" _ | StringPrefix "*/*" _ -> getAsJson id next ctx
     | StringPrefix "text/html" _ -> getAsHtml id next ctx
     | _ -> RequestErrors.BAD_REQUEST $"Unsupported 'accept' header: {accept}" next ctx
 
