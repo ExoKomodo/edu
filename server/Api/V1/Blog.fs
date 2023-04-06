@@ -45,9 +45,8 @@ let get (id: string) : HttpHandler =
       | Some value -> value
 
     match accept with
-    | StringPrefix "application/json" _ | StringPrefix "*/*" _ -> getAsJson id next ctx
     | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> getAsXml id next ctx
-    | _ -> RequestErrors.BAD_REQUEST $"Unsupported 'accept' header: {accept}" next ctx
+    | _ -> getAsJson id next ctx
 
 let getAll : HttpHandler =
   json blogIndex
