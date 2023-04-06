@@ -23,9 +23,7 @@
         </Content>
 
         <Compile Include="Helpers.fs" />
-        <Compile Include="Models/BlogMetadata.fs" />
-        <Compile Include="Models/Blog.fs" />
-        <Compile Include="Models/BlogIndex.fs" />
+        <Compile Include="Models/Module.fs" />
         <Compile Include="Index.fs" />
         <Compile Include="Api/Index.fs" />
         <Compile Include="Api/V1/Blog.fs" />

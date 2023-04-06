@@ -11,15 +11,19 @@ open System.Text.Json
 open System.Text.Json.Serialization
 
 let blogIndex = 
-  JsonSerializer.Deserialize<BlogIndex.T>(
+  JsonSerializer.Deserialize<BlogIndex>(
     File.ReadAllText("./Data/blogs/index.json")
   )
 
-let getAsHtml (id: string) : HttpHandler =
+let getAsXml (id: string) : HttpHandler =
   let path = $"Data/blogs/{id}.html"
   let exists = blogIndex.Blogs.ContainsKey(id)
   match File.Exists(path), exists with
-  | true, true -> htmlFile path
+  | true, true ->
+    xml
+      { Blog.Id = id 
+        Blog.Content = File.ReadAllText(path)
+        Blog.Metadata = blogIndex.Blogs[id] }
   | _ -> RequestErrors.NOT_FOUND $"Blog not found with id {id}"
 
 let getAsJson (id: string) : HttpHandler =
@@ -28,11 +32,9 @@ let getAsJson (id: string) : HttpHandler =
   match File.Exists(path), exists with
   | true, true ->
     json
-      {
-        Blog.T.Id = id 
-        Blog.T.Content = File.ReadAllText(path)
-        Blog.T.Metadata = blogIndex.Blogs[id]
-      }
+      { Blog.Id = id 
+        Blog.Content = File.ReadAllText(path)
+        Blog.Metadata = blogIndex.Blogs[id] }
   | _ -> RequestErrors.NOT_FOUND $"Blog not found with id {id}"
 
 let get (id: string) : HttpHandler =
@@ -44,7 +46,7 @@ let get (id: string) : HttpHandler =
 
     match accept with
     | StringPrefix "application/json" _ | StringPrefix "*/*" _ -> getAsJson id next ctx
-    | StringPrefix "text/html" _ -> getAsHtml id next ctx
+    | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> getAsXml id next ctx
     | _ -> RequestErrors.BAD_REQUEST $"Unsupported 'accept' header: {accept}" next ctx
 
 let getAll : HttpHandler =
