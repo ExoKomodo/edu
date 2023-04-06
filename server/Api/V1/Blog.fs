@@ -1,4 +1,4 @@
-module Routes.Blog
+module Api.V1.Blog
 
 open Giraffe
 open Giraffe.EndpointRouting
@@ -37,15 +37,15 @@ let getAsJson (id: string) : HttpHandler =
 
 let get (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
-    let contentType =
-      match ctx.TryGetRequestHeader "Content-Type" with
+    let accept =
+      match ctx.TryGetRequestHeader "Accept" with
       | None -> "application/json"
       | Some value -> value
 
-    match contentType with
+    match accept with
     | StringPrefix "application/json" _ -> getAsJson id next ctx
     | StringPrefix "text/html" _ -> getAsHtml id next ctx
-    | _ -> RequestErrors.BAD_REQUEST $"Unsupported content type: {contentType}" next ctx
+    | _ -> RequestErrors.BAD_REQUEST $"Unsupported 'accept' header: {accept}" next ctx
 
 let getAll : HttpHandler =
   json blogIndex

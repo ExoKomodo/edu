@@ -2,21 +2,31 @@ open Giraffe
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
-open Routes
 open System.Text.Json.Serialization
 
-let webApp =
-  subRoute "/api"
-    (choose [
-      subRoute "/v1"
-        (choose [
-          GET >=> choose [
-            routex "(/?)" >=> Index.get
-            route  "/ping" >=> Ping.get
-            route  "/blog" >=> Blog.getAll
-            routef  "/blog/%s" Blog.get
+let webApp = (choose
+  [
+    GET >=>
+      routex "(/?)" >=> Index.get
+    subRoute "/api" (choose
+      [
+        GET >=>
+          routex "(/?)" >=> Api.Index.get
+        subRoute "/v1" (choose
+          [
+            GET >=> (choose
+              [
+                routex "(/?)" >=> Api.V1.Index.get
+                routex  "/blog(/?)" >=> Api.V1.Blog.getAll
+                routef  "/blog/%s" Api.V1.Blog.get
+              ]
+            )
           ]
-        ]) ])
+        )
+      ]
+    )
+  ]
+)
 
 let configureCors (builder : CorsPolicyBuilder) =
   builder
