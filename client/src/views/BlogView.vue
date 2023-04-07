@@ -3,7 +3,16 @@ import BlogService from '@/services/BlogService';
 import BlogLink from '../components/BlogLink.vue';
 import type { Blog } from '../models';
 
-const blogs: Blog[] = await BlogService.getAllStubs();
+// const blogs: Blog[] = await BlogService.getAllStubs();
+// TODO: fix
+const blogs = [
+  {
+    title: "uno",
+    id: '1',
+    content: "some content",
+    description: "yabba dabba doo"
+  }
+]
 
 </script>
 
