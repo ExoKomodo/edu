@@ -26,6 +26,10 @@ body {
     background: linear-gradient(70deg, rgba(0,18,25,1) 0%, rgba(148,210,189,1) 26%, rgba(233,216,166,1) 100%);
 }
 
+.navBorder {
+    border-top: 2px solid #005F73;
+}
+
 *::-webkit-scrollbar {
     width: 1px;
 }
