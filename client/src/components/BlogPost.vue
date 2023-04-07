@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-slate-400">
     <h1>{{ blog.title }}</h1>
     <h2>{{ blog.description }}</h2>
     <p>{{ blog.content }}</p>
