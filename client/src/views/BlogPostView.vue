@@ -5,7 +5,7 @@ import BlogService from '../services/BlogService';
 const props = defineProps({
   id: String
 });
-// const blog = await BlogService.get(props.id as string);
+const blog = await BlogService.get(props.id as string);
 const dummyBlog = {
   title: "first blog, for dummies",
   id: "1",

@@ -3,7 +3,9 @@ import BlogService from '@/services/BlogService';
 import BlogLink from '../components/BlogLink.vue';
 import type { Blog } from '../models';
 
-// const blogs: Blog[] = await BlogService.getAllStubs();
+//! This has had a name change so that it does not get used as data
+//! By commenting it out the page will run and locally useable dummy data works
+// const realBlogs: Blog[] = await BlogService.getAllStubs();
 // TODO: fix
 const blogs = [
   {
