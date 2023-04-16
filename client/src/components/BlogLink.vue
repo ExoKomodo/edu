@@ -1,5 +1,5 @@
 <template>
-    <RouterLink to="`/blog/1`"
+    <RouterLink :to="`/blog/${id}`"
     class="hover:bg-midnightGreen flex flex-col transition duration-250">
       <p class="text-2xl">{{ title }}</p>
       <p class="text-gray-400">{{ description }}...</p>
