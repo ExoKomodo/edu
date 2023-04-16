@@ -26,7 +26,6 @@ body {
     background: linear-gradient(70deg, rgba(0,18,25,1) 0%, rgba(148,210,189,1) 26%, rgba(233,216,166,1) 100%);
 }
 
-<<<<<<< HEAD
 .postBackground {
     background: rgb(0,68,83);
     background: radial-gradient(circle, rgba(0,68,83,1) 0%, rgba(0,18,25,1) 100%);
@@ -36,8 +35,6 @@ body {
     border-top: 2px solid #005F73;
 }
 
-=======
->>>>>>> main
 *::-webkit-scrollbar {
     width: 1px;
 }
