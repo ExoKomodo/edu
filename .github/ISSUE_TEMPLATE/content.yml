@@ -1,5 +1,6 @@
 name: Content Improvement
-description: Explain what improvement or additions you believe Edu's content should have
+description: |
+  Explain what improvement or additions you believe Edu's content should have
 title: "[CONTENT] <name your content improvement here>"
 labels:
   - content
