@@ -28,7 +28,12 @@ body {
 
 .postBackground {
     background: rgb(0,68,83);
-    background: radial-gradient(circle, rgba(0,68,83,1) 0%, rgba(0,18,25,1) 100%);
+    background: radial-gradient(circle, #004453 0%, rgba(0,18,25,1) 100%);
+}
+
+.aboutBackground {
+    background: rgb(0,68,83);
+    background: linear-gradient(90deg, rgba(0,68,83,1) 0%, rgba(0,0,0,1) 100%);
 }
 
 .navBorder {
