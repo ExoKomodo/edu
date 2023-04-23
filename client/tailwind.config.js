@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       colors: {
         "richBlack": "#001219",
+        "mysticStone": "#1f2937",
         "midnightGreen": "#005F73",
         "darkCyan": "#0A9396",
         "tiffanyBlue": "#94D2BD",
