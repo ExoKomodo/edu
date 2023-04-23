@@ -9,6 +9,8 @@
     "tyriar.sort-lines",
     "vue.volar",
     "vue.vscode-typescript-vue-plugin",
-    "wayou.vscode-todo-highlight"
+    "wayou.vscode-todo-highlight",
+    "bierner.color-info",
+    "naumovs.color-highlight"
   ]
 }
