@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import InfoTile from '@/components/InfoTile.vue';
 import Instructors from '@/components/Instructors.vue';
+const description: string = `Learn more about coding with our highly qualified instructors. <a class="text-darkCyan" href="/">EK.edu</a> is oriented around
+            bootcamp graduates, CS graduates, and others who are interested in becoming artisans of software. We aim to 
+            take learners beyond the basics of how to write code, and focus on transforming into an artist of programming.`
+const altDescription: string = `Our classes come with years of real life experience and work in a variety of spaces including 
+  small private businesses, enterprise companies, government contracts, freelance work, and more. Learn to problem solve in 
+  language-agnostic ways and become a master of the full stack.`
 </script>
 
 <template>
@@ -17,12 +23,13 @@ import Instructors from '@/components/Instructors.vue';
   <div class="bg-richBlack h-10"></div>
   <section class="altBackground flex justify-center pb-5">
     <div class="p-3 sm:flex-row xs:flex-row justify-center items-center">
-      <InfoTile header="Advance your knowledge" />
-      <InfoTile header="Strengthen your fundamentals"/>
+      <InfoTile header="Advance your knowledge" :description=description />
+      <InfoTile header="Strengthen your fundamentals" :description=altDescription />
     </div>
   </section>
   <div class="bg-richBlack h-10 py-5"></div>
   <Instructors />
   <div class="bg-richBlack h-10 py-5"></div>
+  <footer class="bg-slate-700 p-5 flex justify-center text-virgil">&copy;2023 Exokomodo</footer>
 
 </template>
