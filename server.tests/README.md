@@ -1,6 +1,15 @@
-# Server
+# Server Tests
 
 ## Running
-```bash
-$ dotnet test # dotnet watch test for hot reloading
+
+Without hot reloading:
+
+```shell
+dotnet test
+```
+
+With hot reloading:
+
+```shell
+dotnet watch test
 ```
