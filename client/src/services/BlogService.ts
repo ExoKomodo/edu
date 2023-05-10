@@ -1,25 +1,12 @@
 import type { Blog, BlogIndex, Id } from '../models';
+import HttpServiceV1 from './HttpServiceV1';
 
 export default class BlogService {
-  static baseUrl: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com/api/v1/blog' : 'http://localhost:5000/api/v1/blog';
-
   static async get(id: Id): Promise<Blog> {
-    const response = await fetch(
-      `${BlogService.baseUrl}/${id}`,
-      {
-        method: 'GET',
-      },
-    );
-    return await response.json() as Blog;
+    return await HttpServiceV1.get<Blog>('blog', id);
   }
 
   static async getAll(): Promise<BlogIndex> {
-    const response = await fetch(
-      BlogService.baseUrl,
-      {
-        method: 'GET',
-      },
-    );
-    return await response.json() as BlogIndex;
+    return await HttpServiceV1.getAll<BlogIndex>('blog');
   }
 };

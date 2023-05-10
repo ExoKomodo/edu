@@ -1,7 +1,6 @@
 module Models
 
 open System.Collections.Generic
-open System.Xml.Serialization
 
 [<CLIMutable>]
 type BlogMetadata =
@@ -17,3 +16,18 @@ type Blog =
 [<CLIMutable>]
 type BlogIndex =
   { Blogs: Dictionary<string, BlogMetadata> }
+
+[<CLIMutable>]
+type CourseMetadata =
+  { Description: string
+    Name: string }
+
+[<CLIMutable>]
+type Course =
+  { Id: string
+    Content: string
+    Metadata: CourseMetadata }
+
+[<CLIMutable>]
+type CourseIndex =
+  { Courses: Dictionary<string, CourseMetadata> }

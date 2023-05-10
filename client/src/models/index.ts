@@ -14,3 +14,18 @@ export interface BlogMetadata {
   description: string
   title: string
 }
+
+export interface Course {
+  id: Id
+  content: string
+  metadata: CourseMetadata
+};
+
+export interface CourseIndex {
+  courses: Map<Id, CourseMetadata>
+}
+
+export interface CourseMetadata {
+  description: string
+  name: string
+}
