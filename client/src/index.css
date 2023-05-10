@@ -31,6 +31,16 @@ body {
     background: radial-gradient(circle, #004453 0%, rgba(0,18,25,1) 100%);
 }
 
+.courseBackground {
+    background: rgb(0,18,25);
+    background: linear-gradient(70deg, rgba(0,18,25,1) 0%, rgba(148,210,189,1) 26%, rgba(233,216,166,1) 100%);
+}
+
+.coursePostBackground {
+    background: rgb(0,68,83);
+    background: radial-gradient(circle, #004453 0%, rgba(0,18,25,1) 100%);
+}
+
 .aboutBackground {
     background: rgb(0,68,83);
     background: linear-gradient(90deg, rgba(0,68,83,1) 0%, rgba(0,0,0,1) 100%);

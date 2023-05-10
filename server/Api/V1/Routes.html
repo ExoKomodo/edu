@@ -5,10 +5,18 @@
 <head>
   <title>Edu - Routes - /api/v1</title>
   <script>
-    function getBlogById() {
-      const input = document.getElementById('blog-id-input');
+    function _getSpecifierById(specifier) {
+      const input = document.getElementById(`${specifier}-id-input`);
       const id = input.value;
-      window.location.href = `/api/v1/blog/${id}`;
+      window.location.href = `/api/v1/${specifier}/${id}`;
+    }
+
+    function getBlogById() {
+      return _getSpecifierById('blog');
+    }
+
+    function getCourseById() {
+      return _getSpecifierById('course');
     }
   </script>
 </head>
@@ -24,6 +32,16 @@
       <form onsubmit="return false">
         <input id="blog-id-input" type="text" placeholder="Blog ID" />
         <input type="submit" value="Get blog" onclick="getBlogById()" />
+      </form>
+    </li>
+    <li>
+      <a href="/api/v1/course">GET: List courses</a>
+    </li>
+    <li>
+      <a href="/api/v1/course/{id}">GET: Get course by ID</a>
+      <form onsubmit="return false">
+        <input id="course-id-input" type="text" placeholder="Course ID" />
+        <input type="submit" value="Get course" onclick="getCourseById()" />
       </form>
     </li>
   </ul>
