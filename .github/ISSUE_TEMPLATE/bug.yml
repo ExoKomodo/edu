@@ -1,22 +1,30 @@
-name: Content Improvement
+name: Bugs (for Exo the komodo to eat)
 description: |
-  Explain what improvement or additions you believe Edu's content should have
-title: "[CONTENT] <name your content improvement here>"
+  Report a bug, or something that just doesn't feel quite right or intentional
+title: "[BUG] <name your bug>"
 labels:
-  - content
+  - bug
 assignees:
   - octocat
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this content request!
+        Thanks for taking the time to fill out this bug report!
   - type: textarea
-    id: content-improvement
+    id: what-is-wrong
     attributes:
-      label: Content Improvement
+      label: What is wrong?
       description: |
-        Explain what new content you believe Edu should provide, or an improvement to the existing content's style or...well, content
+        Explain what is happening that is not expected
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can I, the developer, reproduce this?
+      description: |
+        Explain the steps you have taken to cause this bug to happen
     validations:
       required: true
   - type: textarea
@@ -33,6 +41,6 @@ body:
     attributes:
       label: Acceptance Criteria
       description: |
-        Define some kind of 'standard of completion' for this content improvement
+        Explain what resolution would make you consider this bug fixed
     validations:
       required: true
