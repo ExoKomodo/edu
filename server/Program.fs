@@ -2,7 +2,40 @@ open Giraffe
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
+open Models
+open MongoDB.Driver
 open System.Text.Json.Serialization
+open System
+
+// NOTE: Initialize Mongo
+
+let initializeMongo () =
+  let connectionString = Environment.GetEnvironmentVariable("MONGODB_URI")
+  match connectionString with
+  | null ->
+    printfn "You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
+    exit 1
+  | _ ->
+    let client = new MongoClient(connectionString)
+    let collection = client.GetDatabase("admin").GetCollection<Course>("courses")
+
+    // NOTE: Used to create the initial record. Running again causes an error.
+    // collection.InsertOne (
+    //   { Id = "intro" 
+    //     Content = "hello world"
+    //     Metadata =
+    //       { Description = "Some description"
+    //         Name = "Introduction to Edu" } },
+    //   null,
+    //   new CancellationToken()
+    // )
+
+    let filter = Builders<Course>.Filter.Eq("Id", "intro")
+    let document = collection.Find(filter).First()
+    
+    printfn "Proof mongo works...you should see a record following:\n%s" (document.ToString())
+
+initializeMongo()
 
 let webApp = (choose
   [
