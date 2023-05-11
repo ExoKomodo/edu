@@ -8,6 +8,11 @@ services:
     branch: main
     deploy_on_push: true
     repo: ExoKomodo/Edu
+  envs:
+    - key: MONGODB_URI
+      value: EV[1:HPMvG2kCPQi0ns0IQ/rC7Xa01Gki00M4:eoLSujhbHKHi8nQc1oYYt5k5eO1S2RNhjeHOmDXo9Htijnfx0zxxuJkKA1b6+9mxIitNNqFgX8mjqPex01KcGvlcMvx+Y8jKg3vDbmfLobygBjeexY3Jeb6HR6lBVv6kUiSUJjCoGcYzsfy94QgCVvwnZ/RSoE9Rae/tvLHDAEF9yFARONNwDw==]
+      scope: RUN_TIME
+      type: SECRET
   http_port: 80
   instance_count: 1
   instance_size_slug: basic-xxs
