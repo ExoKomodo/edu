@@ -6,7 +6,9 @@
     <ItemGroup>
        <PackageReference Include="FSharp.SystemTextJson" Version="1.1.23" />
        <PackageReference Include="Giraffe" Version="6.0.0" />
+       <!-- NOTE: https://github.com/mongodb/mongo-csharp-driver -->
        <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
+       <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
     </ItemGroup>
 
     <ItemGroup>
