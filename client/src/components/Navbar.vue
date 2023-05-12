@@ -45,12 +45,12 @@
             </RouterLink>
             <hr class="bg-virgil color-virgil w-3 border-1.5"/>
             <a
-              :href=bugRoute.path
+              href="https://github.com/ExoKomodo/Edu/issues/new/choose"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
                 font-medium text-gray-300 hover:text-virgil hover:bg-rust bg-rufous xs:hidden sm:block"
               target="_blank">
                 <div>
-                  {{ bugRoute.name }}
+                  bug?
                 </div>
             </a>
           </div>
@@ -75,6 +75,30 @@
     </div>
     <div v-show="isVisible" >
       <div class="flex items-center flex-row justify-evenly navBorder">
+        <span v-if="user && user.name" class="text-tiffanyBlue">{{ user.name }}</span>
+        <a
+          @click="login"
+          class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
+            font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
+             bg-mysticStone"
+          v-if="!user || !user.email">
+            <div>
+              login
+            </div>
+        </a>
+        <a
+          @click="logoutReal"
+          class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
+            font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
+             bg-mysticStone"
+          v-if="user && user.email">
+            <div>
+              logout
+            </div>
+        </a>
+        <span>
+          <hr class="bg-virgil color-virgil w-3  border-1.5"/>
+        </span>
         <RouterLink v-for="route in routes"
             :to=route.path
             class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
@@ -90,14 +114,14 @@
           <hr class="bg-virgil color-virgil w-3  border-1.5"/>
         </span>
         <a
-          :href=bugRoute.path
+          href="https://github.com/ExoKomodo/Edu/issues/new/choose"
           class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
             font-medium text-gray-300 hover:text-virgil hover:bg-rust
              bg-rufous"
           target= '_blank'
           >
             <div>
-              {{ bugRoute.name }}
+              bug?
             </div>
         </a>
       </div>
@@ -116,15 +140,11 @@ const { loginWithRedirect, logout, user } = useAuth0();
 const routes = router.options.routes.filter(
   route => !route.props
 );
-const bugRoute = {
-  name: 'bug?',
-  path: 'https://github.com/ExoKomodo/Edu/issues/new/choose',
-};
 
 const isVisible = ref(false);
 const handleClick = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
 const isSmall = ref(false);
 function updateWindowSize() {
@@ -135,7 +155,7 @@ updateWindowSize();
 
 const login = () => {
   loginWithRedirect();
-}
+};
 
 const logoutReal = () => {
   logout(
@@ -145,9 +165,5 @@ const logoutReal = () => {
       },
     },
   );
-}
-
-if (user.value.email) {
-  alert('You are logged in with email: ' + user.value.email);
-}
+};
 </script>
