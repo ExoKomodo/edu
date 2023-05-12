@@ -1,43 +1,35 @@
 module Api.V1.Course
 
 open Giraffe
-open Giraffe.EndpointRouting
 open Helpers
 open Microsoft.AspNetCore.Http
 open Models
-open System.Collections.Generic
-open System.IO
-open System.Text.Json
-open System.Text.Json.Serialization
+open MongoDB.Driver
 
-let courseIndex = 
-  JsonSerializer.Deserialize<CourseIndex>(
-    File.ReadAllText("./Data/courses/index.json")
-  )
+let _getCollection (database: IMongoDatabase) =
+  database.GetCollection<Course>("courses")
 
-let getAsXml (id: string) : HttpHandler =
-  let path = $"Data/courses/{id}.html"
-  let exists = courseIndex.Courses.ContainsKey(id)
-  match File.Exists(path), exists with
-  | true, true ->
-    xml
-      { Course.Id = id 
-        Course.Content = File.ReadAllText(path)
-        Course.Metadata = courseIndex.Courses[id] }
-  | _ -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
+let _getCourses (database: IMongoDatabase) =
+  (_getCollection database).Find(Builders<Course>.Filter.Empty).ToEnumerable()
+  |> Seq.cast<Course>
 
-let getAsJson (id: string) : HttpHandler =
-  let path = $"Data/courses/{id}.html"
-  let exists = courseIndex.Courses.ContainsKey(id)
-  match File.Exists(path), exists with
-  | true, true ->
-    json
-      { Course.Id = id 
-        Course.Content = File.ReadAllText(path)
-        Course.Metadata = courseIndex.Courses[id] }
-  | _ -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
+let _getCourse (database: IMongoDatabase) (id: string) =
+  let filter = Builders<Course>.Filter.Eq("Id", id)
+  (_getCollection database).Find(filter).FirstOrDefault()
 
-let get (id: string) : HttpHandler =
+let getAsXml (database: IMongoDatabase) (id: string) : HttpHandler =
+  let course = _getCourse database id
+  match box course with
+  | null -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
+  | _ -> xml course
+
+let getAsJson (database: IMongoDatabase) (id: string) : HttpHandler =
+  let course = _getCourse database id
+  match box course with
+  | null -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
+  | _ -> json course
+
+let get (database: IMongoDatabase) (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let accept =
       match ctx.TryGetRequestHeader "Accept" with
@@ -45,8 +37,8 @@ let get (id: string) : HttpHandler =
       | Some value -> value
 
     match accept with
-    | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> getAsXml id next ctx
-    | _ -> getAsJson id next ctx
+    | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> getAsXml database id next ctx
+    | _ -> getAsJson database id next ctx
 
-let getAll : HttpHandler =
-  json courseIndex
+let getAll (database: IMongoDatabase) : HttpHandler =
+  _getCourses database |> json

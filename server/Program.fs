@@ -2,7 +2,6 @@ open Giraffe
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
-open Models
 open MongoDB.Driver
 open System.Text.Json.Serialization
 open System
@@ -17,25 +16,10 @@ let initializeMongo () =
     exit 1
   | _ ->
     let client = new MongoClient(connectionString)
-    let collection = client.GetDatabase("admin").GetCollection<Course>("courses")
+    let database = client.GetDatabase("admin")
+    database
 
-    // NOTE: Used to create the initial record. Running again causes an error.
-    // collection.InsertOne (
-    //   { Id = "intro" 
-    //     Content = "hello world"
-    //     Metadata =
-    //       { Description = "Some description"
-    //         Name = "Introduction to Edu" } },
-    //   null,
-    //   new CancellationToken()
-    // )
-
-    let filter = Builders<Course>.Filter.Eq("Id", "intro")
-    let document = collection.Find(filter).First()
-    
-    printfn "Proof mongo works...you should see a record following:\n%s" (document.ToString())
-
-initializeMongo()
+let database = initializeMongo()
 
 let webApp = (choose
   [
@@ -52,8 +36,8 @@ let webApp = (choose
                 routex "(/?)" >=> Api.V1.Index.get
                 routex  "/blog(/?)" >=> Api.V1.Blog.getAll
                 routef  "/blog/%s" Api.V1.Blog.get
-                routex  "/course(/?)" >=> Api.V1.Course.getAll
-                routef  "/course/%s" Api.V1.Course.get
+                routex  "/course(/?)" >=> Api.V1.Course.getAll database
+                routef  "/course/%s" (Api.V1.Course.get database)
               ]
             )
           ]
