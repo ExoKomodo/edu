@@ -5,6 +5,7 @@ open Microsoft.Extensions.DependencyInjection
 open MongoDB.Driver
 open System.Text.Json.Serialization
 open System
+open JWT.Builder
 
 // NOTE: Initialize Mongo
 
@@ -21,7 +22,18 @@ let initializeMongo () =
 
 let database = initializeMongo()
 
-let webApp = (choose
+// TODO: Need to add headers in a middleware that verifies the JWT
+let decodeJwt (token: string) =
+  if token = "" then
+    ""
+  else
+    let json = JwtBuilder.Create().MustVerifySignature().Decode(token)
+  
+    printfn "%O" json;
+    json
+
+let webApp =
+  (choose
   [
     GET >=>
       routex "(/?)" >=> Index.get

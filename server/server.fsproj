@@ -10,6 +10,7 @@
        <!-- NOTE: https://forums.fsharp.org/t/mongodb-how-to-use-it-in-f-any-users-here/1355/8 -->
        <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
        <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+       <PackageReference Include="JWT" Version="10.0.2" />
     </ItemGroup>
 
     <ItemGroup>
