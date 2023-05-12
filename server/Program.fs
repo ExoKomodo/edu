@@ -2,7 +2,24 @@ open Giraffe
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
+open MongoDB.Driver
 open System.Text.Json.Serialization
+open System
+
+// NOTE: Initialize Mongo
+
+let initializeMongo () =
+  let connectionString = Environment.GetEnvironmentVariable("MONGODB_URI")
+  match connectionString with
+  | null ->
+    printfn "You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
+    exit 1
+  | _ ->
+    let client = new MongoClient(connectionString)
+    let database = client.GetDatabase("admin")
+    database
+
+let database = initializeMongo()
 
 let webApp = (choose
   [
@@ -19,8 +36,8 @@ let webApp = (choose
                 routex "(/?)" >=> Api.V1.Index.get
                 routex  "/blog(/?)" >=> Api.V1.Blog.getAll
                 routef  "/blog/%s" Api.V1.Blog.get
-                routex  "/course(/?)" >=> Api.V1.Course.getAll
-                routef  "/course/%s" Api.V1.Course.get
+                routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata database
+                routef  "/course/%s" (Api.V1.Course.get database)
               ]
             )
           ]

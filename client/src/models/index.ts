@@ -21,9 +21,7 @@ export interface Course {
   metadata: CourseMetadata
 };
 
-export interface CourseIndex {
-  courses: Map<Id, CourseMetadata>
-}
+export type CourseIndex = Map<Id, CourseMetadata>;
 
 export interface CourseMetadata {
   description: string
