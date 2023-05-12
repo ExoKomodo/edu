@@ -31,7 +31,7 @@ let get (database: IMongoDatabase) (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let token = decodeJwtFromHeader ctx
     match token with
-    | Some decodedToken -> 
+    | Some decodedToken ->
       let accept =
         match ctx.TryGetRequestHeader "Accept" with
         | None -> "application/json"
