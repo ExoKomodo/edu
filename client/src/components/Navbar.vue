@@ -13,12 +13,12 @@
         </div>
         <div v-if="!isSmall">
           <div class="ml-4 flex items-center md:ml-6">
-            <span v-if="user.email" class="text-tiffanyBlue">{{ user.name }}</span>
+            <span v-if="user && user.name" class="text-tiffanyBlue">{{ user.name }}</span>
             <a
               @click="login"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
               font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-              v-if="!user.email">
+              v-if="!user || !user.email">
                 <div>
                   login
                 </div>
@@ -27,7 +27,7 @@
               @click="logoutReal"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
               font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-              v-if="user.email">
+              v-if="user && user.email">
                 <div>
                   logout
                 </div>
