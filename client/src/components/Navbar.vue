@@ -13,6 +13,7 @@
         </div>
         <div v-if="!isSmall">
           <div class="ml-4 flex items-center md:ml-6">
+            <span v-if="user.email" class="text-tiffanyBlue">{{ user.name }}</span>
             <a
               @click="login"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
