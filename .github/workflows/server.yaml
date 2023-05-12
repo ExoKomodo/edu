@@ -29,6 +29,8 @@ jobs:
       run: |
         dotnet build --no-restore
     - name: Test
+      env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
       run: |
         dotnet test --no-build --verbosity normal
     - name: Install doctl
