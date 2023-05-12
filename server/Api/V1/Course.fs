@@ -40,5 +40,8 @@ let get (database: IMongoDatabase) (id: string) : HttpHandler =
     | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> getAsXml database id next ctx
     | _ -> getAsJson database id next ctx
 
-let getAll (database: IMongoDatabase) : HttpHandler =
-  _getCourses database |> json
+let getAllMetadata (database: IMongoDatabase) : HttpHandler =
+  (_getCourses database)
+    |> Seq.map (fun course -> course.Id, course.Metadata)
+    |> dict
+    |> json

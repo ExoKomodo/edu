@@ -20,7 +20,7 @@ function castToCourseMetadata(value: [string, CourseMetadata]) {
   <div class="courseBackground min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 my-5">
       <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">courses</h1>
-        <CourseLink v-for="(course, id) of courseIndex.courses"
+        <CourseLink v-for="(course, id) of courseIndex"
                   class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
                   :id="castToCourseId(id)"
                   :name="castToCourseMetadata(course).name"

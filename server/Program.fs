@@ -36,7 +36,7 @@ let webApp = (choose
                 routex "(/?)" >=> Api.V1.Index.get
                 routex  "/blog(/?)" >=> Api.V1.Blog.getAll
                 routef  "/blog/%s" Api.V1.Blog.get
-                routex  "/course(/?)" >=> Api.V1.Course.getAll database
+                routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata database
                 routef  "/course/%s" (Api.V1.Course.get database)
               ]
             )
