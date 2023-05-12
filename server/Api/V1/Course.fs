@@ -17,17 +17,15 @@ let _getCourse (database: IMongoDatabase) (id: string) =
   let filter = Builders<Course>.Filter.Eq("Id", id)
   (_getCollection database).Find(filter).FirstOrDefault()
 
-let getAsXml (database: IMongoDatabase) (id: string) : HttpHandler =
+let _getInFormat (formatter: Course -> HttpFunc -> HttpContext -> HttpFuncResult) (database: IMongoDatabase) (id: string) : HttpHandler =
   let course = _getCourse database id
   match box course with
   | null -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
-  | _ -> xml course
+  | _ -> formatter course
 
-let getAsJson (database: IMongoDatabase) (id: string) : HttpHandler =
-  let course = _getCourse database id
-  match box course with
-  | null -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
-  | _ -> json course
+let getAsXml (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat xml database id
+
+let getAsJson (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat json database id
 
 let get (database: IMongoDatabase) (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
