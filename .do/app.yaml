@@ -17,6 +17,10 @@ services:
       value: d0nbGyYvhTxPjyL1eaa3K4ojLDUNt1LX
       scope: RUN_TIME
       type: GENERAL
+    - key: AUTH0_CLIENT_SECRET
+      scope: RUN_TIME
+      type: SECRET
+      value: EV[1:EO47SfFt1n+zpt7fEgJL4jWtsYLvkjAq:L+Df+W9yMPCdYy8ZNquWR/B5WiN6JG0URWUxnpOw8FbBiKySto4VCtRxlLoEZmDVOtxN1XuGVGpfsKpp/W4ViJp1guSel/35tDeOJ1ykDzc=]
   http_port: 80
   instance_count: 1
   instance_size_slug: basic-xxs
