@@ -60,6 +60,11 @@ Any operations needs to be filtered, so it only applies to that subset of docume
 
 ```fsharp
 let filter = Builders<Course>.Filter.Eq("Id", "intro")
+let course = collection.Find(filter).FirstOrDefault()
+// NOTE: Must use `box` to convert value type like `Course`, into a reference so null can be checked
+match box course with
+| null -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
+| _ -> json course
 ```
 
 You can make a `filter` without a `collection`. It is simply a piece of data describing a `filter` to apply.
@@ -69,6 +74,7 @@ You can make a `filter` without a `collection`. It is simply a piece of data des
 Assuming the previous section's `filter`
 
 ```fsharp
+// NOTE: Should be able to chain together .Set() calls to update multiple fields at once
 let update = Builders<Course>.Update.Set(
   // Pick, in an anonymous function, what field to update
   (fun course -> course.Metadata.Description),
