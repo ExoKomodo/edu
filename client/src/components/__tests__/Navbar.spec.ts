@@ -5,8 +5,6 @@ import Navbar from '../Navbar.vue';
 
 import * as auth0 from '@auth0/auth0-vue';
 
-type LogoutOptions = { logoutParams: { returnTo: string }}
-
 interface Auth0Mock {
   useAuth0: Mock<any[], any>
 }
