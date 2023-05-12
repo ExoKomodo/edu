@@ -13,6 +13,25 @@
         </div>
         <div v-if="!isSmall">
           <div class="ml-4 flex items-center md:ml-6">
+            <a
+              @click="login"
+              class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
+              font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
+              v-if="!user.email">
+                <div>
+                  login
+                </div>
+            </a>
+            <a
+              @click="logoutReal"
+              class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
+              font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
+              v-if="user.email">
+                <div>
+                  logout
+                </div>
+            </a>
+            <hr class="bg-virgil color-virgil w-3 border-1.5"/>
             <!-- TODO - fix hidden items, swap with hamburger menu & dropdown -->
             <RouterLink v-for="route in routes"
                 :to=route.path
@@ -89,6 +108,9 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router';
 import router from '../router/index';
+import { useAuth0 } from '@auth0/auth0-vue';
+
+const { loginWithRedirect, logout, user } = useAuth0();
 
 const routes = router.options.routes.filter(
   route => !route.props
@@ -109,4 +131,22 @@ function updateWindowSize() {
 }
 window.addEventListener("resize", updateWindowSize);
 updateWindowSize();
+
+const login = () => {
+  loginWithRedirect();
+}
+
+const logoutReal = () => {
+  logout(
+    {
+      logoutParams: {
+        returnTo: window.location.origin,
+      },
+    },
+  );
+}
+
+if (user.value.email) {
+  alert('You are logged in with email: ' + user.value.email);
+}
 </script>
