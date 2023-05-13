@@ -2,8 +2,14 @@
 import type { CourseIndex, CourseMetadata, Id } from '../models';
 import CourseService from '@/services/CourseService';
 import CourseLink from '../components/CourseLink.vue';
+import { useAuth0 } from '@auth0/auth0-vue';
+import AuthService from '../services/AuthService';
 
-const courseIndex: CourseIndex = await CourseService.getAll();
+const auth0 = useAuth0();
+
+const courseIndex: CourseIndex = await CourseService.getAll(
+  await AuthService.getAccessTokenAsync(auth0) 
+);
 
 // NOTE: Needed to fool the type checker with the loop values
 function castToCourseId(value: number) {

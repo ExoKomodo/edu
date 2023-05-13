@@ -15,6 +15,7 @@ app.use(
     clientId: 'd0nbGyYvhTxPjyL1eaa3K4ojLDUNt1LX',
     authorizationParams: {
       redirect_uri: window.location.origin,
+      audience: 'https://services.edu.exokomodo.com',
     },
     cacheLocation: 'localstorage',
   })

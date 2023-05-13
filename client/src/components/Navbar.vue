@@ -34,15 +34,25 @@
             </a>
             <hr class="bg-virgil color-virgil w-3 border-1.5"/>
             <!-- TODO - fix hidden items, swap with hamburger menu & dropdown -->
-            <RouterLink v-for="route in routes"
-                :to=route.path
-                class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
-                font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-                >
+            <div v-for="route in routes">
+              <a v-if="route.name === 'courses'"
+                @click="() => AuthService.login(auth0)"
+                class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
+                font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block">
                 <div>
                   {{ route.name }}
                 </div>
-            </RouterLink>
+              </a>
+              <RouterLink v-else
+                  :to="route.path"
+                  class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
+                  font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
+                  >
+                  <div>
+                    {{ route.name }}
+                  </div>
+              </RouterLink>
+            </div>
             <hr class="bg-virgil color-virgil w-3 border-1.5"/>
             <a
               href="https://github.com/ExoKomodo/Edu/issues/new/choose"
