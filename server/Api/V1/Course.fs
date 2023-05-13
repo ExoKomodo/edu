@@ -39,9 +39,7 @@ let get (database: IMongoDatabase) (id: string) : HttpHandler =
     | _ -> _getAsJson database id next ctx
 
 let getAllMetadata (database: IMongoDatabase) : HttpHandler =
-  fun (next : HttpFunc) (ctx : HttpContext) ->
-    (
-      (_getCourses database)
-      |> Seq.map (fun course -> course.Id, course.Metadata)
-      |> dict
-      |> json) next ctx
+  (_getCourses database)
+  |> Seq.map (fun course -> course.Id, course.Metadata)
+  |> dict
+  |> json
