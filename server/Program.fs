@@ -22,17 +22,6 @@ let initializeMongo () =
 
 let database = initializeMongo()
 
-// TODO: Need to add headers in a middleware that verifies the JWT
-let decodeJwt (token: string) =
-  if token = "" then
-    ""
-  else
-    token
-    // let json = JwtBuilder.Create().MustVerifySignature().Decode(token)
-  
-    // printfn "%O" json;
-    // json
-
 let webApp =
   (choose
   [
