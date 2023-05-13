@@ -1,11 +1,11 @@
 open Giraffe
+open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
 open MongoDB.Driver
 open System.Text.Json.Serialization
 open System
-open JWT.Builder
 
 // NOTE: Initialize Mongo
 
@@ -27,10 +27,11 @@ let decodeJwt (token: string) =
   if token = "" then
     ""
   else
-    let json = JwtBuilder.Create().MustVerifySignature().Decode(token)
+    token
+    // let json = JwtBuilder.Create().MustVerifySignature().Decode(token)
   
-    printfn "%O" json;
-    json
+    // printfn "%O" json;
+    // json
 
 let webApp =
   (choose
@@ -48,8 +49,12 @@ let webApp =
                 routex "(/?)" >=> Api.V1.Index.get
                 routex  "/blog(/?)" >=> Api.V1.Blog.getAll
                 routef  "/blog/%s" Api.V1.Blog.get
-                routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata database
-                routef  "/course/%s" (Api.V1.Course.get database)
+                Helpers.mustBeLoggedIn >=> (choose
+                  [
+                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata database
+                    routef  "/course/%s" (Api.V1.Course.get database)
+                  ]
+                )
               ]
             )
           ]
@@ -75,6 +80,30 @@ let configureCors (builder : CorsPolicyBuilder) =
     .AllowAnyHeader() |> ignore
 
 let configureServices (services : IServiceCollection) =
+  // var builder = WebApplication.CreateBuilder(args);
+  // var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+  // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+  // .AddJwtBearer(options =>
+  // {
+  //     options.Authority = domain;
+  //     options.Audience = builder.Configuration["Auth0:Audience"];
+  //     options.TokenValidationParameters = new TokenValidationParameters
+  //     {
+  //         NameClaimType = ClaimTypes.NameIdentifier
+  //     };
+  // });
+  let auth0Audience = Environment.GetEnvironmentVariable("AUTH0_CLIENT_ID")
+  services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(
+      fun options ->
+        options.Authority <- $"https://exokomodo.us.auth0.com/"
+        options.Audience <- auth0Audience
+    )
+  |> ignore
+  services
+    .AddAuthorization()
+  |> ignore
   services
     .AddCors()
     .AddGiraffe()
@@ -90,6 +119,8 @@ configureServices builder.Services
 
 let app = builder.Build()
 // NOTE: Order matters. CORS must be configured before starting Giraffe.
+app.UseAuthentication() |> ignore
+app.UseAuthorization() |> ignore
 app.UseCors configureCors |> ignore
 app.UseGiraffe webApp
 app.Run()

@@ -17,3 +17,11 @@ let decodeJwtFromHeader (ctx : HttpContext) : option<string> =
     | StringPrefix "Bearer " token -> Some token
     | _ -> None
   | None -> None
+
+let notLoggedIn =
+    RequestErrors.UNAUTHORIZED
+        "Basic"
+        "Some Realm"
+        "You must be logged in."
+
+let mustBeLoggedIn: HttpFunc -> HttpContext -> HttpFuncResult = requiresAuthentication notLoggedIn
