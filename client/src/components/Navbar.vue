@@ -13,12 +13,12 @@
         </div>
         <div v-if="!isSmall">
           <div class="ml-4 flex items-center md:ml-6">
-            <span v-if="user && user.name" class="text-tiffanyBlue">{{ user.name }}</span>
+            <span v-if="isAuthenticated" class="text-tiffanyBlue">{{ user.name }}</span>
             <a
               @click="() => AuthService.login(auth0)"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
               font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-              v-if="!user || !user.email">
+              v-if="!isAuthenticated">
                 <div>
                   login
                 </div>
@@ -27,7 +27,7 @@
               @click="() => AuthService.logout(auth0)"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
               font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-              v-if="user && user.email">
+              v-if="isAuthenticated">
                 <div>
                   logout
                 </div>
@@ -35,7 +35,7 @@
             <hr class="bg-virgil color-virgil w-3 border-1.5"/>
             <!-- TODO - fix hidden items, swap with hamburger menu & dropdown -->
             <div v-for="route in routes">
-              <a v-if="route.name === 'courses'"
+              <a v-if="route.name === 'courses' && !isAuthenticated"
                 @click="() => AuthService.login(auth0)"
                 class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
                 font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block">
@@ -64,7 +64,7 @@
                 </div>
             </a>
             <hr class="bg-virgil color-virgil w-3 border-1.5"/>
-            <pre v-if="user" class="text-tiffanyBlue mt-48"><code>{{ user }}</code></pre>
+            <pre v-if="isAuthenticated" class="text-tiffanyBlue mt-48"><code>{{ user }}</code></pre>
           </div>
         </div>
         <div v-else>
@@ -87,13 +87,13 @@
     </div>
     <div v-show="isVisible" >
       <div class="flex items-center flex-row justify-evenly navBorder">
-        <span v-if="user && user.name" class="text-tiffanyBlue">{{ user.name }}</span>
+        <span v-if="isAuthenticated" class="text-tiffanyBlue">{{ user.name }}</span>
         <a
           @click="() => AuthService.login(auth0)"
           class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
             font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
              bg-mysticStone"
-          v-if="!user || !user.email">
+          v-if="!isAuthenticated">
             <div>
               login
             </div>
@@ -103,7 +103,7 @@
           class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
             font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
              bg-mysticStone"
-          v-if="user && user.email">
+          v-if="isAuthenticated">
             <div>
               logout
             </div>
@@ -150,6 +150,7 @@ import AuthService from '../services/AuthService';
 
 const auth0 = useAuth0();
 const user = auth0.user;
+const isAuthenticated = auth0.isAuthenticated;
 
 const routes = router.options.routes.filter(
   route => !route.props
