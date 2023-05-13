@@ -6,26 +6,26 @@ open Microsoft.AspNetCore.Http
 open Models
 open MongoDB.Driver
 
-let _getCollection (database: IMongoDatabase) =
+let private _getCollection (database: IMongoDatabase) =
   database.GetCollection<Course>("courses")
 
-let _getCourses (database: IMongoDatabase) =
+let private _getCourses (database: IMongoDatabase) =
   (_getCollection database).Find(Builders<Course>.Filter.Empty).ToEnumerable()
   |> Seq.cast<Course>
 
-let _getCourse (database: IMongoDatabase) (id: string) =
+let private _getCourse (database: IMongoDatabase) (id: string) =
   let filter = Builders<Course>.Filter.Eq("Id", id)
   (_getCollection database).Find(filter).FirstOrDefault()
 
-let _getInFormat (formatter: Course -> HttpFunc -> HttpContext -> HttpFuncResult) (database: IMongoDatabase) (id: string) : HttpHandler =
+let private _getInFormat (formatter: Course -> HttpFunc -> HttpContext -> HttpFuncResult) (database: IMongoDatabase) (id: string) : HttpHandler =
   let course = _getCourse database id
   match box course with
   | null -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
   | _ -> formatter course
 
-let getAsXml (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat xml database id
+let private _getAsXml (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat xml database id
 
-let getAsJson (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat json database id
+let private _getAsJson (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat json database id
 
 let get (database: IMongoDatabase) (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
@@ -35,11 +35,11 @@ let get (database: IMongoDatabase) (id: string) : HttpHandler =
       | Some value -> value
 
     match accept with
-    | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> getAsXml database id next ctx
-    | _ -> getAsJson database id next ctx
+    | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> _getAsXml database id next ctx
+    | _ -> _getAsJson database id next ctx
 
 let getAllMetadata (database: IMongoDatabase) : HttpHandler =
   (_getCourses database)
-    |> Seq.map (fun course -> course.Id, course.Metadata)
-    |> dict
-    |> json
+  |> Seq.map (fun course -> course.Id, course.Metadata)
+  |> dict
+  |> json

@@ -62,11 +62,11 @@ let ``/api/v1/ should succeed`` () =
   }
 
 [<Fact>]
-let ``/api/v1/asd should return 404`` () =
+let ``/api/v1/asd should return 401`` () =
   task {
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/asd")
-    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
 
 [<Fact>]
@@ -102,33 +102,33 @@ let ``/api/v1/blog/asd should return 404`` () =
   }
 
 [<Fact>]
-let ``/api/v1/course should succeed`` () =
+let ``/api/v1/course should return 401`` () =
   task {
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/course")
-    Assert.True(response.IsSuccessStatusCode)
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
 
 [<Fact>]
-let ``/api/v1/course/ should succeed`` () =
+let ``/api/v1/course/ should return 401`` () =
   task {
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/course/")
-    Assert.True(response.IsSuccessStatusCode)
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
 
 [<Fact>]
-let ``/api/v1/course/intro should succeed`` () =
+let ``/api/v1/course/intro should return 401`` () =
   task {
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/course/intro")
-    Assert.True(response.IsSuccessStatusCode)
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
 
 [<Fact>]
-let ``/api/v1/course/asd should return 404`` () =
+let ``/api/v1/course/asd should return 401`` () =
   task {
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/course/asd")
-    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }

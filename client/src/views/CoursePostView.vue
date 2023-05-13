@@ -2,11 +2,14 @@
 import CoursePost from '../components/CoursePost.vue';
 import CourseService from '../services/CourseService';
 import type { Course } from '../models';
+import { useAuth0 } from '@auth0/auth0-vue';
+import AuthService from '../services/AuthService';
 
+const auth0 = useAuth0();
 const props = defineProps({
   id: String
 });
-const course: Course = await CourseService.get(props.id as string);
+const course: Course = await CourseService.get(props.id as string, await AuthService.getAccessTokenAsync(auth0));
 </script>
 
 <template>

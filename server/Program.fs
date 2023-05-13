@@ -1,4 +1,5 @@
 open Giraffe
+open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
@@ -21,7 +22,8 @@ let initializeMongo () =
 
 let database = initializeMongo()
 
-let webApp = (choose
+let webApp =
+  (choose
   [
     GET >=>
       routex "(/?)" >=> Index.get
@@ -36,8 +38,12 @@ let webApp = (choose
                 routex "(/?)" >=> Api.V1.Index.get
                 routex  "/blog(/?)" >=> Api.V1.Blog.getAll
                 routef  "/blog/%s" Api.V1.Blog.get
-                routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata database
-                routef  "/course/%s" (Api.V1.Course.get database)
+                Helpers.mustBeLoggedIn >=> (choose
+                  [
+                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata database
+                    routef  "/course/%s" (Api.V1.Course.get database)
+                  ]
+                )
               ]
             )
           ]
@@ -64,6 +70,18 @@ let configureCors (builder : CorsPolicyBuilder) =
 
 let configureServices (services : IServiceCollection) =
   services
+    .AddAuthentication(
+      fun options ->
+        options.DefaultAuthenticateScheme <- JwtBearerDefaults.AuthenticationScheme
+        options.DefaultChallengeScheme <- JwtBearerDefaults.AuthenticationScheme
+    )
+    .AddJwtBearer(
+      fun options ->
+        options.Authority <- $"https://exokomodo.us.auth0.com/"
+        options.Audience <- "https://services.edu.exokomodo.com"
+    )
+  |> ignore
+  services
     .AddCors()
     .AddGiraffe()
   |> ignore
@@ -78,6 +96,7 @@ configureServices builder.Services
 
 let app = builder.Build()
 // NOTE: Order matters. CORS must be configured before starting Giraffe.
+app.UseAuthentication() |> ignore
 app.UseCors configureCors |> ignore
 app.UseGiraffe webApp
 app.Run()

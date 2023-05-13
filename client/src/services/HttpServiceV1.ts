@@ -11,21 +11,29 @@ export default class HttpServiceV1 {
     return url;
   }
 
-  static async get<T>(urlSuffix: UrlSuffix, id: string): Promise<T> {
+  static async get<T>(urlSuffix: UrlSuffix, id: string, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string} = token ? {
+      Authorization: `Bearer ${token}`
+    } : undefined;
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}/${id}`,
       {
         method: 'GET',
+        headers: headers,
       },
     );
     return await response.json() as T;
   }
 
-  static async getAll<T>(urlSuffix: UrlSuffix): Promise<T> {
+  static async getAll<T>(urlSuffix: UrlSuffix, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string} = token ? {
+      Authorization: `Bearer ${token}`
+    } : undefined;
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
       {
         method: 'GET',
+        headers: headers,
       },
     );
     return await response.json() as T;

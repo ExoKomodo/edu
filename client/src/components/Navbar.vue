@@ -13,29 +13,61 @@
         </div>
         <div v-if="!isSmall">
           <div class="ml-4 flex items-center md:ml-6">
+            <span v-if="isAuthenticated" class="text-tiffanyBlue">{{ user.name }}</span>
+            <a
+              @click="() => AuthService.login(auth0)"
+              class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
+              font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
+              v-if="!isAuthenticated">
+                <div>
+                  login
+                </div>
+            </a>
+            <a
+              @click="() => AuthService.logout(auth0)"
+              class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
+              font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
+              v-if="isAuthenticated">
+                <div>
+                  logout
+                </div>
+            </a>
+            <hr class="bg-virgil color-virgil w-3 border-1.5"/>
             <!-- TODO - fix hidden items, swap with hamburger menu & dropdown -->
-            <RouterLink v-for="route in routes"
-                :to=route.path
-                class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
-                font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-                >
+            <div v-for="route in routes">
+              <a v-if="route.name === 'courses' && !isAuthenticated"
+                @click="() => AuthService.login(auth0)"
+                class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
+                font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block">
                 <div>
                   {{ route.name }}
                 </div>
-            </RouterLink>
+              </a>
+              <RouterLink v-else
+                  :to="route.path"
+                  class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
+                  font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
+                  >
+                  <div>
+                    {{ route.name }}
+                  </div>
+              </RouterLink>
+            </div>
             <hr class="bg-virgil color-virgil w-3 border-1.5"/>
             <a
-              :href=bugRoute.path
+              href="https://github.com/ExoKomodo/Edu/issues/new/choose"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
                 font-medium text-gray-300 hover:text-virgil hover:bg-rust bg-rufous xs:hidden sm:block"
               target="_blank">
                 <div>
-                  {{ bugRoute.name }}
+                  bug?
                 </div>
             </a>
+            <hr class="bg-virgil color-virgil w-3 border-1.5"/>
+            <pre v-if="isAuthenticated" class="text-tiffanyBlue mt-48"><code>{{ user }}</code></pre>
           </div>
         </div>
-        <div  v-else>
+        <div v-else>
           <div>
             <div
               @click="handleClick"
@@ -55,6 +87,30 @@
     </div>
     <div v-show="isVisible" >
       <div class="flex items-center flex-row justify-evenly navBorder">
+        <span v-if="isAuthenticated" class="text-tiffanyBlue">{{ user.name }}</span>
+        <a
+          @click="() => AuthService.login(auth0)"
+          class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
+            font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
+             bg-mysticStone"
+          v-if="!isAuthenticated">
+            <div>
+              login
+            </div>
+        </a>
+        <a
+          @click="() => AuthService.logout(auth0)"
+          class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
+            font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
+             bg-mysticStone"
+          v-if="isAuthenticated">
+            <div>
+              logout
+            </div>
+        </a>
+        <span>
+          <hr class="bg-virgil color-virgil w-3  border-1.5"/>
+        </span>
         <RouterLink v-for="route in routes"
             :to=route.path
             class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
@@ -70,14 +126,14 @@
           <hr class="bg-virgil color-virgil w-3  border-1.5"/>
         </span>
         <a
-          :href=bugRoute.path
+          href="https://github.com/ExoKomodo/Edu/issues/new/choose"
           class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
             font-medium text-gray-300 hover:text-virgil hover:bg-rust
              bg-rufous"
           target= '_blank'
           >
             <div>
-              {{ bugRoute.name }}
+              bug?
             </div>
         </a>
       </div>
@@ -89,19 +145,21 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router';
 import router from '../router/index';
+import { useAuth0 } from '@auth0/auth0-vue';
+import AuthService from '../services/AuthService';
+
+const auth0 = useAuth0();
+const user = auth0.user;
+const isAuthenticated = auth0.isAuthenticated;
 
 const routes = router.options.routes.filter(
   route => !route.props
 );
-const bugRoute = {
-  name: 'bug?',
-  path: 'https://github.com/ExoKomodo/Edu/issues/new/choose',
-};
 
 const isVisible = ref(false);
 const handleClick = () => {
   isVisible.value = !isVisible.value;
-}
+};
 
 const isSmall = ref(false);
 function updateWindowSize() {
