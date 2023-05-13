@@ -8,6 +8,7 @@ let (|StringPrefix|_|) (prefix: string) (str: string) =
     str.Substring(prefix.Length) |> Some
   else
     None
+
 let notLoggedIn =
     RequestErrors.UNAUTHORIZED
         "Basic"
