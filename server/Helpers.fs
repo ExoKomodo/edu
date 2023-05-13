@@ -8,16 +8,6 @@ let (|StringPrefix|_|) (prefix: string) (str: string) =
     str.Substring(prefix.Length) |> Some
   else
     None
-
-let decodeJwtFromHeader (ctx : HttpContext) : option<string> =
-  let tokenHeaderOpt = ctx.TryGetRequestHeader "Authorization"
-  match tokenHeaderOpt with
-  | Some tokenHeader ->
-    match tokenHeader with
-    | StringPrefix "Bearer " token -> Some token
-    | _ -> None
-  | None -> None
-
 let notLoggedIn =
     RequestErrors.UNAUTHORIZED
         "Basic"

@@ -29,27 +29,19 @@ let private _getAsJson (database: IMongoDatabase) (id: string) : HttpHandler = _
 
 let get (database: IMongoDatabase) (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
-    let token = decodeJwtFromHeader ctx
-    match token with
-    | Some decodedToken ->
-      let accept =
-        match ctx.TryGetRequestHeader "Accept" with
-        | None -> "application/json"
-        | Some value -> value
+    let accept =
+      match ctx.TryGetRequestHeader "Accept" with
+      | None -> "application/json"
+      | Some value -> value
 
-      match accept with
-      | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> _getAsXml database id next ctx
-      | _ -> _getAsJson database id next ctx
-    | None -> RequestErrors.FORBIDDEN "Not allowed bro!" next ctx
+    match accept with
+    | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> _getAsXml database id next ctx
+    | _ -> _getAsJson database id next ctx
 
 let getAllMetadata (database: IMongoDatabase) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
-    let token = decodeJwtFromHeader ctx
-    match token with
-    | Some decodedToken ->
-      (
-        (_getCourses database)
-        |> Seq.map (fun course -> course.Id, course.Metadata)
-        |> dict
-        |> json) next ctx
-    | None -> RequestErrors.FORBIDDEN "Not allowed bro!" next ctx
+    (
+      (_getCourses database)
+      |> Seq.map (fun course -> course.Id, course.Metadata)
+      |> dict
+      |> json) next ctx
