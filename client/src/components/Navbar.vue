@@ -15,7 +15,7 @@
           <div class="ml-4 flex items-center md:ml-6">
             <span v-if="user && user.name" class="text-tiffanyBlue">{{ user.name }}</span>
             <a
-              @click="login"
+              @click="() => AuthService.login(auth0)"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
               font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
               v-if="!user || !user.email">
@@ -24,7 +24,7 @@
                 </div>
             </a>
             <a
-              @click="logoutReal"
+              @click="() => AuthService.logout(auth0)"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
               font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
               v-if="user && user.email">
@@ -53,9 +53,11 @@
                   bug?
                 </div>
             </a>
+            <hr class="bg-virgil color-virgil w-3 border-1.5"/>
+            <pre v-if="user" class="text-tiffanyBlue mt-48"><code>{{ user }}</code></pre>
           </div>
         </div>
-        <div  v-else>
+        <div v-else>
           <div>
             <div
               @click="handleClick"
@@ -77,7 +79,7 @@
       <div class="flex items-center flex-row justify-evenly navBorder">
         <span v-if="user && user.name" class="text-tiffanyBlue">{{ user.name }}</span>
         <a
-          @click="login"
+          @click="() => AuthService.login(auth0)"
           class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
             font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
              bg-mysticStone"
@@ -87,7 +89,7 @@
             </div>
         </a>
         <a
-          @click="logoutReal"
+          @click="() => AuthService.logout(auth0)"
           class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
             font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
              bg-mysticStone"
@@ -134,8 +136,10 @@ import { ref } from 'vue'
 import { RouterLink } from 'vue-router';
 import router from '../router/index';
 import { useAuth0 } from '@auth0/auth0-vue';
+import AuthService from '../services/AuthService';
 
-const { loginWithRedirect, logout, user } = useAuth0();
+const auth0 = useAuth0();
+const user = auth0.user;
 
 const routes = router.options.routes.filter(
   route => !route.props
@@ -152,18 +156,4 @@ function updateWindowSize() {
 }
 window.addEventListener("resize", updateWindowSize);
 updateWindowSize();
-
-const login = () => {
-  loginWithRedirect();
-};
-
-const logoutReal = () => {
-  logout(
-    {
-      logoutParams: {
-        returnTo: window.location.origin,
-      },
-    },
-  );
-};
 </script>
