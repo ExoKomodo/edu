@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, type Ref } from 'vue';
+import { onMounted, reactive, ref, type Ref } from 'vue';
 
 // NOTE: Combination of props and emit helps set up `v-model`: https://vuejs.org/guide/components/v-model.html
 const props = defineProps({
@@ -52,9 +52,9 @@ const themeOptions: ThemeOption[] = [
 type LanguageOption = { id: string, value: string }
 
 const languageOptions: LanguageOption[] = [
+  'python',
   'html',
   'javascript',
-  'python',
 ].map(language => {
   return {
     id: language,
@@ -77,6 +77,60 @@ function getEditor(editor: Ref<any>) {
 function updateContent(event: any) {
   emit('update:modelValue', getEditor(codeEditor).getValue());
 }
+
+onMounted(() => {
+  if (!props.modelValue) {
+    let value = '';
+    switch (selected.language) {
+      case 'html': {
+        value = `<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>Oh boy</h1>
+  <div>Oh no.</div>
+
+</body>
+</html> 
+`;
+        break;
+      }
+      case 'javascript': {
+        value = `function summing(nums) {
+  return nums.reduce((x, y) => x + y);
+}
+
+let nums = [];
+for (let i = 0; i < 100; i++) {
+  nums.push(Math.pow(i, 2));
+}
+`;
+        break;
+      }
+      case 'python': {
+        value = `import functools
+
+from typing import Iterable
+
+def summing(nums: Iterable[int]) -> int:
+  return functools.reduce(lambda x, y: x + y, nums)
+
+if __name__ == '__main__':
+  # Sum the first hundred squares
+  summing([
+    x ** 2 for x in range(100)
+  ])
+`;
+        break;
+      }
+      default: {
+        value = '';
+        break;
+      }
+    }
+    getEditor(codeEditor).setValue(value);
+  }
+});
 </script>
 
 <style scoped>

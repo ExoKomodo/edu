@@ -3,7 +3,7 @@ import InfoTile from '@/components/InfoTile.vue';
 import Instructors from '@/components/Instructors.vue';
 import CodeEditor from '@/components/CodeEditor.vue';
 
-let editorContent = '<div>hello world</div>';
+let editorContent = null;
 </script>
 
 <template>
