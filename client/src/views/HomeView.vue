@@ -2,6 +2,8 @@
 import InfoTile from '@/components/InfoTile.vue';
 import Instructors from '@/components/Instructors.vue';
 import CodeEditor from '@/components/CodeEditor.vue';
+
+let editorContent = '<div>hello world</div>';
 </script>
 
 <template>
@@ -11,8 +13,7 @@ import CodeEditor from '@/components/CodeEditor.vue';
           <div class="relative rounded-lg p-6 bg-opacity-25 backdrop-filter backdrop-blur-lg bg-white shadow-xl m-3">
             <p class="p-1 text-2xl font-bold text-virgil drop-shadow-lg">After the bootcamp.</p>
             <p class="p-1 text-virgil">Learn what wasn't taught to you. Upskill and grow.</p>
-            <!-- TODO: Insert temporary Ace editor -->
-            <CodeEditor></CodeEditor>
+            <CodeEditor v-model="editorContent"></CodeEditor>
           </div>
         </div>
     </div>

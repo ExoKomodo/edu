@@ -10,7 +10,9 @@
       </select>
     </label>
     <v-ace-editor
-      v-model:value="editorContent"
+      ref="codeEditor"
+      :value="modelValue"
+      @change="updateContent"
       :lang="selected.language"
       :theme="selected.theme"
       style="height: 20rem"
@@ -23,9 +25,16 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref, type Ref } from 'vue';
 
-let editorContent: string = '<div>Hello world</div>';
+// NOTE: Combination of props and emit helps set up `v-model`: https://vuejs.org/guide/components/v-model.html
+const props = defineProps({
+  modelValue: String
+});
+
+const emit = defineEmits([
+  'update:modelValue',
+]);
 
 type ThemeOption = { id: string, value: string }
 
@@ -57,6 +66,17 @@ const selected = reactive({
   language: languageOptions[0].id,
   theme: themeOptions[0].id,
 });
+
+// NOTE: Grabs the DOM element with `ref="codeEditor"`
+const codeEditor = ref();
+
+function getEditor(editor: Ref<any>) {
+  return codeEditor.value._editor;
+}
+
+function updateContent(event: any) {
+  emit('update:modelValue', getEditor(codeEditor).getValue());
+}
 </script>
 
 <style scoped>
