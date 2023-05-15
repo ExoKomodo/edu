@@ -1,6 +1,6 @@
 ``<script setup lang="ts">
 import type { CourseIndex, CourseMetadata, Id } from '../models';
-import CodeEditor from '@/components/CodeEditor.vue';
+import CourseEditor, { type CourseEditorState } from '@/components/CourseEditor.vue';
 import CourseService from '@/services/CourseService';
 import Button from '@/components/Button.vue';
 import CourseLink from '@/components/CourseLink.vue';
@@ -14,15 +14,7 @@ const courseIndex: CourseIndex = await CourseService.getAll(
   await AuthService.getAccessTokenAsync(auth0)
 );
 
-const state = reactive({
-  isEditMode: false,
-  id: '',
-  name: '',
-  description: '',
-  content: '',
-});
-
-function createCourse() {
+function createCourse(state: CourseEditorState) {
   const courseToCreate = {
     id: state.id,
     content: state.content,
@@ -61,31 +53,20 @@ function castToCourseMetadata(value: [string, CourseMetadata]) {
   <div class="courseBackground min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 my-5">
       <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">courses</h1>
-        <span v-for="(course, id) of courseIndex">
-          <CourseLink
-                    class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
-                    :id="castToCourseId(id)"
-                    :name="castToCourseMetadata(course).name"
-                    :description=" castToCourseMetadata(course).description" />
-          <Button v-if="AuthService.isAdmin(auth0) && state.isEditMode" :handler="() => deleteCourse(id.toString())" text="Delete?" class="w-20"></Button>
-        </span>
-        <div v-if="AuthService.isAdmin(auth0)">
-          <input type="checkbox" id="edit-mode" name="editMode" v-model="state.isEditMode">
-          <label for="edit-mode"> Edit mode?</label>
-          <div :class="{ invisible: !state.isEditMode }">
-            <Button class="w-16" :handler="createCourse" text="Create"></Button>
-          </div>
-          <div v-if="state.isEditMode">
-            <div class="text-mysticStone border-mysticStone border-2 rounded p-1 pl-2 my-2 mr-12 w-16">Id</div>
-            <CodeEditor v-model="state.id" :height="2"></CodeEditor>
-            <div class="text-mysticStone border-mysticStone border-2 rounded p-1 pl-2 my-2 mr-12 w-16">Name</div>
-            <CodeEditor v-model="state.name" :height="2"></CodeEditor>
-            <div class="text-mysticStone border-mysticStone border-2 rounded p-1 pl-2 p my-2 mr-1 w-24">Description</div>
-            <CodeEditor v-model="state.description" :height="2"></CodeEditor>
-            <div class="text-mysticStone border-mysticStone border-2 rounded p-1 pl-2 my-2 mr-8 w-20">Content</div>
-            <CodeEditor v-model="state.content" :height="40" language="html"></CodeEditor>
-          </div>
-        </div>
+      <span v-for="(course, id) of courseIndex">
+        <CourseLink
+                  class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
+                  :id="castToCourseId(id)"
+                  :name="castToCourseMetadata(course).name"
+                  :description=" castToCourseMetadata(course).description" />
+        <Button v-if="AuthService.isAdmin(auth0)" :handler="() => deleteCourse(castToCourseId(id))" text="Delete?" class="w-20"></Button>
+      </span>
+      <CourseEditor :handler="createCourse"
+                  handlerText="Create"
+                  courseId=""
+                  courseContent=""
+                  courseDescription=""
+                  courseName=""></CourseEditor>
     </div>
   </div>
 </template>
