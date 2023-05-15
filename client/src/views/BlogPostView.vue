@@ -4,9 +4,12 @@ import BlogService from '../services/BlogService';
 import type { Blog } from '../models';
 
 const props = defineProps({
-  id: String
+  id: {
+    type: String,
+    required: true,
+  }
 });
-const blog: Blog = await BlogService.get(props.id as string);
+const blog: Blog = await BlogService.get(props.id);
 </script>
 
 <template>

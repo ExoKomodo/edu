@@ -14,9 +14,18 @@ import { RouterLink } from 'vue-router';
 export default defineComponent({
   name: 'BlogLink',
   props: {
-    title: String,
-    description: String,
-    id: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    id: {
+      type: String,
+      required: true,
+    },
   },
 });
 </script>

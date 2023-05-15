@@ -12,7 +12,7 @@ const props = defineProps({
     required: true,
   }
 });
-const course: Course = await CourseService.get(props.id as string, await AuthService.getAccessTokenAsync(auth0));
+const course: Course = await CourseService.get(props.id, await AuthService.getAccessTokenAsync(auth0));
 </script>
 
 <template>
