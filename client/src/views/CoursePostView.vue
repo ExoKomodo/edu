@@ -7,7 +7,10 @@ import AuthService from '../services/AuthService';
 
 const auth0 = useAuth0();
 const props = defineProps({
-  id: String
+  id: {
+    type: String,
+    required: true,
+  }
 });
 const course: Course = await CourseService.get(props.id as string, await AuthService.getAccessTokenAsync(auth0));
 </script>
