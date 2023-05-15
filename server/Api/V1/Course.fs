@@ -5,9 +5,16 @@ open Helpers
 open Microsoft.AspNetCore.Http
 open Models
 open MongoDB.Driver
+open System.Threading
 
 let private _getCollection (database: IMongoDatabase) =
   database.GetCollection<Course>("courses")
+
+let private _createCourse (database: IMongoDatabase) (course: Course) : HttpHandler =
+  let collection = _getCollection database
+  collection.InsertOne(course, null, new CancellationToken())
+  
+  json course
 
 let private _getCourses (database: IMongoDatabase) =
   (_getCollection database).Find(Builders<Course>.Filter.Empty).ToEnumerable()
@@ -37,7 +44,7 @@ let private _updateCourse (database: IMongoDatabase) (course: Course) : HttpHand
     (fun _course -> _course.Metadata),
     course.Metadata
   )
-  (_getCollection database).UpdateOne(filter, update) |> ignore
+  (_getCollection database).UpdateOne(filter, update, null, new CancellationToken()) |> ignore
   json course
 
 let get (database: IMongoDatabase) (id: string) : HttpHandler =
@@ -50,6 +57,9 @@ let get (database: IMongoDatabase) (id: string) : HttpHandler =
     match accept with
     | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> _getAsXml database id next ctx
     | _ -> _getAsJson database id next ctx
+
+let post (database: IMongoDatabase) (course: Course) : HttpHandler =
+  _createCourse database course
 
 let put (database: IMongoDatabase) (course: Course) : HttpHandler =
   _updateCourse database course

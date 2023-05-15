@@ -47,6 +47,9 @@ let webApp =
                 )
               ]
             )
+            POST
+            >=> routex "/course(/?)"
+            >=> bindJson<Course> (fun course -> Api.V1.Course.post database course)
             PUT
             >=> routex "/course(/?)"
             >=> bindJson<Course> (fun course -> Api.V1.Course.put database course)
