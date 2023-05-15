@@ -7,34 +7,30 @@ open Models
 open MongoDB.Driver
 open System.Threading
 
-let private _getCollection (database: IMongoDatabase) =
-  database.GetCollection<Course>("courses")
-
-let private _createCourse (database: IMongoDatabase) (course: Course) : HttpHandler =
-  let collection = _getCollection database
+let private _createCourse (collection: IMongoCollection<Course>) (course: Course) : HttpHandler =
   collection.InsertOne(course, null, new CancellationToken())
   
   json course
 
-let private _getCourses (database: IMongoDatabase) =
-  (_getCollection database).Find(Builders<Course>.Filter.Empty).ToEnumerable()
+let private _getCourses (collection: IMongoCollection<Course>) =
+  collection.Find(Builders<Course>.Filter.Empty).ToEnumerable()
   |> Seq.cast<Course>
 
-let private _getCourse (database: IMongoDatabase) (id: string) =
+let private _getCourse (collection: IMongoCollection<Course>) (id: string) =
   let filter = Builders<Course>.Filter.Eq("Id", id)
-  (_getCollection database).Find(filter).FirstOrDefault()
+  collection.Find(filter).FirstOrDefault()
 
-let private _getInFormat (formatter: Course -> HttpFunc -> HttpContext -> HttpFuncResult) (database: IMongoDatabase) (id: string) : HttpHandler =
-  let course = _getCourse database id
+let private _getInFormat (formatter: Course -> HttpFunc -> HttpContext -> HttpFuncResult) (collection: IMongoCollection<Course>) (id: string) : HttpHandler =
+  let course = _getCourse collection id
   match box course with
   | null -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
   | _ -> formatter course
 
-let private _getAsXml (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat xml database id
+let private _getAsXml (collection: IMongoCollection<Course>) (id: string) : HttpHandler = _getInFormat xml collection id
 
-let private _getAsJson (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat json database id
+let private _getAsJson (collection: IMongoCollection<Course>) (id: string) : HttpHandler = _getInFormat json collection id
 
-let private _updateCourse (database: IMongoDatabase) (course: Course) : HttpHandler =
+let private _updateCourse (collection: IMongoCollection<Course>) (course: Course) : HttpHandler =
   let filter = Builders<Course>.Filter.Eq("Id", course.Id)
   let mutable update = Builders<Course>.Update.Set(
     (fun _course -> _course.Content),
@@ -44,10 +40,10 @@ let private _updateCourse (database: IMongoDatabase) (course: Course) : HttpHand
     (fun _course -> _course.Metadata),
     course.Metadata
   )
-  (_getCollection database).UpdateOne(filter, update, null, new CancellationToken()) |> ignore
+  collection.UpdateOne(filter, update, null, new CancellationToken()) |> ignore
   json course
 
-let get (database: IMongoDatabase) (id: string) : HttpHandler =
+let get (collection: IMongoCollection<Course>) (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let accept =
       match ctx.TryGetRequestHeader "Accept" with
@@ -55,17 +51,19 @@ let get (database: IMongoDatabase) (id: string) : HttpHandler =
       | Some value -> value
 
     match accept with
-    | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> _getAsXml database id next ctx
-    | _ -> _getAsJson database id next ctx
+    | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> _getAsXml collection id next ctx
+    | _ -> _getAsJson collection id next ctx
 
-let post (database: IMongoDatabase) (course: Course) : HttpHandler =
-  _createCourse database course
+let post (collection: IMongoCollection<Course>) (course: Course) : HttpHandler =
+  _createCourse collection course
 
-let put (database: IMongoDatabase) (course: Course) : HttpHandler =
-  _updateCourse database course
+let put (collection: IMongoCollection<Course>) (course: Course) : HttpHandler =
+  _updateCourse collection course
 
-let getAllMetadata (database: IMongoDatabase) : HttpHandler =
-  (_getCourses database)
-  |> Seq.map (fun course -> course.Id, course.Metadata)
-  |> dict
-  |> json
+let getAllMetadata (collection: IMongoCollection<Course>) : HttpHandler =
+  fun (next : HttpFunc) (ctx : HttpContext) ->
+    printfn "Getting metadata..."
+    ( (_getCourses collection)
+      |> Seq.map (fun course -> course.Id, course.Metadata)
+      |> dict
+      |> json) next ctx

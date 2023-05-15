@@ -18,10 +18,10 @@ let initializeMongo () =
     exit 1
   | _ ->
     let client = new MongoClient(connectionString)
-    let database = client.GetDatabase("admin")
-    database
+    client.GetDatabase("admin")
 
 let database = initializeMongo()
+let courseCollection = database.GetCollection<Course>("courses")
 
 let webApp =
   (choose
@@ -41,18 +41,18 @@ let webApp =
                 routef  "/blog/%s" Api.V1.Blog.get
                 Helpers.mustBeLoggedIn >=> (choose
                   [
-                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata database
-                    routef  "/course/%s" (Api.V1.Course.get database)
+                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata courseCollection
+                    routef  "/course/%s" (Api.V1.Course.get courseCollection)
                   ]
                 )
               ]
             )
             POST
             >=> routex "/course(/?)"
-            >=> bindJson<Course> (fun course -> Api.V1.Course.post database course)
+            >=> bindJson<Course> (fun course -> Api.V1.Course.post courseCollection course)
             PUT
             >=> routex "/course(/?)"
-            >=> bindJson<Course> (fun course -> Api.V1.Course.put database course)
+            >=> bindJson<Course> (fun course -> Api.V1.Course.put courseCollection course)
           ]
         )
       ]

@@ -13,7 +13,7 @@ let editorContent = '';
           <div class="relative rounded-lg p-6 bg-opacity-25 backdrop-filter backdrop-blur-lg bg-white shadow-xl m-3">
             <p class="p-1 text-2xl font-bold text-virgil drop-shadow-lg">After the bootcamp.</p>
             <p class="p-1 text-virgil">Learn what wasn't taught to you. Upskill and grow.</p>
-            <CodeEditor v-model="editorContent"></CodeEditor>
+            <CodeEditor v-model="editorContent" language="python"></CodeEditor>
           </div>
         </div>
     </div>

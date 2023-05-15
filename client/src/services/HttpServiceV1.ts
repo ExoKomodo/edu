@@ -39,6 +39,21 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
+  static async post<T>(urlSuffix: UrlSuffix, value: any, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string} = token ? {
+      Authorization: `Bearer ${token}`
+    } : undefined;
+    const response = await fetch(
+      `${HttpServiceV1.constructUrl(urlSuffix)}`,
+      {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(value),
+      },
+    );
+    return await response.json() as T;
+  }
+
   static async put<T>(urlSuffix: UrlSuffix, value: any, token: string | null | undefined): Promise<T> {
     const headers: undefined | {Authorization: string} = token ? {
       Authorization: `Bearer ${token}`

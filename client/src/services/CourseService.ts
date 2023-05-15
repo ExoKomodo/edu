@@ -2,6 +2,10 @@ import type { Course, CourseIndex, Id } from '../models';
 import HttpServiceV1 from './HttpServiceV1';
 
 export default class CourseService {
+  static async create(course: Course, token: string | null | undefined=null): Promise<Course> {
+    return await HttpServiceV1.post<Course>('course', course, token);
+  }
+
   static async get(id: Id, token: string | null | undefined=null): Promise<Course> {
     return await HttpServiceV1.get<Course>('course', id, token);
   }

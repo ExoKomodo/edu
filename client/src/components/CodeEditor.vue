@@ -33,7 +33,15 @@ const props = defineProps({
   height: {
     type: Number,
     default: 20,
-  }
+  },
+  language: {
+    type: String,
+    default: 'plain_text',
+  },
+  theme: {
+    type: String,
+    default: 'tomorrow_night_eighties',
+  },
 });
 
 const emit = defineEmits([
@@ -57,6 +65,7 @@ type LanguageOption = { id: string, value: string }
 
 const languageOptions: LanguageOption[] = [
   'html',
+  'plain_text',
   'python',
   'javascript',
 ].map(language => {
@@ -67,8 +76,8 @@ const languageOptions: LanguageOption[] = [
 });
 
 const selected = reactive({
-  language: languageOptions[0].id,
-  theme: themeOptions[0].id,
+  language: props.language,
+  theme: props.theme,
 });
 
 // NOTE: Grabs the DOM element with `ref="codeEditor"`
@@ -109,6 +118,10 @@ for (let i = 0; i < 100; i++) {
   nums.push(Math.pow(i, 2));
 }
 `;
+        break;
+      }
+      case 'plain_text': {
+        value = "hello world"
         break;
       }
       case 'python': {

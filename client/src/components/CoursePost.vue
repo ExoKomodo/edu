@@ -18,7 +18,7 @@
         <CodeEditor v-model="state.name" :height="2"></CodeEditor>
         <div class="text-white border-white border-2 rounded p-1 pl-2 p my-2 mr-1">Description</div>
         <CodeEditor v-model="state.description" :height="2"></CodeEditor>
-        <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Content</div>
+        <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8" language="html">Content</div>
         <CodeEditor v-model="state.content" :height="40"></CodeEditor>
       </div>
     </div>
@@ -60,6 +60,6 @@ function saveCourse() {
   };
   AuthService.getAccessTokenAsync(auth0).then(token => {
     CourseService.update(courseToUpdate, token);
-  })
+  });
 }
 </script>

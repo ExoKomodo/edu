@@ -1,15 +1,42 @@
 ``<script setup lang="ts">
 import type { CourseIndex, CourseMetadata, Id } from '../models';
+import CodeEditor from '@/components/CodeEditor.vue';
 import CourseService from '@/services/CourseService';
-import CourseLink from '../components/CourseLink.vue';
+import Button from '@/components/Button.vue';
+import CourseLink from '@/components/CourseLink.vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import AuthService from '../services/AuthService';
+import { reactive } from 'vue';
 
 const auth0 = useAuth0();
 
 const courseIndex: CourseIndex = await CourseService.getAll(
-  await AuthService.getAccessTokenAsync(auth0) 
+  await AuthService.getAccessTokenAsync(auth0)
 );
+
+const state = reactive({
+  isEditMode: false,
+  id: '',
+  name: '',
+  description: '',
+  content: '',
+});
+
+function createCourse() {
+  const courseToCreate = {
+    id: state.id,
+    content: state.content,
+    metadata: {
+      name: state.name,
+      description: state.description,
+    },
+  };
+  AuthService.getAccessTokenAsync(auth0).then(token => {
+    CourseService.create(courseToCreate, token).then(() => {
+      window.location.reload();
+    });
+  });
+}
 
 // NOTE: Needed to fool the type checker with the loop values
 function castToCourseId(value: number) {
@@ -31,6 +58,23 @@ function castToCourseMetadata(value: [string, CourseMetadata]) {
                   :id="castToCourseId(id)"
                   :name="castToCourseMetadata(course).name"
                   :description=" castToCourseMetadata(course).description" />
+        <div v-if="AuthService.isAdmin(auth0)">
+          <input type="checkbox" id="edit-mode" name="editMode" v-model="state.isEditMode">
+          <label for="edit-mode"> Edit mode?</label>
+          <div :class="{ invisible: !state.isEditMode }">
+            <Button class="w-16" :handler="createCourse" text="Create"></Button>
+          </div>
+          <div v-if="state.isEditMode">
+            <div class="text-mysticStone border-mysticStone border-2 rounded p-1 pl-2 my-2 mr-12 w-16">Id</div>
+            <CodeEditor v-model="state.id" :height="2"></CodeEditor>
+            <div class="text-mysticStone border-mysticStone border-2 rounded p-1 pl-2 my-2 mr-12 w-16">Name</div>
+            <CodeEditor v-model="state.name" :height="2"></CodeEditor>
+            <div class="text-mysticStone border-mysticStone border-2 rounded p-1 pl-2 p my-2 mr-1 w-24">Description</div>
+            <CodeEditor v-model="state.description" :height="2"></CodeEditor>
+            <div class="text-mysticStone border-mysticStone border-2 rounded p-1 pl-2 my-2 mr-8 w-20">Content</div>
+            <CodeEditor v-model="state.content" :height="40" language="html"></CodeEditor>
+          </div>
+        </div>
     </div>
   </div>
 </template>
