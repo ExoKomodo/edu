@@ -7,8 +7,12 @@
         <span class="inline-block" :class="{ invisible: !state.isEditMode }">
           <Button :handler="saveCourse" text="Save"></Button>
         </span>
+        <div :class="{ invisible: !state.isEditMode }">
+          <input type="checkbox" id="show-preview" name="showPreview" v-model="state.showPreview">
+          <label for="show-preview"> Show preview?</label>
+        </div>
       </div>
-      <div v-if="!state.isEditMode && AuthService.isAdmin(auth0)">
+      <div v-if="auth0.isAuthenticated && (state.isEditMode ? state.showPreview : true)">
         <p class="text-2xl font-bold border-white rounded border-2 p-1 pl-2">{{ state.name?.toUpperCase() }}</p>
         <p class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2 text-slate-400">{{ state.description }}</p>
         <p class="text-white border-white border-2 rounded p-1 pl-2 my-2" v-html="state.content"></p>
@@ -44,6 +48,7 @@ const course = defineProps<{
 
 const state = reactive({
   isEditMode: false,
+  showPreview: false,
   name: course.name,
   description: course.description,
   content: course.content,
