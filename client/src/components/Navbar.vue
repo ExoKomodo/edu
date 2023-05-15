@@ -63,8 +63,6 @@
                   bug?
                 </div>
             </a>
-            <hr class="bg-virgil color-virgil w-3 border-1.5"/>
-            <pre v-if="isAuthenticated" class="text-tiffanyBlue mt-48"><code>{{ user }}</code></pre>
           </div>
         </div>
         <div v-else>
