@@ -52,8 +52,8 @@ const themeOptions: ThemeOption[] = [
 type LanguageOption = { id: string, value: string }
 
 const languageOptions: LanguageOption[] = [
-  'python',
   'html',
+  'python',
   'javascript',
 ].map(language => {
   return {
