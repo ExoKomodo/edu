@@ -27,6 +27,19 @@ let private _getAsXml (database: IMongoDatabase) (id: string) : HttpHandler = _g
 
 let private _getAsJson (database: IMongoDatabase) (id: string) : HttpHandler = _getInFormat json database id
 
+let private _updateCourse (database: IMongoDatabase) (course: Course) : HttpHandler =
+  let filter = Builders<Course>.Filter.Eq("Id", course.Id)
+  let mutable update = Builders<Course>.Update.Set(
+    (fun _course -> _course.Content),
+    course.Content
+  )
+  update <- update.Set(
+    (fun _course -> _course.Metadata),
+    course.Metadata
+  )
+  (_getCollection database).UpdateOne(filter, update) |> ignore
+  json course
+
 let get (database: IMongoDatabase) (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let accept =
@@ -37,6 +50,9 @@ let get (database: IMongoDatabase) (id: string) : HttpHandler =
     match accept with
     | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> _getAsXml database id next ctx
     | _ -> _getAsJson database id next ctx
+
+let put (database: IMongoDatabase) (course: Course) : HttpHandler =
+  _updateCourse database course
 
 let getAllMetadata (database: IMongoDatabase) : HttpHandler =
   (_getCourses database)

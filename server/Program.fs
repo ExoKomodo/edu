@@ -6,6 +6,7 @@ open Microsoft.Extensions.DependencyInjection
 open MongoDB.Driver
 open System.Text.Json.Serialization
 open System
+open Models
 
 // NOTE: Initialize Mongo
 
@@ -46,6 +47,9 @@ let webApp =
                 )
               ]
             )
+            PUT
+            >=> routex "/course(/?)"
+            >=> bindJson<Course> (fun course -> Api.V1.Course.put database course)
           ]
         )
       ]
