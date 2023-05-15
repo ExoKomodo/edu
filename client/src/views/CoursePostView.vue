@@ -13,5 +13,5 @@ const course: Course = await CourseService.get(props.id as string, await AuthSer
 </script>
 
 <template>
-  <CoursePost :name=course.metadata.name :content=course.content :description=course.metadata.description />
+  <CoursePost :id="id" :name=course.metadata.name :content=course.content :description=course.metadata.description />
 </template>

@@ -9,4 +9,8 @@ export default class CourseService {
   static async getAll(token: string | null | undefined): Promise<CourseIndex> {
     return await HttpServiceV1.getAll<CourseIndex>('course', token);
   }
+
+  static async update(course: Course, token: string | null | undefined=null): Promise<Course> {
+    return await HttpServiceV1.put<Course>('course', course, token);
+  }
 };
