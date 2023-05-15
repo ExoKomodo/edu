@@ -13,126 +13,90 @@
         </div>
         <div v-if="!isSmall">
           <div class="ml-4 flex items-center md:ml-6">
-            <span v-if="isAuthenticated" class="text-tiffanyBlue">{{ user.name }}</span>
-            <a
-              @click="() => AuthService.login(auth0)"
-              class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
-              font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-              v-if="!isAuthenticated">
-                <div>
-                  login
-                </div>
-            </a>
-            <a
-              @click="() => AuthService.logout(auth0)"
-              class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
-              font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-              v-if="isAuthenticated">
-                <div>
-                  logout
-                </div>
-            </a>
-            <hr class="bg-virgil color-virgil w-3 border-1.5"/>
+            <span v-if="isAuthenticated"
+                  class="text-tiffanyBlue">{{ user.name }}</span>
+            <Button v-if="!isAuthenticated"
+                    :handler="() => AuthService.login(auth0)"
+                    text="login"></Button>
+            <Button v-if="isAuthenticated"
+                    :handler="() => AuthService.logout(auth0)"
+                    text="logout"></Button>
+            <hr class="bg-virgil color-virgil w-3 border-1.5" />
             <!-- TODO - fix hidden items, swap with hamburger menu & dropdown -->
             <div v-for="route in routes">
-              <a v-if="route.name === 'courses' && !isAuthenticated"
-                @click="() => AuthService.login(auth0)"
-                class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
-                font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block">
+              <Button v-if="route.name === 'courses' && !isAuthenticated"
+                      :handler="() => AuthService.login(auth0)"
+                      :text="route.name"></Button>
+              <RouterLink v-else
+                          :to="route.path"
+                          class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
+                  font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block">
                 <div>
                   {{ route.name }}
                 </div>
-              </a>
-              <RouterLink v-else
-                  :to="route.path"
-                  class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
-                  font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block"
-                  >
-                  <div>
-                    {{ route.name }}
-                  </div>
               </RouterLink>
             </div>
-            <hr class="bg-virgil color-virgil w-3 border-1.5"/>
-            <a
-              href="https://github.com/ExoKomodo/Edu/issues/new/choose"
-              class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
+            <hr class="bg-virgil color-virgil w-3 border-1.5" />
+            <a href="https://github.com/ExoKomodo/Edu/issues/new/choose"
+               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
                 font-medium text-gray-300 hover:text-virgil hover:bg-rust bg-rufous xs:hidden sm:block"
-              target="_blank">
-                <div>
-                  bug?
-                </div>
+               target="_blank">
+              <div>
+                bug?
+              </div>
             </a>
           </div>
         </div>
         <div v-else>
           <div>
-            <div
-              @click="handleClick"
-              v-if="!isVisible"
-              class="text-white border-2 border-slate-500 p-2 rounded">
+            <div @click="handleClick"
+                 v-if="!isVisible"
+                 class="text-white border-2 border-slate-500 p-2 rounded">
               <i class="fas fa-bars"></i>
             </div>
-            <div
-              v-else
-              @click="handleClick"
-              class="text-white border-2 border-slate-500 p-2 rounded">
+            <div v-else
+                 @click="handleClick"
+                 class="text-white border-2 border-slate-500 p-2 rounded">
               <i class="fas fa-times"></i>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div v-show="isVisible" >
+    <div v-show="isVisible">
       <div class="flex items-center flex-row justify-evenly navBorder">
-        <span v-if="isAuthenticated" class="text-tiffanyBlue">{{ user.name }}</span>
-        <a
-          @click="() => AuthService.login(auth0)"
-          class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
-            font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
-             bg-mysticStone"
-          v-if="!isAuthenticated">
-            <div>
-              login
-            </div>
-        </a>
-        <a
-          @click="() => AuthService.logout(auth0)"
-          class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
-            font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
-             bg-mysticStone"
-          v-if="isAuthenticated">
-            <div>
-              logout
-            </div>
-        </a>
+        <span v-if="isAuthenticated"
+              class="text-tiffanyBlue">{{ user.name }}</span>
+        <Button v-if="!isAuthenticated"
+                :handler="() => AuthService.login(auth0)"
+                text="login"></Button>
+        <Button v-if="isAuthenticated"
+                :handler="() => AuthService.logout(auth0)"
+                text="logout"></Button>
         <span>
-          <hr class="bg-virgil color-virgil w-3  border-1.5"/>
+          <hr class="bg-virgil color-virgil w-3  border-1.5" />
         </span>
         <RouterLink v-for="route in routes"
-            :to=route.path
-            class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
+                    :to=route.path
+                    class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
             font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen
-             bg-mysticStone"
-            >
-            <div>
-              {{ route.name }}
-            </div>
+             bg-mysticStone">
+          <div>
+            {{ route.name }}
+          </div>
         </RouterLink>
         <!-- Needs the wrapping span to obey flex rules -->
         <span>
-          <hr class="bg-virgil color-virgil w-3  border-1.5"/>
+          <hr class="bg-virgil color-virgil w-3  border-1.5" />
         </span>
-        <a
-          href="https://github.com/ExoKomodo/Edu/issues/new/choose"
-          class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
+        <a href="https://github.com/ExoKomodo/Edu/issues/new/choose"
+           class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
             font-medium text-gray-300 hover:text-virgil hover:bg-rust
              bg-rufous"
-          target= '_blank'
-          >
-            <div>
-              bug?
-            </div>
+           target='_blank'>
+          <div>
+            bug?
+          </div>
         </a>
       </div>
     </div>
@@ -140,6 +104,7 @@
 </template>
   
 <script lang="ts" setup>
+import Button from '@/components/Button.vue';
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router';
 import router from '../router/index';

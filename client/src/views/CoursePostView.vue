@@ -6,12 +6,9 @@ import { useAuth0 } from '@auth0/auth0-vue';
 import AuthService from '../services/AuthService';
 
 const auth0 = useAuth0();
-const props = defineProps({
-  id: {
-    type: String,
-    required: true,
-  }
-});
+const props = defineProps<{
+  id: string,
+}>();
 const course: Course = await CourseService.get(props.id, await AuthService.getAccessTokenAsync(auth0));
 </script>
 

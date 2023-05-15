@@ -5,14 +5,7 @@
         <input type="checkbox" id="edit-mode" name="editMode" v-model="state.isEditMode">
         <label for="edit-mode"> Edit mode?</label>
         <span class="inline-block" :class="{ invisible: !state.isEditMode }">
-          <a
-              @click="saveCourse"
-              class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
-              font-medium text-gray-300 hover:text-virgil hover:bg-midnightGreen bg-mysticStone xs:hidden sm:block">
-            <div>
-              Save
-            </div>
-          </a>
+          <Button :handler="saveCourse" text="Save"></Button>
         </span>
       </div>
       <div v-if="!state.isEditMode && AuthService.isAdmin(auth0)">
@@ -34,6 +27,7 @@
 
 <script setup lang="ts">
 import CodeEditor from '@/components/CodeEditor.vue';
+import Button from '@/components/Button.vue';
 import CourseService from '../services/CourseService';
 import { reactive } from 'vue';
 import AuthService from '@/services/AuthService';
@@ -41,24 +35,12 @@ import { useAuth0 } from '@auth0/auth0-vue';
 
 const auth0 = useAuth0();
 
-const course = defineProps({
-  id: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  content: {
-    type: String,
-    required: true,
-  },
-});
+const course = defineProps<{
+  id: string,
+  name: string,
+  description: string,
+  content: string,
+}>();
 
 const state = reactive({
   isEditMode: false,

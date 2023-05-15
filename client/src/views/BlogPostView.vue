@@ -3,12 +3,9 @@ import BlogPost from '../components/BlogPost.vue';
 import BlogService from '../services/BlogService';
 import type { Blog } from '../models';
 
-const props = defineProps({
-  id: {
-    type: String,
-    required: true,
-  }
-});
+const props = defineProps<{
+  id: string,
+}>();
 const blog: Blog = await BlogService.get(props.id);
 </script>
 
