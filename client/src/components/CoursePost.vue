@@ -4,7 +4,7 @@
       <div v-if="AuthService.isAdmin(auth0)">
         <input type="checkbox" id="edit-mode" name="editMode" v-model="state.isEditMode">
         <label for="edit-mode"> Edit mode?</label>
-        <span class="inline-block" v-if="state.isEditMode">
+        <span class="inline-block" :class="{ invisible: !state.isEditMode }">
           <a
               @click="saveCourse"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
