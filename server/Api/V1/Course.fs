@@ -12,6 +12,10 @@ let private _createCourse (collection: IMongoCollection<Course>) (course: Course
   
   json course
 
+let private _deleteCourse (collection: IMongoCollection<Course>) (id: string) =
+  let filter = Builders<Course>.Filter.Eq("Id", id)
+  collection.DeleteOne(filter) |> ignore
+
 let private _getCourses (collection: IMongoCollection<Course>) =
   collection.Find(Builders<Course>.Filter.Empty).ToEnumerable()
   |> Seq.cast<Course>
@@ -42,6 +46,10 @@ let private _updateCourse (collection: IMongoCollection<Course>) (course: Course
   )
   collection.UpdateOne(filter, update, null, new CancellationToken()) |> ignore
   json course
+
+let delete (collection: IMongoCollection<Course>) (id: string) : HttpHandler =
+  _deleteCourse collection id
+  json id
 
 let get (collection: IMongoCollection<Course>) (id: string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->

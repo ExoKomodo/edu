@@ -47,6 +47,8 @@ let webApp =
                 )
               ]
             )
+            DELETE
+            >=> routef  "/course/%s" (Api.V1.Course.delete courseCollection)
             POST
             >=> routex "/course(/?)"
             >=> bindJson<Course> (fun course -> Api.V1.Course.post courseCollection course)

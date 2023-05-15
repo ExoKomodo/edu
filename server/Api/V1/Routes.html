@@ -35,14 +35,17 @@
       </form>
     </li>
     <li>
-      <a href="/api/v1/course">GET: List courses</a>
-    </li>
-    <li>
       <a href="/api/v1/course/{id}">GET: Get course by ID</a>
       <form onsubmit="return false">
         <input id="course-id-input" type="text" placeholder="Course ID" />
         <input type="submit" value="Get course" onclick="getCourseById()" />
       </form>
+    </li>
+    <li>
+      <a href="/api/v1/course">GET: List courses</a>
+    </li>
+    <li>
+      <a href="/api/v1/course/{id}">DELETE: Delete course by ID</a>
     </li>
     <li>
       <a href="/api/v1/course">POST: Create course from body JSON</a>
