@@ -15,7 +15,7 @@
       @change="updateContent"
       :lang="selected.language"
       :theme="selected.theme"
-      :style="`height: ${height ? height : 20}rem`"
+      :style="`height: ${height}rem`"
       :options="{
         useWorker: true,
         enableBasicAutocompletion: true,
@@ -30,7 +30,10 @@ import { onMounted, reactive, ref, type Ref } from 'vue';
 // NOTE: Combination of props and emit helps set up `v-model`: https://vuejs.org/guide/components/v-model.html
 const props = defineProps({
   modelValue: String,
-  height: Number,
+  height: {
+    type: Number,
+    default: 20,
+  }
 });
 
 const emit = defineEmits([
