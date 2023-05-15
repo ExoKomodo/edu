@@ -5,13 +5,24 @@
       <p class="text-2xl font-bold border-white rounded border-2 p-1 pl-2">{{ course.name?.toUpperCase() }}</p>
       <p class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2 text-slate-400">{{ course.description }}</p>
       <!-- TODO: Only show editor in edit mode -->
-      <CodeEditor v-model="editorContent"></CodeEditor>
+      <p class="text-white border-white border-2 rounded p-1 pl-2 my-2" v-html="course.content"></p>
+      <input type="checkbox" id="edit-mode" name="editMode" v-model="state.isEditMode">
+      <label for="edit-mode"> Edit mode?</label><br>
+      <div v-if="state.isEditMode">
+        <span class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-12">Edit name</span>
+        <CodeEditor v-model="editorName" :height="3"></CodeEditor>
+        <span class="text-white border-white border-2 rounded p-1 pl-2 p my-2 mr-1">Edit description</span>
+        <CodeEditor v-model="editorDescription" :height="3"></CodeEditor>
+        <span class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Edit content</span>
+        <CodeEditor v-model="editorContent" :height="40"></CodeEditor>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import CodeEditor from '@/components/CodeEditor.vue';
+import { reactive } from 'vue';
 
 const course = defineProps({
   name: String,
@@ -19,5 +30,13 @@ const course = defineProps({
   content: String,
 });
 
+let editorName = course.name;
+let editorDescription = course.description;
 let editorContent = course.content;
+let isEditMode = false;
+const state = reactive({
+  isEditMode: false,
+});
+
+setInterval(() => console.log(state.isEditMode), 2000);
 </script>

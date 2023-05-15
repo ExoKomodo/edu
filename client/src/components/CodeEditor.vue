@@ -1,11 +1,11 @@
 <template>
     <label>Language:
-      <select v-model="selected.language">
+      <select v-model="selected.language" class="text-black">
         <option v-for="option in languageOptions" v-bind:value="option.id" :selected="selected.language == option.id">{{option.value}}</option>
       </select>
     </label>
     <label>Theme:
-      <select v-model="selected.theme">
+      <select v-model="selected.theme" class="text-black">
         <option v-for="option in themeOptions" :value="option.id" :selected="selected.theme == option.id">{{option.value}}</option>
       </select>
     </label>
@@ -15,7 +15,7 @@
       @change="updateContent"
       :lang="selected.language"
       :theme="selected.theme"
-      style="height: 20rem"
+      :style="`height: ${height ? height : 20}rem`"
       :options="{
         useWorker: true,
         enableBasicAutocompletion: true,
@@ -29,7 +29,8 @@ import { onMounted, reactive, ref, type Ref } from 'vue';
 
 // NOTE: Combination of props and emit helps set up `v-model`: https://vuejs.org/guide/components/v-model.html
 const props = defineProps({
-  modelValue: String
+  modelValue: String,
+  height: Number,
 });
 
 const emit = defineEmits([
