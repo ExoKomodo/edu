@@ -11,6 +11,20 @@ export default class HttpServiceV1 {
     return url;
   }
 
+  static async delete<T>(urlSuffix: UrlSuffix, id: string, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string} = token ? {
+      Authorization: `Bearer ${token}`
+    } : undefined;
+    const response = await fetch(
+      `${HttpServiceV1.constructUrl(urlSuffix)}/${id}`,
+      {
+        method: 'DELETE',
+        headers: headers,
+      },
+    );
+    return await response.json() as T;
+  }
+
   static async get<T>(urlSuffix: UrlSuffix, id: string, token: string | null | undefined): Promise<T> {
     const headers: undefined | {Authorization: string} = token ? {
       Authorization: `Bearer ${token}`

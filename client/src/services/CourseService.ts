@@ -6,6 +6,10 @@ export default class CourseService {
     return await HttpServiceV1.post<Course>('course', course, token);
   }
 
+  static async delete(id: Id, token: string | null | undefined=null): Promise<Course> {
+    return await HttpServiceV1.delete<Course>('course', id, token);
+  }
+  
   static async get(id: Id, token: string | null | undefined=null): Promise<Course> {
     return await HttpServiceV1.get<Course>('course', id, token);
   }
