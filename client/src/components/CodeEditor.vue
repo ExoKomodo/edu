@@ -1,5 +1,5 @@
 <template>
-    <label>Language:
+    <label class="mr-2">Language:
       <select v-model="selected.language" class="text-black">
         <option v-for="option in languageOptions" v-bind:value="option.id" :selected="selected.language == option.id">{{option.value}}</option>
       </select>
