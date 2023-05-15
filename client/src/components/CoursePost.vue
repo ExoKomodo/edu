@@ -1,10 +1,10 @@
 <template>
   <div class="coursePostBackground min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-white">
-      <div>
+      <div v-if="AuthService.isAdmin(auth0)">
         <input type="checkbox" id="edit-mode" name="editMode" v-model="state.isEditMode">
         <label for="edit-mode"> Edit mode?</label>
-        <span class="inline-block">
+        <span class="inline-block" v-if="state.isEditMode">
           <a
               @click="saveCourse"
               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm
@@ -15,12 +15,12 @@
           </a>
         </span>
       </div>
-      <div v-if="!state.isEditMode">
+      <div v-if="!state.isEditMode && AuthService.isAdmin(auth0)">
         <p class="text-2xl font-bold border-white rounded border-2 p-1 pl-2">{{ state.name?.toUpperCase() }}</p>
         <p class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2 text-slate-400">{{ state.description }}</p>
         <p class="text-white border-white border-2 rounded p-1 pl-2 my-2" v-html="state.content"></p>
       </div>
-      <div v-if="state.isEditMode">
+      <div v-if="state.isEditMode && AuthService.isAdmin(auth0)">
         <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-12">Name</div>
         <CodeEditor v-model="state.name" :height="2"></CodeEditor>
         <div class="text-white border-white border-2 rounded p-1 pl-2 p my-2 mr-1">Description</div>
