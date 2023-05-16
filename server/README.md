@@ -1,11 +1,14 @@
 # Server
 
-## Connecting to mongo
+## Setup
+
+### Connecting to Mongo
 
 `MONGODB_URI` is specifically useful because the .NET library uses that env var
 
 ```shell
 export MONGODB_URI="<connection string>"
+# NOTE: Not needed, but connects you via an interactive JS shell
 mongosh ${MONGODB_URI}
 ```
 

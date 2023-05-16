@@ -6,6 +6,7 @@ open Microsoft.Extensions.DependencyInjection
 open MongoDB.Driver
 open System.Text.Json.Serialization
 open System
+open Models
 
 // NOTE: Initialize Mongo
 
@@ -17,10 +18,10 @@ let initializeMongo () =
     exit 1
   | _ ->
     let client = new MongoClient(connectionString)
-    let database = client.GetDatabase("admin")
-    database
+    client.GetDatabase("admin")
 
 let database = initializeMongo()
+let courseCollection = database.GetCollection<Course>("courses")
 
 let webApp =
   (choose
@@ -40,12 +41,20 @@ let webApp =
                 routef  "/blog/%s" Api.V1.Blog.get
                 Helpers.mustBeLoggedIn >=> (choose
                   [
-                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata database
-                    routef  "/course/%s" (Api.V1.Course.get database)
+                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata courseCollection
+                    routef  "/course/%s" (Api.V1.Course.get courseCollection)
                   ]
                 )
               ]
             )
+            DELETE
+            >=> routef  "/course/%s" (Api.V1.Course.delete courseCollection)
+            POST
+            >=> routex "/course(/?)"
+            >=> bindJson<Course> (fun course -> Api.V1.Course.post courseCollection course)
+            PUT
+            >=> routex "/course(/?)"
+            >=> bindJson<Course> (fun course -> Api.V1.Course.put courseCollection course)
           ]
         )
       ]
@@ -58,6 +67,7 @@ let configureCors (builder : CorsPolicyBuilder) =
     .WithOrigins(
       // NOTE: Development client
       "http://localhost:5173",
+      "http://127.0.0.1:5173",
       // NOTE: Development server
       "http://localhost:5000",
       // NOTE: Production client

@@ -5,11 +5,17 @@ export default class AuthService {
     return auth0.getAccessTokenSilently();
   }
 
-  static login(auth0: Auth0VueClient) {
+  static isAdmin(auth0: Auth0VueClient): boolean {
+    return [
+      "exokomodo@gmail.com",
+    ].includes(auth0.user.value.email ?? '');
+  }
+
+  static login(auth0: Auth0VueClient): void {
     auth0.loginWithRedirect();
   };
   
-  static logout(auth0: Auth0VueClient) {
+  static logout(auth0: Auth0VueClient): void {
     auth0.logout(
       {
         logoutParams: {

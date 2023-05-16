@@ -3,10 +3,10 @@ import BlogPost from '../components/BlogPost.vue';
 import BlogService from '../services/BlogService';
 import type { Blog } from '../models';
 
-const props = defineProps({
-  id: String
-});
-const blog: Blog = await BlogService.get(props.id as string);
+const props = defineProps<{
+  id: string,
+}>();
+const blog: Blog = await BlogService.get(props.id);
 </script>
 
 <template>

@@ -11,6 +11,7 @@
     "vue.vscode-typescript-vue-plugin",
     "wayou.vscode-todo-highlight",
     "bierner.color-info",
-    "naumovs.color-highlight"
+    "naumovs.color-highlight",
+    "rangav.vscode-thunder-client"
   ]
 }
