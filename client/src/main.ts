@@ -2,6 +2,8 @@ import { createApp } from 'vue';
 import { createAuth0 } from '@auth0/auth0-vue';
 import { VAceEditor } from 'vue3-ace-editor';
 
+import HttpServiceV1 from '@/services/HttpServiceV1';
+
 import App from './App.vue';
 import router from './router';
 
@@ -14,7 +16,7 @@ app.component('VAceEditor', VAceEditor);
 app.use(router);
 app.use(
   createAuth0({
-    domain: 'exokomodo.us.auth0.com',
+    domain: HttpServiceV1.auth0BaseUrl,
     clientId: 'd0nbGyYvhTxPjyL1eaa3K4ojLDUNt1LX',
     authorizationParams: {
       redirect_uri: window.location.origin,
