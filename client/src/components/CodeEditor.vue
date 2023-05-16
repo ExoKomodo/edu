@@ -138,7 +138,7 @@ if __name__ == '__main__':
         break;
       }
     }
-    getEditor(codeEditor).setValue(value);
+    getEditor(codeEditor).getSession().setValue(value);
   }
 });
 </script>
