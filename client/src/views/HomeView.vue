@@ -6,7 +6,7 @@ const description: string = `Learn more about coding with our highly qualified i
             take learners beyond the basics of how to write code, and focus on transforming into an artist of programming.`
 const altDescription: string = `Our classes come with years of real life experience and work in a variety of spaces including 
   small private businesses, enterprise companies, government contracts, freelance work, and more. Learn to problem solve in 
-  language-agnostic ways and become a master of the full stack.`
+  language-agnostic ways and become a master of the full stack.`;
 </script>
 
 <template>
