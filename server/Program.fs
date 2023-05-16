@@ -1,12 +1,14 @@
+open Constants
 open Giraffe
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
-open MongoDB.Driver
-open System.Text.Json.Serialization
-open System
 open Models
+open MongoDB.Driver
+open System
+open System.Net.Http
+open System.Text.Json.Serialization
 
 // NOTE: Initialize Mongo
 
@@ -43,6 +45,7 @@ let webApp =
                   [
                     routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata courseCollection
                     routef  "/course/%s" (Api.V1.Course.get courseCollection)
+                    routex  "/user/info(/?)" >=> Api.V1.User.getInfo
                   ]
                 )
               ]

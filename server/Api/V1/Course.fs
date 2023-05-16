@@ -71,6 +71,8 @@ let put (collection: IMongoCollection<Course>) (course: Course) : HttpHandler =
 let getAllMetadata (collection: IMongoCollection<Course>) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     printfn "Getting metadata..."
+    printfn "User claims: %A" (ctx.User.Claims |> List.ofSeq)
+    printfn "Is logged in?: %b" ctx.User.Identity.IsAuthenticated
     ( (_getCourses collection)
       |> Seq.map (fun course -> course.Id, course.Metadata)
       |> dict

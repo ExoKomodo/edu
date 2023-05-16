@@ -28,10 +28,12 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
 
-        <Compile Include="Helpers.fs" />
+        <Compile Include="Constants.fs" />
         <Compile Include="Models/Module.fs" />
+        <Compile Include="Helpers.fs" />
         <Compile Include="Index.fs" />
         <Compile Include="Api/Index.fs" />
+        <Compile Include="Api/V1/User.fs" />
         <Compile Include="Api/V1/Blog.fs" />
         <Compile Include="Api/V1/Course.fs" />
         <Compile Include="Api/V1/Index.fs" />
