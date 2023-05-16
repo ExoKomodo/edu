@@ -2,11 +2,11 @@ type UrlSuffix = string | null | undefined;
 
 export default class HttpServiceV1 {
   static baseUrl: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com/api/v1' : 'http://localhost:5000/api/v1';
-  static httpsScheme: string = 'https://';
+  static auth0UrlScheme: string = 'https://';
   static auth0BaseUrl: string = 'exokomodo.us.auth0.com';
 
   static constructUrl(urlSuffix: UrlSuffix): string {
-    let url = `${httpsScheme}${HttpServiceV1.baseUrl}/`;
+    let url = `${HttpServiceV1.baseUrl}/`;
     if (urlSuffix) {
       url += `${urlSuffix}`;
     }
@@ -90,7 +90,7 @@ export default class HttpServiceV1 {
       Authorization: `Bearer ${token}`
     } : undefined;
     const response = await fetch(
-      `${httpsScheme}${url}`,
+      `${HttpServiceV1.auth0UrlScheme}${url}`,
       {
         method: 'GET',
         headers: headers,

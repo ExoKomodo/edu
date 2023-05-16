@@ -12,7 +12,7 @@ let blogIndex =
     File.ReadAllText("./Data/blogs/index.json")
   )
 
-let getAsXml (id: string) : HttpHandler =
+let getAsXml (id : string) : HttpHandler =
   let path = $"Data/blogs/{id}.html"
   let exists = blogIndex.Blogs.ContainsKey(id)
   match File.Exists(path), exists with
@@ -23,7 +23,7 @@ let getAsXml (id: string) : HttpHandler =
         Blog.Metadata = blogIndex.Blogs[id] }
   | _ -> RequestErrors.NOT_FOUND $"Blog not found with id {id}"
 
-let getAsJson (id: string) : HttpHandler =
+let getAsJson (id : string) : HttpHandler =
   let path = $"Data/blogs/{id}.html"
   let exists = blogIndex.Blogs.ContainsKey(id)
   match File.Exists(path), exists with
@@ -34,7 +34,7 @@ let getAsJson (id: string) : HttpHandler =
         Blog.Metadata = blogIndex.Blogs[id] }
   | _ -> RequestErrors.NOT_FOUND $"Blog not found with id {id}"
 
-let get (id: string) : HttpHandler =
+let get (id : string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let accept =
       match ctx.TryGetRequestHeader "Accept" with
