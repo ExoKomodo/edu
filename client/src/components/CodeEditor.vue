@@ -96,16 +96,9 @@ onMounted(() => {
     let value = '';
     switch (selected.language) {
       case 'html': {
-        value = `<!DOCTYPE html>
-<html>
-<body>
-
-  <h1>Oh boy</h1>
-  <div>Oh no.</div>
-
-</body>
-</html> 
-`;
+        value = `<p>
+content goes here kiddo
+</p>`;
         break;
       }
       case 'javascript': {
@@ -134,9 +127,9 @@ def summing(nums: Iterable[int]) -> int:
 
 if __name__ == '__main__':
   # Sum the first hundred squares
-  summing([
+  summing(
     x ** 2 for x in range(100)
-  ])
+  )
 `;
         break;
       }

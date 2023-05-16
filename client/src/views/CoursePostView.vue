@@ -1,3 +1,7 @@
+<template>
+  <CoursePost :id="id" :name=course.metadata.name :content=course.content :description=course.metadata.description />
+</template>
+
 <script setup lang="ts">
 import CoursePost from '../components/CoursePost.vue';
 import CourseService from '../services/CourseService';
@@ -11,7 +15,3 @@ const props = defineProps<{
 }>();
 const course: Course = await CourseService.get(props.id, await AuthService.getAccessTokenAsync(auth0));
 </script>
-
-<template>
-  <CoursePost :id="id" :name=course.metadata.name :content=course.content :description=course.metadata.description />
-</template>

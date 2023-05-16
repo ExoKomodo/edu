@@ -67,6 +67,7 @@ let configureCors (builder : CorsPolicyBuilder) =
     .WithOrigins(
       // NOTE: Development client
       "http://localhost:5173",
+      "http://127.0.0.1:5173",
       // NOTE: Development server
       "http://localhost:5000",
       // NOTE: Production client

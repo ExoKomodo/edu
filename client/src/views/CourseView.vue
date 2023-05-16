@@ -1,4 +1,26 @@
-``<script setup lang="ts">
+<template>
+  <div class="courseBackground min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 my-5">
+      <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">courses</h1>
+      <span v-for="(course, id) of courseIndex">
+        <CourseLink
+                  class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
+                  :id="castToCourseId(id)"
+                  :name="castToCourseMetadata(course).name"
+                  :description=" castToCourseMetadata(course).description" />
+        <Button v-if="AuthService.isAdmin(auth0)" :handler="() => deleteCourse(castToCourseId(id))" text="Delete?" class="w-20"></Button>
+      </span>
+      <CourseEditor :handler="createCourse"
+                  handlerText="Create"
+                  courseId=""
+                  courseContent=""
+                  courseDescription=""
+                  courseName=""></CourseEditor>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
 import type { CourseIndex, CourseMetadata, Id } from '../models';
 import CourseEditor, { type CourseEditorState } from '@/components/CourseEditor.vue';
 import CourseService from '@/services/CourseService';
@@ -48,25 +70,3 @@ function castToCourseMetadata(value: [string, CourseMetadata]) {
   return (value as unknown) as CourseMetadata;
 }
 </script>
-
-<template>
-  <div class="courseBackground min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 my-5">
-      <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">courses</h1>
-      <span v-for="(course, id) of courseIndex">
-        <CourseLink
-                  class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
-                  :id="castToCourseId(id)"
-                  :name="castToCourseMetadata(course).name"
-                  :description=" castToCourseMetadata(course).description" />
-        <Button v-if="AuthService.isAdmin(auth0)" :handler="() => deleteCourse(castToCourseId(id))" text="Delete?" class="w-20"></Button>
-      </span>
-      <CourseEditor :handler="createCourse"
-                  handlerText="Create"
-                  courseId=""
-                  courseContent=""
-                  courseDescription=""
-                  courseName=""></CourseEditor>
-    </div>
-  </div>
-</template>
