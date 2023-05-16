@@ -14,9 +14,18 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'BlogPost',
   props: {
-    title: String,
-    description: String,
-    content: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {

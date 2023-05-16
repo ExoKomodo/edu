@@ -6,6 +6,12 @@
     <ItemGroup>
        <PackageReference Include="FSharp.SystemTextJson" Version="1.1.23" />
        <PackageReference Include="Giraffe" Version="6.0.0" />
+       <!-- NOTE: https://auth0.com/docs/quickstart/backend/aspnet-core-webapi/01-authorization#validate-access-tokens -->
+       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+       <!-- NOTE: https://github.com/mongodb/mongo-csharp-driver -->
+       <!-- NOTE: https://forums.fsharp.org/t/mongodb-how-to-use-it-in-f-any-users-here/1355/8 -->
+       <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
+       <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,6 +33,7 @@
         <Compile Include="Index.fs" />
         <Compile Include="Api/Index.fs" />
         <Compile Include="Api/V1/Blog.fs" />
+        <Compile Include="Api/V1/Course.fs" />
         <Compile Include="Api/V1/Index.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>

@@ -1,22 +1,22 @@
-name: Content Improvement
+name: Feature Request
 description: |
-  Explain what improvement or additions you believe Edu's content should have
-title: "[CONTENT] <name your content improvement here>"
+  Explain what improvement or additions you believe Edu should have
+title: "[FEATURE] <name your feature here>"
 labels:
-  - content
+  - enhancement
 assignees:
   - octocat
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this content request!
+        Thanks for taking the time to fill out this feature request!
   - type: textarea
-    id: content-improvement
+    id: feature-request
     attributes:
-      label: Content Improvement
+      label: Feature Request
       description: |
-        Explain what new content you believe Edu should provide, or an improvement to the existing content's style or...well, content
+        Explain what the desired feature is
     validations:
       required: true
   - type: textarea
@@ -33,6 +33,6 @@ body:
     attributes:
       label: Acceptance Criteria
       description: |
-        Define some kind of 'standard of completion' for this content improvement
+        Explain what resolution would make you consider this feature implemented
     validations:
       required: true

@@ -1,14 +1,11 @@
 module Api.V1.Blog
 
 open Giraffe
-open Giraffe.EndpointRouting
 open Helpers
 open Microsoft.AspNetCore.Http
 open Models
-open System.Collections.Generic
 open System.IO
 open System.Text.Json
-open System.Text.Json.Serialization
 
 let blogIndex = 
   JsonSerializer.Deserialize<BlogIndex>(

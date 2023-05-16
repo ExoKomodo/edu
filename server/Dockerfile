@@ -21,5 +21,6 @@ RUN ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server
 
 EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:5000
+# ENV MONGODB_URI=mongodb+srv://doadmin:<insert password here>@exokomodo-mongo-51924df0.mongo.ondigitalocean.com/admin?tls=true&authSource=admin
 
 CMD ["bash", "./deploy.sh"]

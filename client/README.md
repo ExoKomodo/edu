@@ -30,7 +30,7 @@ npm install
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+npm run dev -- --host # --host exposes the non-local network address for port forwarding, like when accessing the api from a remote instance using VSCode port forwarding
 ```
 
 ### Type-Check, Compile and Minify for Production
