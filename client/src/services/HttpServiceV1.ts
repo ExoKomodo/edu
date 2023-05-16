@@ -1,7 +1,7 @@
 type UrlSuffix = string | null | undefined;
 
 export default class HttpServiceV1 {
-  static baseUrl: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com/api/v1' : 'http://127.0.0.1:52609/api/v1';
+  static baseUrl: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com/api/v1' : 'http://localhost:5000/api/v1';
 
   static constructUrl(urlSuffix: UrlSuffix): string {
     let url = `${HttpServiceV1.baseUrl}/`;
