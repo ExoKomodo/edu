@@ -14,4 +14,5 @@ const props = defineProps<{
   id: string,
 }>();
 const course: Course = await CourseService.get(props.id, await AuthService.getAccessTokenAsync(auth0));
+console.log(course);
 </script>

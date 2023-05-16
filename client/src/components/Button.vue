@@ -15,9 +15,3 @@ const props = defineProps<{
   handler: () => void
 }>();
 </script>
-
-<style scoped>
-a {
-text-decoration: underline;
-}
-</style>
