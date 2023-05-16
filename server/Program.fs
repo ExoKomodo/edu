@@ -1,69 +1,49 @@
-open Constants
 open Giraffe
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
 open Models
-open MongoDB.Driver
-open System
 open System.Net.Http
 open System.Text.Json.Serialization
 
-// NOTE: Initialize Mongo
+let dependencies = Dependencies.Open()
 
-let initializeMongo () =
-  let connectionString = Environment.GetEnvironmentVariable("MONGODB_URI")
-  match connectionString with
-  | null ->
-    printfn "You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
-    exit 1
-  | _ ->
-    let client = new MongoClient(connectionString)
-    client.GetDatabase("admin")
-
-let database = initializeMongo()
-let courseCollection = database.GetCollection<Course>("courses")
-
-let webApp =
-  (choose
-  [
+let webApp = (choose [
     GET >=>
       routex "(/?)" >=> Index.get
-    subRoute "/api" (choose
-      [
-        GET >=>
-          routex "(/?)" >=> Api.Index.get
-        subRoute "/v1" (choose
-          [
-            GET >=> (choose
-              [
-                routex "(/?)" >=> Api.V1.Index.get
-                routex  "/blog(/?)" >=> Api.V1.Blog.getAll
-                routef  "/blog/%s" Api.V1.Blog.get
-                Helpers.mustBeLoggedIn >=> (choose
-                  [
-                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata courseCollection
-                    routef  "/course/%s" (Api.V1.Course.get courseCollection)
-                    routex  "/user/info(/?)" >=> Api.V1.User.getInfo
-                  ]
-                )
-              ]
-            )
-            DELETE
-            >=> routef  "/course/%s" (Api.V1.Course.delete courseCollection)
-            POST
-            >=> routex "/course(/?)"
-            >=> bindJson<Course> (fun course -> Api.V1.Course.post courseCollection course)
-            PUT
-            >=> routex "/course(/?)"
-            >=> bindJson<Course> (fun course -> Api.V1.Course.put courseCollection course)
-          ]
-        )
-      ]
-    )
-  ]
-)
+      subRoute "/api" (choose [
+          GET >=>
+            routex "(/?)" >=> Api.Index.get
+          subRoute "/v1" (choose [
+            routex "/blog(/?)(.*)" >=> (choose [
+              routex  "/blog(/?)" >=> Api.V1.Blog.getAll
+              routef  "/blog/%s" Api.V1.Blog.get
+            ])
+            routex "/course(/?)(.*)" >=>
+              (Helpers.mustBePaidUsersOrHigher dependencies.auth0HttpClient) >=>
+              (choose [
+                GET >=>
+                  (choose [
+                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata dependencies.courseCollection
+                    routef  "/course/%s"  (Api.V1.Course.get dependencies.courseCollection)
+                  ])
+                DELETE >=>
+                  routef  "/course/%s" (Api.V1.Course.delete dependencies.courseCollection)
+                POST >=>
+                  routex "/course(/?)" >=>
+                  bindJson<Course> (Api.V1.Course.post dependencies.courseCollection)
+                PUT >=>
+                  routex "/course(/?)" >=>
+                  bindJson<Course> (Api.V1.Course.put dependencies.courseCollection)
+              ])
+            routex "/user(/?)(.*)" >=>
+              (choose [
+                routex  "/user/info(/?)" >=> Api.V1.User.getInfo dependencies.auth0HttpClient
+              ])
+            GET >=>
+              routex "(/?)" >=> Api.V1.Index.get
+          ])])])
 
 let configureCors (builder : CorsPolicyBuilder) =
   builder

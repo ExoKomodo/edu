@@ -66,7 +66,7 @@ let ``/api/v1/asd should return 401`` () =
   task {
     let api = runTestApi().CreateClient()
     let! response = api.GetAsync("/api/v1/asd")
-    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+    Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
   }
 
 [<Fact>]

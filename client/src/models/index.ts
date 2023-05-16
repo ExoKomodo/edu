@@ -21,6 +21,8 @@ export interface Course {
   metadata: CourseMetadata
 };
 
+export type CourseIndex = Map<Id, CourseMetadata>;
+
 export interface CourseMetadata {
   description: string
   name: string
@@ -29,7 +31,7 @@ export interface CourseMetadata {
 export type UserInfo = {
   sub: string,
   nickname: string,
-  name: string,x
+  name: string,
   picture: string,
   updated_at: string,
   email: string,
