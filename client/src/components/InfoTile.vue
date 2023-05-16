@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps(['header', 'description'])
+const props = defineProps(['header', 'description']);
 
 
 </script>
