@@ -21,6 +21,22 @@ RUN ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server
 
 EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:5000
-# ENV MONGODB_URI=mongodb+srv://doadmin:<insert password here>@exokomodo-mongo-51924df0.mongo.ondigitalocean.com/admin?tls=true&authSource=admin
+
+ARG ACCESS_KEY_ID
+# EXAMPLE: mongodb+srv://doadmin:<insert password here>@exokomodo-mongo-51924df0.mongo.ondigitalocean.com/admin?tls=true&authSource=admin
+ARG MONGODB_URI
+ARG SECRET_ACCESS_KEY
+
+ENV AWS_ACCESS_KEY_ID=${ACCESS_KEY_ID}
+ENV MONGODB_URI=${MONGODB_URI}
+ENV AWS_SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
+RUN touch ${HOME}/.s3cfg
+RUN echo "[default]" >> ${HOME}/.s3cfg; \
+  echo "bucket_location = US" >> ${HOME}/.s3cfg; \
+  echo "check_ssl_certificate = True" >> ${HOME}/.s3cfg; \
+  echo "check_ssl_hostname = True" >> ${HOME}/.s3cfg; \
+  echo "host_base = sfo3.digitaloceanspaces.com" >> ${HOME}/.s3cfg; \
+  echo "host_bucket = %(bucket)s.sfo3.digitaloceanspaces.com" >> ${HOME}/.s3cfg; \
+  echo "" >> ${HOME}/.s3cfg;
 
 CMD ["bash", "./deploy.sh"]
