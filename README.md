@@ -78,7 +78,7 @@ S3 Endpoint [s3.amazonaws.com]: sfo3.digitaloceanspaces.com
 
 Use "%(bucket)s.s3.amazonaws.com" to the target Amazon S3. "%(bucket)s" and "%(location)s" vars can be used
 if the target S3 system supports dns based buckets.
-DNS-style bucket+hostname:port template for accessing a bucket [%(bucket)s.s3.amazonaws.com]: 
+DNS-style bucket+hostname:port template for accessing a bucket [%(bucket)s.s3.amazonaws.com]: %(bucket)s.sfo3.digitaloceanspaces.com
 
 Encryption password is used to protect your files from reading
 by unauthorized persons while in transfer to S3

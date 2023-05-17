@@ -1,11 +1,12 @@
-type UrlSuffix = string | null | undefined;
+type UrlPortion = string | null | undefined;
 
 export default class HttpServiceV1 {
-  static baseUrl: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com/api/v1' : 'http://localhost:5000/api/v1';
+  static baseOrigin: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com' : 'http://localhost:80';
+  static baseUrl: string = `${HttpServiceV1.baseOrigin}/api/v1`;
   static auth0UrlScheme: string = 'https://';
   static auth0BaseUrl: string = 'exokomodo.us.auth0.com';
 
-  static constructUrl(urlSuffix: UrlSuffix): string {
+  static constructUrl(urlSuffix: UrlPortion): string {
     let url = `${HttpServiceV1.baseUrl}/`;
     if (urlSuffix) {
       url += `${urlSuffix}`;
@@ -13,9 +14,10 @@ export default class HttpServiceV1 {
     return url;
   }
 
-  static async delete<T>(urlSuffix: UrlSuffix, id: string, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string} = token ? {
-      Authorization: `Bearer ${token}`
+  static async delete<T>(urlSuffix: UrlPortion, id: string, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+      Authorization: `Bearer ${token}`,
+      Origin: window.location.origin,
     } : undefined;
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}/${id}`,
@@ -27,9 +29,10 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async get<T>(urlSuffix: UrlSuffix, id: string, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string} = token ? {
-      Authorization: `Bearer ${token}`
+  static async get<T>(urlSuffix: UrlPortion, id: string, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+      Authorization: `Bearer ${token}`,
+      Origin: window.location.origin,
     } : undefined;
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}/${id}`,
@@ -41,9 +44,10 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async getAll<T>(urlSuffix: UrlSuffix, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string} = token ? {
-      Authorization: `Bearer ${token}`
+  static async getAll<T>(urlSuffix: UrlPortion, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+      Authorization: `Bearer ${token}`,
+      Origin: window.location.origin,
     } : undefined;
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
@@ -55,9 +59,10 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async post<T>(urlSuffix: UrlSuffix, value: any, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string} = token ? {
-      Authorization: `Bearer ${token}`
+  static async post<T>(urlSuffix: UrlPortion, value: any, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+      Authorization: `Bearer ${token}`,
+      Origin: window.location.origin,
     } : undefined;
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
@@ -70,9 +75,10 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async put<T>(urlSuffix: UrlSuffix, value: any, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string} = token ? {
-      Authorization: `Bearer ${token}`
+  static async put<T>(urlSuffix: UrlPortion, value: any, token: string | null | undefined): Promise<T> {
+    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+      Authorization: `Bearer ${token}`,
+      Origin: window.location.origin,
     } : undefined;
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
@@ -85,17 +91,18 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async rawGet<T>(url: string, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string} = token ? {
-      Authorization: `Bearer ${token}`
+  static async getText(url: string, token: string | null | undefined): Promise<string> {
+    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+      Authorization: `Bearer ${token}`,
+      Origin: window.location.origin,
     } : undefined;
     const response = await fetch(
-      `${HttpServiceV1.auth0UrlScheme}${url}`,
+      HttpServiceV1.constructUrl(url),
       {
         method: 'GET',
         headers: headers,
       },
     );
-    return await response.json() as T;
+    return await response.text();
   }
 };

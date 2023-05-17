@@ -4,6 +4,7 @@ open Giraffe
 open Models
 open Microsoft.AspNetCore.Http
 open System.Net.Http
+open System.Net.Http.Headers
 
 let (|StringPrefix|_|) (prefix : string) (str : string) =
   if str.StartsWith(prefix) then
@@ -11,15 +12,21 @@ let (|StringPrefix|_|) (prefix : string) (str : string) =
   else
     None
 
-let admins = ["exokomodo@gmail.com"]
+let admins = ["exokomodo@gmail.com"; "brandonapol@cedarville.edu"]
 let paidUsers = ["jamesaorson@gmail.com"]
 
-let getUserInfoAsync (auth0HttpClient : HttpClient) (serializer : Json.ISerializer) : Async<UserInfo> =
+let getUserInfoAsync (auth0HttpClient : HttpClient) (serializer : Json.ISerializer) : Async<option<UserInfo>> =
   async {
     let! response = auth0HttpClient.GetAsync("/userinfo") |> Async.AwaitTask
     let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    return serializer.Deserialize<UserInfo> content
+    try
+      return serializer.Deserialize<UserInfo> content |> Some
+    with
+      | :? System.Text.Json.JsonException -> return None
   }
+
+let justContinue : HttpHandler =
+  fun (next : HttpFunc) (ctx : HttpContext) -> next ctx
 
 let notLoggedIn =
   RequestErrors.UNAUTHORIZED
@@ -32,15 +39,21 @@ let mustBeLoggedIn : HttpFunc -> HttpContext -> HttpFuncResult =
 
 let mustBePaidUsersOrHigher (auth0HttpClient : HttpClient): HttpHandler =
  fun (next : HttpFunc) (ctx : HttpContext) ->
-    match ctx.TryGetRequestHeader "Authorization" with
-    | Some value ->
-      auth0HttpClient.DefaultRequestHeaders.Add("Authorization", value)
-      let userInfo = getUserInfoAsync auth0HttpClient (ctx.GetJsonSerializer()) |> Async.RunSynchronously
-      let isAdmin = List.contains userInfo.Email admins
-      let isPaidUser = List.contains userInfo.Email paidUsers
-      match isAdmin, isPaidUser with
-      | false, false -> 
-        RequestErrors.FORBIDDEN $"Not allowed to view courses" next ctx
-      | _, _ ->
-        next ctx
-    | None -> notLoggedIn next ctx
+    let result =
+      match ctx.TryGetRequestHeader "Authorization" with
+      | Some authorizationHeader ->
+        match authorizationHeader with
+        | StringPrefix "Bearer " token ->
+          auth0HttpClient.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Bearer", token)
+          match getUserInfoAsync auth0HttpClient (ctx.GetJsonSerializer()) |> Async.RunSynchronously with
+          | Some userInfo ->
+            let isAdmin = List.contains userInfo.Email admins
+            let isPaidUser = List.contains userInfo.Email paidUsers
+            match isAdmin, isPaidUser with
+            | false, false -> 
+              RequestErrors.FORBIDDEN $"Not a paid user or higher permissions"
+            | _, _ -> justContinue
+          | None -> notLoggedIn
+        | _ -> notLoggedIn
+      | None -> notLoggedIn
+    result next ctx

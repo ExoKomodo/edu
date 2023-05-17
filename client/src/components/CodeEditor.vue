@@ -1,18 +1,18 @@
 <template>
     <label class="mr-2">Language:
-      <select v-model="selected.language" class="text-black">
+      <select @change="onLanguage" v-model="selected.language" class="text-black">
         <option v-for="option in languageOptions" v-bind:value="option.id" :selected="selected.language == option.id">{{option.value}}</option>
       </select>
     </label>
     <label>Theme:
-      <select v-model="selected.theme" class="text-black">
+      <select @change="onTheme" v-model="selected.theme" class="text-black">
         <option v-for="option in themeOptions" :value="option.id" :selected="selected.theme == option.id">{{option.value}}</option>
       </select>
     </label>
     <v-ace-editor
       ref="codeEditor"
-      :value="modelValue"
-      @change="updateContent"
+      :value="selected.content"
+      @change="onContent"
       :lang="selected.language"
       :theme="selected.theme"
       :style="`height: ${height}rem`"
@@ -25,27 +25,22 @@
 </template>
 
 <script setup lang="ts">
+import Constants from '@/services/Constants';
+import Helpers from '@/services/Helpers';
 import { onMounted, reactive, ref, type Ref } from 'vue';
 
 // NOTE: Combination of props and emit helps set up `v-model`: https://vuejs.org/guide/components/v-model.html
-const props = defineProps({
-  modelValue: String,
-  height: {
-    type: Number,
-    default: 20,
-  },
-  language: {
-    type: String,
-    default: 'plain_text',
-  },
-  theme: {
-    type: String,
-    default: 'tomorrow_night_eighties',
-  },
-});
+const props = defineProps<{
+  modelValue: string,
+  height: number,
+  theme?: string,
+  language?: string,
+}>();
 
 const emit = defineEmits([
   'update:modelValue',
+  'update:language',
+  'update:theme',
 ]);
 
 type ThemeOption = { id: string, value: string }
@@ -64,8 +59,8 @@ const themeOptions: ThemeOption[] = [
 type LanguageOption = { id: string, value: string }
 
 const languageOptions: LanguageOption[] = [
-  'html',
   'plain_text',
+  'html',
   'python',
   'javascript',
 ].map(language => {
@@ -76,69 +71,32 @@ const languageOptions: LanguageOption[] = [
 });
 
 const selected = reactive({
-  language: props.language,
-  theme: props.theme,
+  content: props.modelValue,
+  language: !!props.language ? props.language : languageOptions[0].id,
+  theme: !!props.theme ? props.theme : themeOptions[0].id,
 });
 
 // NOTE: Grabs the DOM element with `ref="codeEditor"`
 const codeEditor = ref();
 
-function getEditor(editor: Ref<any>) {
-  return codeEditor.value._editor;
+function onContent(event: any) {
+  emit('update:modelValue', Helpers.getEditor(codeEditor).getValue());
 }
 
-function updateContent(event: any) {
-  emit('update:modelValue', getEditor(codeEditor).getValue());
+function onLanguage(event: any) {
+  emit('update:language', selected.language);
+}
+
+function onTheme(event: any) {
+  emit('update:theme', selected.theme);
 }
 
 onMounted(() => {
   if (!props.modelValue) {
-    let value = '';
-    switch (selected.language) {
-      case 'html': {
-        value = `<p>
-content goes here kiddo
-</p>`;
-        break;
-      }
-      case 'javascript': {
-        value = `function summing(nums) {
-  return nums.reduce((x, y) => x + y);
-}
-
-let nums = [];
-for (let i = 0; i < 100; i++) {
-  nums.push(Math.pow(i, 2));
-}
-`;
-        break;
-      }
-      case 'plain_text': {
-        value = "hello world"
-        break;
-      }
-      case 'python': {
-        value = `import functools
-
-from typing import Iterable
-
-def summing(nums: Iterable[int]) -> int:
-  return functools.reduce(lambda x, y: x + y, nums)
-
-if __name__ == '__main__':
-  # Sum the first hundred squares
-  summing(
-    x ** 2 for x in range(100)
-  )
-`;
-        break;
-      }
-      default: {
-        value = '';
-        break;
-      }
-    }
-    getEditor(codeEditor).getSession().setValue(value);
+    Helpers.changeEditorContent(
+      codeEditor,
+      Constants.defaultLanguageContent(selected.language)
+    );
   }
 });
 </script>

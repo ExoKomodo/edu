@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-white">
       <p v-if="auth0.isAuthenticated" class="text-2xl font-bold border-slate-400 rounded border-2 p-1 pl-2">{{ state.name?.toUpperCase() }}</p>
       <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
-      <div v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.content"></div>
+      <div v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="props.templatedContent"></div>
       <CourseEditor :handler="saveCourse"
                     handlerText="Update"
                     :courseId="state.id"
@@ -24,25 +24,26 @@ import type { Course } from '@/models';
 
 const auth0 = useAuth0();
 
-const course = defineProps<{
+const props = defineProps<{
   id: string,
   name: string,
   description: string,
   content: string,
+  templatedContent: string,
 }>();
 
 const state = reactive({
   isEditMode: false,
   showPreview: false,
-  id: course.id,
-  name: course.name,
-  description: course.description,
-  content: course.content,
+  id: props.id,
+  name: props.name,
+  description: props.description,
+  content: props.content,
 });
 
 function saveCourse(state: CourseEditorState) {
   const courseToUpdate: Course = {
-    id: course.id,
+    id: props.id,
     content: state.content,
     metadata: {
       name: state.name,

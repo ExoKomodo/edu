@@ -16,8 +16,9 @@ export default class AuthService {
   }
 
   static isAdmin(auth0: Auth0VueClient): boolean {
-    return [
+    return auth0.isAuthenticated && [
       "exokomodo@gmail.com",
+      "brandonapol@cedarville.edu",
     ].includes(auth0.user.value.email ?? '');
   }
 

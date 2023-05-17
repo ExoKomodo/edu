@@ -9,5 +9,6 @@
       "ESNext",
       "dom"
     ],
+    "ignoreDeprecations": "5.0"
   }
 }

@@ -13,6 +13,7 @@
     <div :class="{ invisible: !state.isEditMode }">
       <input type="checkbox"
             id="show-preview"
+            @change="onPreviewChange"
             name="showPreview"
             v-model="state.showPreview">
       <label for="show-preview"> Show preview?</label>
@@ -30,8 +31,9 @@
       <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Content</div>
       <CodeEditor v-model="state.content"
                   language="html"
+                  v-on:update:model-value="onContentChange"
                   :height="40"></CodeEditor>
-      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.content"></div>
+      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.templatedContent"></div>
     </div>
   </div>
 </template>
@@ -42,6 +44,7 @@ import CodeEditor from '@/components/CodeEditor.vue';
 import { reactive } from 'vue';
 import AuthService from '@/services/AuthService';
 import { useAuth0 } from '@auth0/auth0-vue';
+import CourseService from '@/services/CourseService';
 
 export type CourseEditorState = {
   isEditMode: boolean,
@@ -70,5 +73,20 @@ const state = reactive({
   name: props.courseName,
   description: props.courseDescription,
   content: props.courseContent,
+  templatedContent: props.courseContent,
 });
+
+const token = await AuthService.getAccessTokenAsync(auth0);
+
+async function onPreviewChange(event: any) {
+  if (event.target.checked) {
+    state.templatedContent = await CourseService.fillTemplate(state.content, token);
+  }
+}
+
+async function onContentChange(event: any) {
+  if (state.showPreview) {
+    state.templatedContent = await CourseService.fillTemplate(state.content, token);
+  }
+}
 </script>

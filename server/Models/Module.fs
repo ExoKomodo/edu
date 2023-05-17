@@ -1,5 +1,7 @@
 module Models
 
+open Amazon
+open Amazon.S3
 open Constants
 open System.Collections.Generic
 open System.Text.Json.Serialization
@@ -38,11 +40,13 @@ type CourseIndex =
   { Courses : Dictionary<string, CourseMetadata> }
 
 type Dependencies =
-  { database: IMongoDatabase
-    courseCollection: IMongoCollection<Course>
-    auth0HttpClient: HttpClient }
+  { Database : IMongoDatabase
+    CourseCollection : IMongoCollection<Course>
+    Auth0HttpClient : HttpClient
+    S3Client : AmazonS3Client }
     
     static member InitializeMongo() =
+      printfn "Initializing Mongo..."
       let connectionString = Environment.GetEnvironmentVariable("MONGODB_URI")
       match connectionString with
       | null ->
@@ -50,15 +54,28 @@ type Dependencies =
         exit 1
       | _ ->
         let client = new MongoClient(connectionString)
-        client.GetDatabase("admin")
+        let database = client.GetDatabase("admin")
+        printfn "Initialized Mongo!"
+        database
+
+    static member ConnectToS3() =
+      printfn "Connecting to S3..."
+      let config = new AmazonS3Config(
+        ServiceURL = s3Endpoint
+      )
+      let s3Client = new AmazonS3Client(config)
+      printfn "Connected to S3!"
+      s3Client
 
     static member Open() =
       let database = Dependencies.InitializeMongo()
-      { database = database
-        courseCollection = database.GetCollection<Course>("courses")
-        auth0HttpClient = new HttpClient(
+      let s3Client = Dependencies.ConnectToS3()
+      { Database = database
+        CourseCollection = database.GetCollection<Course>("courses")
+        Auth0HttpClient = new HttpClient(
           BaseAddress = new Uri($"{auth0UrlScheme}{auth0BaseUrl}")
-        ) }
+        )
+        S3Client = s3Client }
 
 [<CLIMutable>]
 type UserInfo =

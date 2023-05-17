@@ -35,21 +35,24 @@ let private _getAsXml (collection : IMongoCollection<Course>) (id : string) : Ht
 let private _getAsJson (collection : IMongoCollection<Course>) (id : string) : HttpHandler = _getInFormat json collection id
 
 let private _updateCourse (collection : IMongoCollection<Course>) (course : Course) : HttpHandler =
-  let filter = Builders<Course>.Filter.Eq("Id", course.Id)
-  let mutable update = Builders<Course>.Update.Set(
-    (fun _course -> _course.Content),
-    course.Content
-  )
-  update <- update.Set(
-    (fun _course -> _course.Metadata),
-    course.Metadata
-  )
-  collection.UpdateOne(filter, update, null, new CancellationToken()) |> ignore
-  json course
+  fun (next : HttpFunc) (ctx : HttpContext) ->
+    let filter = Builders<Course>.Filter.Eq("Id", course.Id)
+    let mutable update = Builders<Course>.Update.Set(
+      (fun _course -> _course.Content),
+      course.Content
+    )
+    update <- update.Set(
+      (fun _course -> _course.Metadata),
+      course.Metadata
+    )
+    collection.UpdateOne(filter, update, null, new CancellationToken()) |> ignore
+    printfn "%O" course
+    json course next ctx
 
 let delete (collection : IMongoCollection<Course>) (id : string) : HttpHandler =
-  _deleteCourse collection id
-  json id
+  fun (next : HttpFunc) (ctx : HttpContext) ->
+    _deleteCourse collection id
+    json id next ctx
 
 let get (collection : IMongoCollection<Course>) (id : string) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
@@ -65,10 +68,12 @@ let get (collection : IMongoCollection<Course>) (id : string) : HttpHandler =
     result next ctx
 
 let post (collection : IMongoCollection<Course>) (course : Course) : HttpHandler =
-  _createCourse collection course
+  fun (next : HttpFunc) (ctx : HttpContext) ->
+    _createCourse collection course next ctx
 
 let put (collection : IMongoCollection<Course>) (course : Course) : HttpHandler =
-  _updateCourse collection course
+  fun (next : HttpFunc) (ctx : HttpContext) ->
+    _updateCourse collection course next ctx
 
 let getAllMetadata (collection : IMongoCollection<Course>) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->

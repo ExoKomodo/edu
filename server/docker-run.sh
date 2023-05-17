@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# nginx
+openresty
 
 cd /server/bin/Release/net7.0
 
