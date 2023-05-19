@@ -1,5 +1,9 @@
 <template>
-  <CoursePost :id="id" :name=course.metadata.name :content=course.content :templated-content=course.templatedContent :description=course.metadata.description />
+  <CoursePost :id="id"
+              :name="course.metadata.name"
+              :content="course.content"
+              :templated-content="course.templatedContent ? course.templatedContent : ''"
+              :description=course.metadata.description />
 </template>
 
 <script setup lang="ts">

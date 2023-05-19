@@ -15,7 +15,7 @@ export default class HttpServiceV1 {
   }
 
   static async delete<T>(urlSuffix: UrlPortion, id: string, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+    const headers: undefined | { Authorization: string, Origin: string } = token ? {
       Authorization: `Bearer ${token}`,
       Origin: window.location.origin,
     } : undefined;
@@ -30,7 +30,7 @@ export default class HttpServiceV1 {
   }
 
   static async get<T>(urlSuffix: UrlPortion, id: string, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+    const headers: undefined | { Authorization: string, Origin: string } = token ? {
       Authorization: `Bearer ${token}`,
       Origin: window.location.origin,
     } : undefined;
@@ -45,7 +45,7 @@ export default class HttpServiceV1 {
   }
 
   static async getAll<T>(urlSuffix: UrlPortion, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+    const headers: undefined | { Authorization: string, Origin: string } = token ? {
       Authorization: `Bearer ${token}`,
       Origin: window.location.origin,
     } : undefined;
@@ -60,7 +60,7 @@ export default class HttpServiceV1 {
   }
 
   static async post<T>(urlSuffix: UrlPortion, value: any, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+    const headers: undefined | { Authorization: string, Origin: string } = token ? {
       Authorization: `Bearer ${token}`,
       Origin: window.location.origin,
     } : undefined;
@@ -76,7 +76,7 @@ export default class HttpServiceV1 {
   }
 
   static async put<T>(urlSuffix: UrlPortion, value: any, token: string | null | undefined): Promise<T> {
-    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+    const headers: undefined | { Authorization: string, Origin: string } = token ? {
       Authorization: `Bearer ${token}`,
       Origin: window.location.origin,
     } : undefined;
@@ -92,7 +92,7 @@ export default class HttpServiceV1 {
   }
 
   static async getText(url: string, token: string | null | undefined): Promise<string> {
-    const headers: undefined | {Authorization: string, Origin: string} = token ? {
+    const headers: undefined | { Authorization: string, Origin: string } = token ? {
       Authorization: `Bearer ${token}`,
       Origin: window.location.origin,
     } : undefined;
