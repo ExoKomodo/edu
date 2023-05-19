@@ -19,6 +19,7 @@ export interface Course {
   id: Id
   content: string
   metadata: CourseMetadata
+  templatedContent?: string
 };
 
 export type CourseIndex = Map<Id, CourseMetadata>;

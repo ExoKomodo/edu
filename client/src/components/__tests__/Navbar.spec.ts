@@ -19,4 +19,4 @@ describe('Navbar', () => {
   })
 })
 
-export {}
+export { }

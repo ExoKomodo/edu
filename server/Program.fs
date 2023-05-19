@@ -3,6 +3,7 @@ open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.Extensions.Logging
 open Models
 open System.Net.Http
 open System.Text.Json.Serialization
@@ -21,25 +22,33 @@ let webApp = (choose [
               routef  "/blog/%s" Api.V1.Blog.get
             ])
             routex "/course(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.auth0HttpClient) >=>
+              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
-                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata dependencies.courseCollection
-                    routef  "/course/%s"  (Api.V1.Course.get dependencies.courseCollection)
+                    routex  "/course(/?)" >=> Api.V1.Course.getAllMetadata dependencies.CourseCollection
+                    routef  "/course/%s"  (Api.V1.Course.get dependencies.CourseCollection)
                   ])
                 DELETE >=>
-                  routef  "/course/%s" (Api.V1.Course.delete dependencies.courseCollection)
+                  routef  "/course/%s" (Api.V1.Course.delete dependencies.CourseCollection)
                 POST >=>
                   routex "/course(/?)" >=>
-                  bindJson<Course> (Api.V1.Course.post dependencies.courseCollection)
+                  bindJson<Course> (Api.V1.Course.post dependencies.CourseCollection)
                 PUT >=>
                   routex "/course(/?)" >=>
-                  bindJson<Course> (Api.V1.Course.put dependencies.courseCollection)
+                  bindJson<Course> (Api.V1.Course.put dependencies.CourseCollection)
               ])
             routex "/user(/?)(.*)" >=>
               (choose [
-                routex  "/user/info(/?)" >=> Api.V1.User.getInfo dependencies.auth0HttpClient
+                routex  "/user/info(/?)" >=> Api.V1.User.getInfo dependencies.Auth0HttpClient
+              ])
+            routex "/video(/?)(.*)" >=>
+              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (choose [
+                GET >=>
+                  (choose [
+                    routef  "/video/url/%s"  (Api.V1.Video.getPresignedUrl dependencies.S3Client)
+                  ])
               ])
             GET >=>
               routex "(/?)" >=> Api.V1.Index.get
@@ -60,6 +69,13 @@ let configureCors (builder : CorsPolicyBuilder) =
     )
     .AllowAnyMethod()
     .AllowAnyHeader() |> ignore
+
+let configureLogging (builder : ILoggingBuilder) =
+    let filter (level : LogLevel) = level.Equals LogLevel.Error
+    builder.AddFilter(filter)
+           .AddConsole()
+           .AddDebug()
+    |> ignore
 
 let configureServices (services : IServiceCollection) =
   services
@@ -86,6 +102,7 @@ let configureServices (services : IServiceCollection) =
 let builder = WebApplication.CreateBuilder()
 
 configureServices builder.Services
+// configureLogging builder.Logging
 
 let app = builder.Build()
 // NOTE: Order matters. CORS must be configured before starting Giraffe.

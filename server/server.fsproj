@@ -4,6 +4,7 @@
     </PropertyGroup>
     
     <ItemGroup>
+       <PackageReference Include="AWSSDK.S3" Version="3.7.104.16" />
        <PackageReference Include="FSharp.SystemTextJson" Version="1.1.23" />
        <PackageReference Include="Giraffe" Version="6.0.0" />
        <!-- NOTE: https://auth0.com/docs/quickstart/backend/aspnet-core-webapi/01-authorization#validate-access-tokens -->
@@ -33,10 +34,11 @@
         <Compile Include="Helpers.fs" />
         <Compile Include="Index.fs" />
         <Compile Include="Api/Index.fs" />
-        <Compile Include="Api/V1/User.fs" />
         <Compile Include="Api/V1/Blog.fs" />
         <Compile Include="Api/V1/Course.fs" />
         <Compile Include="Api/V1/Index.fs" />
+        <Compile Include="Api/V1/User.fs" />
+        <Compile Include="Api/V1/Video.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 </Project>

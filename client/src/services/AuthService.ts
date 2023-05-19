@@ -7,7 +7,7 @@ export default class AuthService {
     return auth0.getAccessTokenSilently();
   }
 
-  static async getUserInfoAsync(auth0: Auth0VueClient, token: string | null | undefined=undefined): Promise<UserInfo> {
+  static async getUserInfoAsync(auth0: Auth0VueClient, token: string | null | undefined = undefined): Promise<UserInfo> {
     return await HttpServiceV1.get<UserInfo>(
       'user',
       'info',
@@ -16,15 +16,16 @@ export default class AuthService {
   }
 
   static isAdmin(auth0: Auth0VueClient): boolean {
-    return [
+    return auth0.isAuthenticated && [
       "exokomodo@gmail.com",
+      "brandonapol@cedarville.edu",
     ].includes(auth0.user.value.email ?? '');
   }
 
   static login(auth0: Auth0VueClient): void {
     auth0.loginWithRedirect();
   };
-  
+
   static logout(auth0: Auth0VueClient): void {
     auth0.logout(
       {
