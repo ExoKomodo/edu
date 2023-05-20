@@ -42,12 +42,16 @@ let webApp = (choose [
               (choose [
                 routex  "/user/info(/?)" >=> Api.V1.User.getInfo dependencies.Auth0HttpClient
               ])
-            routex "/video(/?)(.*)" >=>
+            routex "/blob(/?)(.*)" >=>
               (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
-                    routef  "/video/url/%s"  (Api.V1.Video.getPresignedUrl dependencies.S3Client)
+                    // TODO: Grab route from query arg
+                    routef  "/blob/url/%s"  (Api.V1.Blob.getPresignedUrl dependencies.S3Client)
+                  ])
+                  (choose [
+                    routef  "/blob/data/%s"  (Api.V1.Blob.get dependencies.S3Client)
                   ])
               ])
             GET >=>
