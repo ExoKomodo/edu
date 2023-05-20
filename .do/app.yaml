@@ -21,6 +21,14 @@ services:
       scope: RUN_TIME
       type: SECRET
       value: EV[1:EO47SfFt1n+zpt7fEgJL4jWtsYLvkjAq:L+Df+W9yMPCdYy8ZNquWR/B5WiN6JG0URWUxnpOw8FbBiKySto4VCtRxlLoEZmDVOtxN1XuGVGpfsKpp/W4ViJp1guSel/35tDeOJ1ykDzc=]
+    - key: AWS_ACCESS_KEY_ID
+      scope: RUN_TIME
+      type: GENERAL
+      value: DO00MM6Z43GZ4V6YX8PY
+    - key: AWS_SECRET_ACCESS_KEY
+      scope: RUN_TIME
+      type: SECRET
+      value: EV[1:xwsgcMt3oiyFTGMT5VJ+YAs+9edZvbuH:g7ZaHjciPUEveJAl6fA1cWkwUZV/+ZMezfy5bEoeMPmW3d+OReTCJr2KAQuh4IvKGPFHR/0ndlfXQl4=]
   http_port: 80
   instance_count: 1
   instance_size_slug: basic-xxs

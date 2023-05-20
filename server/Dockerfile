@@ -31,15 +31,6 @@ RUN apt-get install -qy --no-install-recommends \
 
 WORKDIR /server
 
-ARG ACCESS_KEY_ID
-# EXAMPLE: mongodb+srv://doadmin:<insert password here>@exokomodo-mongo-51924df0.mongo.ondigitalocean.com/admin?tls=true&authSource=admin
-ARG MONGODB_URI
-ARG SECRET_ACCESS_KEY
-
-ENV AWS_ACCESS_KEY_ID=${ACCESS_KEY_ID}
-ENV MONGODB_URI=${MONGODB_URI}
-ENV AWS_SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
-
 RUN ./nginx/setup.sh
 
 EXPOSE 80

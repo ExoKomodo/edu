@@ -1,6 +1,6 @@
 import type { Course, CourseIndex, Id } from '../models';
 import HttpServiceV1 from './HttpServiceV1';
-import VideoService from './VideoService';
+import BlobService from './BlobService';
 
 export default class CourseService {
   static async create(course: Course, token: string | null | undefined = null): Promise<Course> {
@@ -22,7 +22,7 @@ export default class CourseService {
       const textToReplace = match[0];
       const filePath = match[1];
       if (!(textToReplace in presignedUrls)) {
-        presignedUrls.set(textToReplace, await VideoService.getPresignedUrl(filePath, token));
+        presignedUrls.set(textToReplace, await BlobService.getPresignedUrl(filePath, token));
       }
     }
     for (let [key, value] of presignedUrls) {

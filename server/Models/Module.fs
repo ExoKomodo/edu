@@ -8,6 +8,8 @@ open System.Text.Json.Serialization
 open MongoDB.Driver
 open System.Net.Http
 open System
+open System.Threading
+open System.Net
 
 [<CLIMutable>]
 type BlogMetadata =
@@ -58,12 +60,18 @@ type Dependencies =
         printfn "Initialized Mongo!"
         database
 
+    static member TestS3Connection(client : AmazonS3Client): bool =
+      let buckets = client.ListBucketsAsync(new CancellationToken()) |> Async.AwaitTask |> Async.RunSynchronously
+      // NOTE: 200 <= status < 300
+      HttpStatusCode.OK <= buckets.HttpStatusCode && buckets.HttpStatusCode < HttpStatusCode.Ambiguous
+
     static member ConnectToS3() =
       printfn "Connecting to S3..."
       let config = new AmazonS3Config(
         ServiceURL = s3Endpoint
       )
       let s3Client = new AmazonS3Client(config)
+      assert Dependencies.TestS3Connection s3Client
       printfn "Connected to S3!"
       s3Client
 
