@@ -48,10 +48,7 @@ let webApp = (choose [
                 GET >=>
                   (choose [
                     // TODO: Grab route from query arg
-                    routef  "/blob/url/%s"  (Api.V1.Blob.getPresignedUrl dependencies.S3Client)
-                  ])
-                  (choose [
-                    routef  "/blob/data/%s"  (Api.V1.Blob.get dependencies.S3Client)
+                    routex  "/blob(/?)" >=> (Api.V1.Blob.getPresignedUrl dependencies.S3Client)
                   ])
               ])
             GET >=>
