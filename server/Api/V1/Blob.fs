@@ -6,26 +6,25 @@ open Giraffe
 open Microsoft.AspNetCore.Http
 open Amazon.S3.Model
 open System
-open System.IO
 open Microsoft.Extensions.Logging
+open Models
 
-let get (s3Client : AmazonS3Client) (id : string) : HttpHandler =
-  fun (next : HttpFunc) (ctx : HttpContext) ->
-    let request = new GetObjectRequest(
-      BucketName = s3Bucket,
-      Key = id
-    )
-    let response = s3Client.GetObjectAsync(request) |> Async.AwaitTask |> Async.RunSynchronously
-    let stream = response.ResponseStream
-    let data = stream.AsyncRead (stream.Length |> int) |> Async.RunSynchronously
-    let reader = new StreamReader(new MemoryStream(data))
-    text (reader.ReadToEnd()) next ctx
+let private _bindUrlForBlob (ctx : HttpContext) : string =
+  let args = ctx.BindQueryString<BlobQueryArgs>()
 
-let getPresignedUrl (s3Client : AmazonS3Client) (id : string) : HttpHandler =
+  let rec _strip (url: string): string =
+    if url.StartsWith("/") then
+      _strip (url.Substring(1))
+    else
+      url
+  
+  _strip args.url
+
+let getPresignedUrl (s3Client : AmazonS3Client) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let request = new GetPreSignedUrlRequest(
       BucketName = s3Bucket,
-      Key = id,
+      Key = _bindUrlForBlob ctx,
       Expires = DateTime.UtcNow.AddHours(1)
     )
     let response = s3Client.GetPreSignedURL(request)

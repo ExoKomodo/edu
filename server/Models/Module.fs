@@ -1,6 +1,5 @@
 module Models
 
-open Amazon
 open Amazon.S3
 open Constants
 open System.Collections.Generic
@@ -10,6 +9,10 @@ open System.Net.Http
 open System
 open System.Threading
 open System.Net
+
+[<CLIMutable>]
+type BlobQueryArgs =
+  { url: string }
 
 [<CLIMutable>]
 type BlogMetadata =
