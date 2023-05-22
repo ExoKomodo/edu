@@ -4,7 +4,7 @@
       <p v-if="auth0.isAuthenticated" class="text-2xl font-bold border-slate-400 rounded border-2 p-1 pl-2">{{ state.name?.toUpperCase() }}</p>
       <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
       <div v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="props.templatedContent"></div>
-      <CourseEditor :handler="saveCourse"
+      <CourseEditor :handler="saveCourseAsync"
                     handlerText="Update"
                     :courseId="state.id"
                     :courseContent="state.content"
@@ -21,8 +21,10 @@ import CourseService from '@/services/CourseService';
 import type { Course } from '@/models';
 import { reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
+import { useToast } from 'vue-toastification';
 
 const auth0 = useAuth0();
+const toast = useToast();
 
 const props = defineProps<{
   id: string,
@@ -41,7 +43,7 @@ const state = reactive({
   content: props.content,
 });
 
-function saveCourse(state: CourseEditorState) {
+async function saveCourseAsync(state: CourseEditorState) {
   const courseToUpdate: Course = {
     id: props.id,
     content: state.content,
@@ -50,10 +52,7 @@ function saveCourse(state: CourseEditorState) {
       description: state.description,
     },
   };
-  AuthService.getAccessTokenAsync(auth0).then(token => {
-    CourseService.update(courseToUpdate, token).then(() => {
-      window.location.reload();
-    });
-  });
+  await CourseService.updateAsync(courseToUpdate, { toast: toast, token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }) });
+  window.location.reload();
 }
 </script>

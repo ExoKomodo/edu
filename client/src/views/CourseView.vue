@@ -12,9 +12,9 @@
                     :id="castToCourseId(id)"
                     :name="castToCourseMetadata(course).name"
                     :description=" castToCourseMetadata(course).description" />
-          <Button v-if="AuthService.isAdmin(auth0)" :handler="() => deleteCourse(castToCourseId(id))" text="Delete?" class="w-20"></Button>
+          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteCourseAsync(castToCourseId(id))" text="Delete?" class="w-20"></Button>
         </span>
-        <CourseEditor :handler="createCourse"
+        <CourseEditor :handler="createCourseAsync"
                     handlerText="Create"
                     courseId=""
                     courseContent=""
@@ -35,15 +35,17 @@ import Spinner from '@/components/Spinner.vue';
 import type { CourseIndex, CourseMetadata, Id } from '@/models';
 import { onMounted, reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
+import { useToast } from "vue-toastification";
 
 const auth0 = useAuth0();
+const toast = useToast();
 
 const state = reactive({
   isLoading: true,
   courseIndex: {} as CourseIndex,
 });
 
-function createCourse(state: CourseEditorState) {
+async function createCourseAsync(state: CourseEditorState) {
   const courseToCreate = {
     id: state.id,
     content: state.content,
@@ -52,19 +54,25 @@ function createCourse(state: CourseEditorState) {
       description: state.description,
     },
   };
-  AuthService.getAccessTokenAsync(auth0).then(token => {
-    CourseService.create(courseToCreate, token).then(() => {
-      window.location.reload();
-    });
-  });
+  await CourseService.createAsync(
+    courseToCreate,
+    {
+      toast: toast,
+      token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }),
+    }
+  );
+  window.location.reload();
 }
 
-function deleteCourse(id: string) {
-  AuthService.getAccessTokenAsync(auth0).then(token => {
-    CourseService.delete(id, token).then(() => {
-      window.location.reload();
-    });
-  });
+async function deleteCourseAsync(id: string) {
+  await CourseService.deleteAsync(
+    id,
+    {
+      toast: toast, 
+      token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }) ,
+    }
+  );
+  window.location.reload();
 }
 
 // NOTE: Needed to fool the type checker with the loop values
@@ -78,9 +86,16 @@ function castToCourseMetadata(value: [string, CourseMetadata]) {
 }
 
 onMounted(async () => {
-  state.courseIndex = await CourseService.getAll(
-    await AuthService.getAccessTokenAsync(auth0)
-  );
-  state.isLoading = false;
+  try {
+    state.courseIndex = await CourseService.getAllAsync(
+      {
+        toast: toast,
+        token: await AuthService.getAccessTokenAsync(auth0),
+      }
+    );
+  }
+  finally {
+    state.isLoading = false;
+  }
 })
 </script>

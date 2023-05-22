@@ -1,14 +1,16 @@
 ``<script setup lang="ts">
-import type { BlogIndex, BlogMetadata, Id } from '@/models';
-import BlogService from '@/services/BlogService';
 import BlogLink from '@/components/BlogLink.vue';
+import BlogService from '@/services/BlogService';
 import Spinner from '@/components/Spinner.vue';
+import type { BlogIndex, BlogMetadata, Id } from '@/models';
 import { onMounted, reactive } from 'vue';
+import { useToast } from 'vue-toastification';
 
 const state = reactive({
   isLoading: true,
   blogIndex: {} as BlogIndex,
 });
+const toast = useToast();
 
 // NOTE: Needed to fool the type checker with the loop values
 function castToBlogId(value: number) {
@@ -21,8 +23,12 @@ function castToBlogMetadata(value: [string, BlogMetadata]) {
 }
 
 onMounted(async () => {
-  state.blogIndex = await await BlogService.getAll();
-  state.isLoading = false;
+  try {
+    state.blogIndex = await BlogService.getAllAsync({ toast: toast });
+  }
+  finally {
+    state.isLoading = false;
+  }
 });
 </script>
 

@@ -1,9 +1,6 @@
 import { createApp } from 'vue';
 import { createAuth0 } from '@auth0/auth0-vue';
-import { VAceEditor } from 'vue3-ace-editor';
-
 import HttpServiceV1 from '@/services/HttpServiceV1';
-
 import App from './App.vue';
 import router from './router';
 
@@ -11,9 +8,14 @@ import './index.css';
 
 const app = createApp(App);
 
-app.component('VAceEditor', VAceEditor);
-
+////////////
+// Router // 
+////////////
 app.use(router);
+
+///////////
+// Auth0 //
+///////////
 app.use(
   createAuth0({
     domain: HttpServiceV1.auth0BaseUrl,
@@ -26,8 +28,20 @@ app.use(
   })
 );
 
-app.mount('#app');
+////////////////////////
+// Toast Notification //
+////////////////////////
+import Toast, { type PluginOptions } from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
+const defaultToastOptions: PluginOptions = {
+};
+app.use(Toast, defaultToastOptions);
+
+////////////////
+// Ace editor //
+////////////////
+import { VAceEditor } from 'vue3-ace-editor';
 import ace from 'ace-builds';
 import 'ace-builds/src-noconflict/ext-language_tools';
 import modeHtmlUrl from 'ace-builds/src-noconflict/mode-html?url';
@@ -81,4 +95,8 @@ function enableAceEditorLanguages() {
   enableAceEditorHtml();
 }
 
+app.component('VAceEditor', VAceEditor);
+
 enableAceEditorLanguages()
+
+app.mount('#app');

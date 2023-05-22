@@ -34,9 +34,9 @@ let webApp = (choose [
                 POST >=>
                   routex "/course(/?)" >=>
                   bindJson<Course> (Api.V1.Course.post dependencies.CourseCollection)
-                PUT >=>
-                  routex "/course(/?)" >=>
-                  bindJson<Course> (Api.V1.Course.put dependencies.CourseCollection)
+                // PUT >=>
+                //   routex "/course(/?)" >=>
+                //   bindJson<Course> (Api.V1.Course.put dependencies.CourseCollection)
               ])
             routex "/user(/?)(.*)" >=>
               (choose [

@@ -1,10 +1,29 @@
+import type { ToastInterface } from "vue-toastification";
+
 type UrlPortion = string | null | undefined;
+
+export type HttpOptions = {
+  toast?: ToastInterface,
+  token?: string | null | undefined,
+};
+
+type HttpHeaders = {
+  Authorization?: string,
+  Origin?: string
+};
 
 export default class HttpServiceV1 {
   static baseOrigin: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com' : 'http://localhost:80';
   static baseUrl: string = `${HttpServiceV1.baseOrigin}/api/v1`;
   static auth0UrlScheme: string = 'https://';
   static auth0BaseUrl: string = 'exokomodo.us.auth0.com';
+
+  private static getDefaultHeaders(options: HttpOptions): HttpHeaders {
+    return options.token ? {
+      Authorization: `Bearer ${options.token}`,
+      Origin: window.location.origin,
+    } : {};
+  }
 
   static constructUrl(urlSuffix: UrlPortion): string {
     let url = `${HttpServiceV1.baseUrl}/`;
@@ -14,11 +33,8 @@ export default class HttpServiceV1 {
     return url;
   }
 
-  static async delete<T>(urlSuffix: UrlPortion, id: string, token: string | null | undefined): Promise<T> {
-    const headers: undefined | { Authorization: string, Origin: string } = token ? {
-      Authorization: `Bearer ${token}`,
-      Origin: window.location.origin,
-    } : undefined;
+  static async deleteAsync<T>(urlSuffix: UrlPortion, id: string, options: HttpOptions={}): Promise<T> {
+    const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}/${id}`,
       {
@@ -29,11 +45,8 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async get<T>(urlSuffix: UrlPortion, id: string, token: string | null | undefined): Promise<T> {
-    const headers: undefined | { Authorization: string, Origin: string } = token ? {
-      Authorization: `Bearer ${token}`,
-      Origin: window.location.origin,
-    } : undefined;
+  static async getAsync<T>(urlSuffix: UrlPortion, id: string, options: HttpOptions={}): Promise<T> {
+    const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}/${id}`,
       {
@@ -44,11 +57,8 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async getAll<T>(urlSuffix: UrlPortion, token: string | null | undefined): Promise<T> {
-    const headers: undefined | { Authorization: string, Origin: string } = token ? {
-      Authorization: `Bearer ${token}`,
-      Origin: window.location.origin,
-    } : undefined;
+  static async getAllAsync<T>(urlSuffix: UrlPortion, options: HttpOptions={}): Promise<T> {
+    const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
       {
@@ -59,11 +69,8 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async post<T>(urlSuffix: UrlPortion, value: any, token: string | null | undefined): Promise<T> {
-    const headers: undefined | { Authorization: string, Origin: string } = token ? {
-      Authorization: `Bearer ${token}`,
-      Origin: window.location.origin,
-    } : undefined;
+  static async postAsync<T>(urlSuffix: UrlPortion, value: any, options: HttpOptions={}): Promise<T> {
+    const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
       {
@@ -75,11 +82,8 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async put<T>(urlSuffix: UrlPortion, value: any, token: string | null | undefined): Promise<T> {
-    const headers: undefined | { Authorization: string, Origin: string } = token ? {
-      Authorization: `Bearer ${token}`,
-      Origin: window.location.origin,
-    } : undefined;
+  static async putAsync<T>(urlSuffix: UrlPortion, value: any, options: HttpOptions={}): Promise<T> {
+    const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
       {
@@ -91,11 +95,8 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async getText(url: string, token: string | null | undefined): Promise<string> {
-    const headers: undefined | { Authorization: string, Origin: string } = token ? {
-      Authorization: `Bearer ${token}`,
-      Origin: window.location.origin,
-    } : undefined;
+  static async getTextAsync(url: string, options: HttpOptions={}): Promise<string> {
+    const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       HttpServiceV1.constructUrl(url),
       {

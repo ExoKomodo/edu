@@ -1,18 +1,27 @@
-import HttpServiceV1 from './HttpServiceV1';
+import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import type { Auth0VueClient } from '@auth0/auth0-vue';
 import type { UserInfo } from '@/models';
 
 export default class AuthService {
-  static async getAccessTokenAsync(auth0: Auth0VueClient): Promise<string | null> {
+  static async getAccessTokenAsync(auth0: Auth0VueClient, options: HttpOptions={}): Promise<string | null> {
     return auth0.getAccessTokenSilently();
   }
 
-  static async getUserInfoAsync(auth0: Auth0VueClient, token: string | null | undefined = undefined): Promise<UserInfo> {
-    return await HttpServiceV1.get<UserInfo>(
-      'user',
-      'info',
-      token ? token : await AuthService.getAccessTokenAsync(auth0),
-    );
+  static async getUserInfoAsync(auth0: Auth0VueClient, options: HttpOptions={}): Promise<UserInfo> {
+    try {
+      return await HttpServiceV1.getAsync<UserInfo>(
+        'user',
+        'info',
+        options.token ? options : {
+          token: await AuthService.getAccessTokenAsync(auth0, options),
+          ...options
+        }
+      );
+    }
+    catch (err: any) {
+      options.toast?.error(`Failed to get user info: ${err}`);
+      throw err;
+    }
   }
 
   static isAdmin(auth0: Auth0VueClient): boolean {

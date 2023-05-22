@@ -13,7 +13,7 @@
     <div :class="{ invisible: !state.isEditMode }">
       <input type="checkbox"
             id="show-preview"
-            @change="onPreviewChange"
+            @change="onPreviewChangeAsync"
             name="showPreview"
             v-model="state.showPreview">
       <label for="show-preview"> Show preview?</label>
@@ -31,7 +31,7 @@
       <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Content</div>
       <CodeEditor v-model="state.content"
                   language="html"
-                  v-on:update:model-value="onContentChange"
+                  v-on:update:model-value="onContentChangeAsync"
                   :height="40"></CodeEditor>
       <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.templatedContent"></div>
     </div>
@@ -45,6 +45,7 @@ import { reactive } from 'vue';
 import AuthService from '@/services/AuthService';
 import { useAuth0 } from '@auth0/auth0-vue';
 import CourseService from '@/services/CourseService';
+import { useToast } from 'vue-toastification';
 
 export type CourseEditorState = {
   isEditMode: boolean,
@@ -56,6 +57,7 @@ export type CourseEditorState = {
 };
 
 const auth0 = useAuth0();
+const toast = useToast();
 
 const props = defineProps<{
   handler: (state: CourseEditorState) => void,
@@ -76,17 +78,17 @@ const state = reactive({
   templatedContent: props.courseContent,
 });
 
-const token = await AuthService.getAccessTokenAsync(auth0);
+const token = await AuthService.getAccessTokenAsync(auth0, { toast: toast });
 
-async function onPreviewChange(event: any) {
+async function onPreviewChangeAsync(event: any) {
   if (event.target.checked) {
-    state.templatedContent = await CourseService.fillTemplate(state.content, token);
+    state.templatedContent = await CourseService.fillTemplateAsync(state.content, { toast: toast, token: token });
   }
 }
 
-async function onContentChange(event: any) {
+async function onContentChangeAsync(event: any) {
   if (state.showPreview) {
-    state.templatedContent = await CourseService.fillTemplate(state.content, token);
+    state.templatedContent = await CourseService.fillTemplateAsync(state.content, { toast: toast, token: token });
   }
 }
 </script>
