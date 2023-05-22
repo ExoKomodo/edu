@@ -12,10 +12,7 @@ export default class AuthService {
       return await HttpServiceV1.getAsync<UserInfo>(
         'user',
         'info',
-        options.token ? options : {
-          token: await AuthService.getAccessTokenAsync(auth0, options),
-          ...options
-        }
+        options,
       );
     }
     catch (err: any) {
