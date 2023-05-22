@@ -1,6 +1,6 @@
-import type { Auth0VueClient } from '@auth0/auth0-vue';
-import type { UserInfo } from '../models';
 import HttpServiceV1 from './HttpServiceV1';
+import type { Auth0VueClient } from '@auth0/auth0-vue';
+import type { UserInfo } from '@/models';
 
 export default class AuthService {
   static async getAccessTokenAsync(auth0: Auth0VueClient): Promise<string | null> {
