@@ -16,6 +16,7 @@ export default class AuthService {
       );
     }
     catch (err: any) {
+      console.error(err);
       options.toast?.error(`Failed to get user info: ${err}`);
       throw err;
     }
