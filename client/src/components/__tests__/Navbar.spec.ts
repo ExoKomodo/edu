@@ -1,9 +1,7 @@
-import { describe, it, expect, vi, type Mock } from 'vitest';
-
-import { shallowMount } from '@vue/test-utils';
-import Navbar from '../Navbar.vue';
-
 import * as auth0 from '@auth0/auth0-vue';
+import Navbar from '@/components/Navbar.vue';
+import { describe, it, expect, vi, type Mock } from 'vitest';
+import { shallowMount } from '@vue/test-utils';
 
 interface Auth0Mock {
   useAuth0: Mock<any[], any>

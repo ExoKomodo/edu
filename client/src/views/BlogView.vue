@@ -1,9 +1,14 @@
 ``<script setup lang="ts">
-import type { BlogIndex, BlogMetadata, Id } from '../models';
+import type { BlogIndex, BlogMetadata, Id } from '@/models';
 import BlogService from '@/services/BlogService';
-import BlogLink from '../components/BlogLink.vue';
+import BlogLink from '@/components/BlogLink.vue';
+import Spinner from '@/components/Spinner.vue';
+import { onMounted, reactive } from 'vue';
 
-const blogIndex: BlogIndex = await BlogService.getAll();
+const state = reactive({
+  isLoading: true,
+  blogIndex: {} as BlogIndex,
+});
 
 // NOTE: Needed to fool the type checker with the loop values
 function castToBlogId(value: number) {
@@ -14,17 +19,27 @@ function castToBlogId(value: number) {
 function castToBlogMetadata(value: [string, BlogMetadata]) {
   return (value as unknown) as BlogMetadata;
 }
+
+onMounted(async () => {
+  state.blogIndex = await await BlogService.getAll();
+  state.isLoading = false;
+});
 </script>
 
 <template>
   <div class="blogBackground min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 my-5">
       <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">blogs</h1>
-        <BlogLink v-for="(blog, id) of blogIndex.blogs"
+      <div v-if="state.isLoading" class="flex place-content-center">
+        <Spinner></Spinner>
+      </div>
+      <div v-else>
+        <BlogLink v-for="(blog, id) of state.blogIndex.blogs"
                   class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
                   :id="castToBlogId(id)"
                   :title="castToBlogMetadata(blog).title"
                   :description=" castToBlogMetadata(blog).description" />
+      </div>
     </div>
   </div>
 </template>

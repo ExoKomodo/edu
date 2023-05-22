@@ -1,5 +1,5 @@
+import HomeView from '@/views/HomeView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,29 +12,29 @@ const router = createRouter({
     {
       path: '/blog',
       name: 'blogs',
-      component: () => import('../views/BlogView.vue'),
+      component: () => import('@/views/BlogView.vue'),
     },
     {
       path: '/blog/:id',
       name: 'blog',
       props: true,
-      component: () => import('../views/BlogPostView.vue'),
+      component: () => import('@/views/BlogPostView.vue'),
     },
     {
       path: '/course',
       name: 'courses',
-      component: () => import('../views/CourseView.vue'),
+      component: () => import('@/views/CourseView.vue'),
     },
     {
       path: '/course/:id',
       name: 'course',
       props: true,
-      component: () => import('../views/CoursePostView.vue'),
+      component: () => import('@/views/CoursePostView.vue'),
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('@/views/AboutView.vue'),
     },
   ],
 });

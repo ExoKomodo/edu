@@ -15,12 +15,12 @@
 </template>
 
 <script setup lang="ts">
-import CourseEditor, { type CourseEditorState } from '@/components/CourseEditor.vue';
-import CourseService from '../services/CourseService';
-import { reactive } from 'vue';
 import AuthService from '@/services/AuthService';
-import { useAuth0 } from '@auth0/auth0-vue';
+import CourseEditor, { type CourseEditorState } from '@/components/CourseEditor.vue';
+import CourseService from '@/services/CourseService';
 import type { Course } from '@/models';
+import { reactive } from 'vue';
+import { useAuth0 } from '@auth0/auth0-vue';
 
 const auth0 = useAuth0();
 

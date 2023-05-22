@@ -1,5 +1,5 @@
-import type { Blog, BlogIndex, Id } from '../models';
 import HttpServiceV1 from './HttpServiceV1';
+import type { Blog, BlogIndex, Id } from '@/models';
 
 export default class BlogService {
   static async get(id: Id, token: string | null | undefined = undefined): Promise<Blog> {

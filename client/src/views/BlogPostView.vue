@@ -1,14 +1,31 @@
 <script setup lang="ts">
-import BlogPost from '../components/BlogPost.vue';
-import BlogService from '../services/BlogService';
-import type { Blog } from '../models';
+import BlogPost from '@/components/BlogPost.vue';
+import Spinner from '@/components/Spinner.vue';
+import BlogService from '@/services/BlogService';
+import type { Blog } from '@/models';
+import { onMounted, reactive } from 'vue';
 
 const props = defineProps<{
   id: string,
 }>();
-const blog: Blog = await BlogService.get(props.id);
+
+const state = reactive({
+  isLoading: true,
+  blog: {} as Blog,
+});
+
+onMounted(async () => {
+  state.blog = await BlogService.get(props.id);
+  state.isLoading = false;
+});
 </script>
 
 <template>
-  <BlogPost :title=blog.metadata.title :content=blog.content :description=blog.metadata.description />
+  <div v-if="state.isLoading" class="flex place-content-center">
+    <Spinner></Spinner>
+  </div>
+  <div v-else>
+    <BlogPost :title=state.blog.metadata.title :content=state.blog.content :description=state.blog.metadata.description />
+  </div>
+  
 </template>

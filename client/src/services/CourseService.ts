@@ -1,6 +1,6 @@
-import type { Course, CourseIndex, Id } from '../models';
-import HttpServiceV1 from './HttpServiceV1';
 import BlobService from './BlobService';
+import HttpServiceV1 from './HttpServiceV1';
+import type { Course, CourseIndex, Id } from '@/models';
 
 export default class CourseService {
   static async create(course: Course, token: string | null | undefined = null): Promise<Course> {

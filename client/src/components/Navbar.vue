@@ -104,12 +104,12 @@
 </template>
   
 <script lang="ts" setup>
+import AuthService from '@/services/AuthService';
 import Button from '@/components/Button.vue';
-import { ref } from 'vue'
+import router from '@/router/index';
 import { RouterLink } from 'vue-router';
-import router from '../router/index';
+import { ref } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue';
-import AuthService from '../services/AuthService';
 
 const auth0 = useAuth0();
 const user = auth0.user;
