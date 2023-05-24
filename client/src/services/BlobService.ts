@@ -1,8 +1,15 @@
 import type { Id } from '@/models';
-import HttpServiceV1 from './HttpServiceV1';
+import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
+import type { ToastInterface } from 'vue-toastification';
 
 export default class BlobService {
-  static async getPresignedUrl(id: Id, token: string | null | undefined = null): Promise<string> {
-    return await HttpServiceV1.getText(`blob/${id}`, token);
+  static async getPresignedUrlAsync(id: Id, options: HttpOptions={}): Promise<string> {
+    try {
+      return await HttpServiceV1.getTextAsync(`blob?url=${id}`, options);
+    }
+    catch (err: any) {
+      options.toast?.error(`Failed to get blob's presigned url: ${err}`);
+      throw err;
+    }
   }
 };

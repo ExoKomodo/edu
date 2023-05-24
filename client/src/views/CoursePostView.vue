@@ -19,19 +19,27 @@ import Spinner from '@/components/Spinner.vue';
 import type { Course } from '@/models';
 import { onMounted, reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
+import { useToast } from 'vue-toastification';
 
 const auth0 = useAuth0();
 const props = defineProps<{
   id: string,
 }>();
-
 const state = reactive({
   isLoading: true,
   course: {} as Course,
 });
+const toast = useToast();
 
 onMounted(async () => {
-  state.course = await CourseService.get(props.id, await AuthService.getAccessTokenAsync(auth0));
-  state.isLoading = false;
+  try {
+    state.course = await CourseService.getAsync(props.id, {
+      toast: toast,
+      token: await AuthService.getAccessTokenAsync(auth0),
+    });
+  }
+  finally {
+    state.isLoading = false;
+  }
 });
 </script>
