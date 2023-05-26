@@ -36,15 +36,6 @@
                 </div>
               </RouterLink>
             </div>
-            <hr class="bg-virgil color-virgil w-3 border-1.5" />
-            <a href="https://github.com/ExoKomodo/Edu/issues/new/choose"
-               class="px-3 m-2 py-1 transition duration-250 rounded-md text-sm 
-                font-medium text-gray-300 hover:text-virgil hover:bg-rust bg-rufous xs:hidden sm:block"
-               target="_blank">
-              <div>
-                bug?
-              </div>
-            </a>
           </div>
         </div>
         <div v-else>
@@ -85,19 +76,6 @@
             {{ route.name }}
           </div>
         </RouterLink>
-        <!-- Needs the wrapping span to obey flex rules -->
-        <span>
-          <hr class="bg-virgil color-virgil w-3  border-1.5" />
-        </span>
-        <a href="https://github.com/ExoKomodo/Edu/issues/new/choose"
-           class="px-2 m-1 py-1.5 transition duration-250 rounded-md text-sm 
-            font-medium text-gray-300 hover:text-virgil hover:bg-rust
-             bg-rufous"
-           target='_blank'>
-          <div>
-            bug?
-          </div>
-        </a>
       </div>
     </div>
   </nav>
