@@ -7,102 +7,162 @@
 - [Deployed server](https://services.edu.exokomodo.com/api/v1)
 - [Digital Ocean App](https://cloud.digitalocean.com/apps/49add3d3-1578-4b2a-916d-8c8b9a197fd4)
 - [Spaces Host](https://edu.exokomodo.sfo3.digitaloceanspaces.com)
+- [AWS S3 Installation Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
-## Client
+## [Client](./client/)
 
-### Setup the client
+### [Client](./client/) - Setup
 
 Install nodejs v18+. Using [`nvm`](https://github.com/nvm-sh/nvm) is the best option.
 
 After installing, refer to the [`README`](./client/README.md#project-setup)
 
-### Run the client
+### [Client](./client/) - Run
 
 Refer to the [`README`](./client/README.md#compile-and-hot-reload-for-development)
 
-### Test the client
+### [Client](./client/) - Test
 
 Refer to the [`README`](./client/README.md#run-unit-tests-with-vitest)
 
-## Server
+## [Server](./server/)
 
-### Setup the server
+### [Server](./server/) - Setup
 
 Install [.Net 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
-### Run the server
-
-Refer to the [`README`](./server/README.md#run)
-
-### Test the server
-
-Install .Net 7. For everything else, refer to the [`README`](./server.tests/README.md)
-
-## Object Storage
-
-### Installing s3cmd
-
-s3cmd is an open-source and platform-agnostic s3 CLI tool, having a superset of the `aws s3` subcommands features
-
-[Digital Ocean reference on setting up s3cmd](https://docs.digitalocean.com/products/spaces/reference/s3cmd/)
-```shell
-$ curl -O -L https://github.com/s3tools/s3cmd/releases/download/v2.3.0/s3cmd-2.3.0.tar.gz
-$ tar xzf s3cmd-2.3.0.tar.gz
-$ cd s3cmd-2.3.0
-$ mkdir ~/.local/bin
-$ cp -R s3cmd S3 ~/.local/bin
-# NOTE: python3 has to be available as `python` for s3cmd to work
-$ s3cmd
-ERROR: /home/jamesaaronorson/.s3cfg: No route to host
-ERROR: Configuration file not available.
-ERROR: Consider using --configure parameter to create one.
+```bash
+# Setup mongo creds
+export MONGODB_URI="<connection string>"
+# Setup object storage creds
+export AWS_ACCESS_KEY_ID="DO00GJNKZJVF8EHF4N2T"
+export AWS_SECRET_ACCESS_KEY="*************************************"
 ```
 
-### Configuring s3cmd
+### [Server](./server/) - Run
+
+#### Using [helper script](./server/run.sh)
+
+The helper script will verify the environment you are running in. By doing so, you should be able to successfully run the server, as long as this script can run. If the script cannot successfully run, the script will proactively tell you what is wrong with the environment and why.
 
 ```shell
-$ export AWS_ACCESS_KEY_ID="DO00GJNKZJVF8EHF4N2T"
-$ export SECRET_ACCESS_KEY="*************************************"
-$ s3cmd --configure
+./run.sh
+```
 
-Enter new values or accept defaults in brackets with Enter.
-Refer to user manual for detailed description of all options.
+#### Server run on your own
 
-Access key and Secret key are your identifiers for Amazon S3. Leave them empty for using the env variables.
-Access Key [DO00GJNKZJVF8EHF4N2T]: 
-Secret Key [*************************************]: 
-Default Region [US]: 
+Without hot reloading:
 
-Use "s3.amazonaws.com" for S3 Endpoint and not modify it to the target Amazon S3.
-S3 Endpoint [s3.amazonaws.com]: sfo3.digitaloceanspaces.com
+```shell
+dotnet restore # Optional step, as `dotnet run` will restore as well
+dotnet run
+```
 
-Use "%(bucket)s.s3.amazonaws.com" to the target Amazon S3. "%(bucket)s" and "%(location)s" vars can be used
-if the target S3 system supports dns based buckets.
-DNS-style bucket+hostname:port template for accessing a bucket [%(bucket)s.s3.amazonaws.com]: %(bucket)s.sfo3.digitaloceanspaces.com
+With hot reloading:
 
-Encryption password is used to protect your files from reading
-by unauthorized persons while in transfer to S3
-Encryption password: 
-Path to GPG program [/usr/bin/gpg]: 
+```shell
+# Optional step, as `dotnet run` will restore as well
+dotnet watch run
+```
 
-When using secure HTTPS protocol all communication with Amazon S3
-servers is protected from 3rd party eavesdropping. This method is
-slower than plain HTTP, and can only be proxied with Python 2.7 or newer
-Use HTTPS protocol [Yes]: 
+### [server.tests](./server.tests/) - Test
 
-On some networks all internet access must go through a HTTP proxy.
+#### Using [helper script](./server/test.sh)
 
-...
+The helper script will verify the environment you are running in. By doing so, you should be able to successfully run the server, as long as this script can run. If the script cannot successfully run, the script will proactively tell you what is wrong with the environment and why.
 
-Test access with supplied credentials? [Y/n] y
-Please wait, attempting to list all buckets...
-Success. Your access key and secret key worked fine :-)
+```shell
+./test.sh
+```
 
-Now verifying that encryption works...
-Not configured. Never mind.
+#### Server test on your own
 
-Save settings? [y/N] y
-Configuration saved to '/home/jamesaaronorson/.s3cfg'
-$ s3cmd ls
-2023-05-17 20:01  s3://edu.exokomodo
+Without hot reloading:
+
+```shell
+dotnet restore # Optional step, as `dotnet test` will restore as well
+dotnet test
+```
+
+With hot reloading:
+
+```shell
+# Optional step, as `dotnet test` will restore as well
+dotnet watch test
+```
+
+### [Server](./server/) - Mongo
+
+#### Interacting with Mongo
+
+Mongo works with a simple pattern
+
+You have:
+
+1. a client, that connects to
+1. a database, that opens
+1. a collection of documents, that can be
+1. filtered, and those elements can now be either
+    - retrieved
+    - updated
+
+##### Connecting to a collection
+
+A collection is somewhat analogous to a table in a normal SQL database
+
+```fsharp
+let connectionString = Environment.GetEnvironmentVariable("MONGODB_URI")
+match connectionString with
+| null ->
+  printfn "You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
+  exit 1
+| _ ->
+  let client = new MongoClient(connectionString)
+  let database = client.GetDatabase("admin")
+  let collection = database.GetCollection<Course>("courses")
+```
+
+##### Filtering items
+
+Assuming the previous sections's `collection` will receive the `filter`
+
+Any operations needs to be filtered, so it only applies to that subset of documents, whether it be that the operation is `Get` or `Update`
+
+```fsharp
+let filter = Builders<Course>.Filter.Eq("Id", "intro")
+let course = collection.Find(filter).FirstOrDefault()
+// NOTE: Must use `box` to convert value type like `Course`, into a reference so null can be checked
+match box course with
+| null -> RequestErrors.NOT_FOUND $"Course not found with id {id}"
+| _ -> json course
+```
+
+You can make a `filter` without a `collection`. It is simply a piece of data describing a `filter` to apply.
+
+##### Updating items
+
+Assuming the previous section's `filter`
+
+```fsharp
+// NOTE: Should be able to chain together .Set() calls to update multiple fields at once
+let update = Builders<Course>.Update.Set(
+  // Pick, in an anonymous function, what field to update
+  (fun course -> course.Metadata.Description),
+  "Introducing you to the Edu platform, where higher learning persuades you"
+)
+// Filter to the element to effect, then apply the update, and ignore the results
+collection.UpdateOne(filter, update) |> ignore
+```
+
+### [Server](./server/) - Object Storage (s3)
+
+#### Installing aws cli
+
+Follow the instructions found [here](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+#### Using s3
+
+```shell
+# Test that you can connect to s3
+aws s3 ls edu.exokomodo --endpoint-url https://sfo3.digitaloceanspaces.com
 ```
