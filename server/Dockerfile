@@ -18,6 +18,7 @@ COPY --from=builder /server /server
 
 RUN apt-get update -qy
 RUN apt-get -y install --no-install-recommends \
+  apt-transport-https \
   ca-certificates \
   gnupg \
   vim \
