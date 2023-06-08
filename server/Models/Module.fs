@@ -120,7 +120,10 @@ type Dependencies =
     CourseCollection : IMongoCollection<Course>
     SectionCollection : IMongoCollection<Section>
     Auth0HttpClient : HttpClient
-    S3Client : AmazonS3Client }
+    S3Client : AmazonS3Client
+    UpdateAssignment : Assignment -> UpdateDefinition<Assignment>
+    UpdateCourse : Course -> UpdateDefinition<Course>
+    UpdateSection : Section -> UpdateDefinition<Section> }
     
     static member InitializeMongo() =
       printfn "Initializing Mongo..."
@@ -149,6 +152,39 @@ type Dependencies =
       assert Dependencies.TestS3Connection s3Client
       printfn "Connected to S3!"
       s3Client
+    
+    static member GenerateUpdateAssignment (assignment : Assignment) =
+      let mutable update = Builders<Assignment>.Update.Set(
+        (fun _assignment -> _assignment.ProblemDescription),
+        assignment.ProblemDescription
+      )
+      update <- update.Set(
+        (fun _assignment -> _assignment.Metadata),
+        assignment.Metadata
+      )
+      update
+    
+    static member GenerateUpdateCourse (course : Course) =
+      let mutable update = Builders<Course>.Update.Set(
+        (fun _course -> _course.Content),
+        course.Content
+      )
+      update <- update.Set(
+        (fun _course -> _course.Metadata),
+        course.Metadata
+      )
+      update
+    
+    static member GenerateUpdateSection (section : Section) =
+      let mutable update = Builders<Section>.Update.Set(
+        (fun _section -> _section.Difficulty),
+        section.Difficulty
+      )
+      update <- update.Set(
+        (fun _section -> _section.Metadata),
+        section.Metadata
+      )
+      update
 
     static member Open() =
       let database = Dependencies.InitializeMongo()
@@ -160,4 +196,7 @@ type Dependencies =
         Auth0HttpClient = new HttpClient(
           BaseAddress = new Uri($"{auth0UrlScheme}{auth0BaseUrl}")
         )
-        S3Client = s3Client }
+        S3Client = s3Client
+        UpdateAssignment = Dependencies.GenerateUpdateAssignment
+        UpdateCourse = Dependencies.GenerateUpdateCourse
+        UpdateSection = Dependencies.GenerateUpdateSection }

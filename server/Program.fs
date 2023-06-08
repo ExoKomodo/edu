@@ -36,7 +36,7 @@ let webApp = (choose [
                   bindJson<Assignment> (Api.V1.Builder.post<Assignment> dependencies.AssignmentCollection)
                 PUT >=>
                   routex "/assignment(/?)" >=>
-                  bindJson<Assignment> (Api.V1.Assignment.put dependencies.AssignmentCollection)
+                  bindJson<Assignment> (Api.V1.Builder.put<Assignment> dependencies.AssignmentCollection dependencies.UpdateAssignment)
               ])
             routex "/course(/?)(.*)" >=>
               (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
@@ -53,7 +53,7 @@ let webApp = (choose [
                   bindJson<Course> (Api.V1.Builder.post<Course> dependencies.CourseCollection)
                 PUT >=>
                   routex "/course(/?)" >=>
-                  bindJson<Course> (Api.V1.Course.put dependencies.CourseCollection)
+                  bindJson<Course> (Api.V1.Builder.put<Course> dependencies.CourseCollection dependencies.UpdateCourse)
               ])
             routex "/section(/?)(.*)" >=>
               (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
@@ -70,7 +70,7 @@ let webApp = (choose [
                   bindJson<Section> (Api.V1.Builder.post<Section> dependencies.SectionCollection)
                 PUT >=>
                   routex "/section(/?)" >=>
-                  bindJson<Section> (Api.V1.Section.put dependencies.SectionCollection)
+                  bindJson<Section> (Api.V1.Builder.put<Section> dependencies.SectionCollection dependencies.UpdateSection)
               ])
             routex "/user(/?)(.*)" >=>
               (choose [

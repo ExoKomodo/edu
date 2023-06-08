@@ -102,6 +102,38 @@ let ``/api/v1/blog/asd should return 404`` () =
   }
 
 [<Fact>]
+let ``/api/v1/assignment should return 401`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/assignment")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``/api/v1/assignment/ should return 401`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/assignment/")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``/api/v1/assignment/intro should return 401`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/assignment/intro")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``/api/v1/assignment/asd should return 401`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/assignment/asd")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
 let ``/api/v1/course should return 401`` () =
   task {
     let api = runTestApi().CreateClient()
@@ -132,3 +164,35 @@ let ``/api/v1/course/asd should return 401`` () =
     let! response = api.GetAsync("/api/v1/course/asd")
     Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
+
+let ``/api/v1/section should return 401`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/section")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``/api/v1/section/ should return 401`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/section/")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``/api/v1/section/intro should return 401`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/section/intro")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``/api/v1/section/asd should return 401`` () =
+  task {
+    let api = runTestApi().CreateClient()
+    let! response = api.GetAsync("/api/v1/section/asd")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
