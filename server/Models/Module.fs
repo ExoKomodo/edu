@@ -10,6 +10,74 @@ open System
 open System.Threading
 open System.Net
 
+type ExoId = string
+
+type IDatabaseModelMetadata = 
+  abstract Description : string
+  abstract Name : string
+
+type IDatabaseModel = 
+  abstract Id : ExoId
+  abstract Metadata : IDatabaseModelMetadata
+
+[<CLIMutable>]
+type CourseMetadata =
+  { Description : string
+    Name : string }
+  interface IDatabaseModelMetadata with
+    member x.Description = x.Description
+    member x.Name = x.Name
+
+[<CLIMutable>]
+type Course =
+  { Id : ExoId
+    Content : string
+    Metadata : CourseMetadata }
+  interface IDatabaseModel with
+    member x.Id = x.Id
+    member x.Metadata = x.Metadata
+
+[<CLIMutable>]
+type CourseIndex =
+  { Courses : Dictionary<string, CourseMetadata> }
+
+[<CLIMutable>]
+type SectionMetadata =
+  { Description : string
+    Name : string
+    CourseId : ExoId }
+  interface IDatabaseModelMetadata with
+    member x.Description = x.Description
+    member x.Name = x.Name
+
+[<CLIMutable>]
+type Section =
+  { Id : ExoId
+    Difficulty : uint
+    Metadata : SectionMetadata }
+  interface IDatabaseModel with
+    member x.Id = x.Id
+    member x.Metadata = x.Metadata
+
+[<CLIMutable>]
+type AssignmentMetadata =
+  { Description : string
+    Name : string
+    RequiredSections : list<Section>
+    CourseId : ExoId }
+  interface IDatabaseModelMetadata with
+    member x.Description = x.Description
+    member x.Name = x.Name
+
+[<CLIMutable>]
+type Assignment =
+  { Id : ExoId
+    ProblemDescription : string
+    Metadata : AssignmentMetadata }
+  interface IDatabaseModel with
+    member x.Id = x.Id
+    member x.Metadata = x.Metadata
+
 [<CLIMutable>]
 type BlobQueryArgs =
   { url: string }
@@ -21,7 +89,7 @@ type BlogMetadata =
 
 [<CLIMutable>]
 type Blog =
-  { Id : string
+  { Id : ExoId
     Content : string
     Metadata : BlogMetadata }
 
@@ -30,23 +98,27 @@ type BlogIndex =
   { Blogs : Dictionary<string, BlogMetadata> }
 
 [<CLIMutable>]
-type CourseMetadata =
-  { Description : string
-    Name : string }
-
-[<CLIMutable>]
-type Course =
-  { Id : string
-    Content : string
-    Metadata : CourseMetadata }
-
-[<CLIMutable>]
-type CourseIndex =
-  { Courses : Dictionary<string, CourseMetadata> }
+type UserInfo =
+  { [<JsonPropertyName("email")>]
+    Email : string
+    [<JsonPropertyName("email_verified")>]
+    IsEmailVerified : bool
+    [<JsonPropertyName("nickname")>]
+    Nickname : string
+    [<JsonPropertyName("name")>]
+    Name : string
+    [<JsonPropertyName("picture")>]
+    Picture : string
+    [<JsonPropertyName("sub")>]
+    Sub : string
+    [<JsonPropertyName("updated_at")>]
+    UpdatedAt : string }
 
 type Dependencies =
   { Database : IMongoDatabase
+    AssignmentCollection : IMongoCollection<Assignment>
     CourseCollection : IMongoCollection<Course>
+    SectionCollection : IMongoCollection<Section>
     Auth0HttpClient : HttpClient
     S3Client : AmazonS3Client }
     
@@ -59,7 +131,7 @@ type Dependencies =
         exit 1
       | _ ->
         let client = new MongoClient(connectionString)
-        let database = client.GetDatabase("admin")
+        let database = client.GetDatabase("edu")
         printfn "Initialized Mongo!"
         database
 
@@ -82,25 +154,10 @@ type Dependencies =
       let database = Dependencies.InitializeMongo()
       let s3Client = Dependencies.ConnectToS3()
       { Database = database
+        AssignmentCollection = database.GetCollection<Assignment>("assignments")
         CourseCollection = database.GetCollection<Course>("courses")
+        SectionCollection = database.GetCollection<Section>("sections")
         Auth0HttpClient = new HttpClient(
           BaseAddress = new Uri($"{auth0UrlScheme}{auth0BaseUrl}")
         )
         S3Client = s3Client }
-
-[<CLIMutable>]
-type UserInfo =
-  { [<JsonPropertyName("email")>]
-    Email : string
-    [<JsonPropertyName("email_verified")>]
-    IsEmailVerified : bool
-    [<JsonPropertyName("nickname")>]
-    Nickname : string
-    [<JsonPropertyName("name")>]
-    Name : string
-    [<JsonPropertyName("picture")>]
-    Picture : string
-    [<JsonPropertyName("sub")>]
-    Sub : string
-    [<JsonPropertyName("updated_at")>]
-    UpdatedAt : string }
