@@ -118,7 +118,7 @@ match connectionString with
   exit 1
 | _ ->
   let client = new MongoClient(connectionString)
-  let database = client.GetDatabase("admin")
+  let database = client.GetDatabase("edu")
   let collection = database.GetCollection<Course>("courses")
 ```
 

@@ -15,8 +15,16 @@
       return _getSpecifierById('blog');
     }
 
+    function getAssignmentById() {
+      return _getSpecifierById('assignment');
+    }
+
     function getCourseById() {
       return _getSpecifierById('course');
+    }
+
+    function getSectionById() {
+      return _getSpecifierById('section');
     }
   </script>
 </head>
@@ -24,6 +32,31 @@
 <body>
   <h1>Edu - Routes - /api/v1</h1>
   <ul>
+    <h2>Assignments</h2>
+    <li>
+      <a href="/api/v1/assignment/{id}">GET: Get assignment by ID</a>
+      <form onsubmit="return false">
+        <input id="assignment-id-input" type="text" placeholder="Assignment ID" />
+        <input type="submit" value="Get assignment" onclick="getAssignmentById()" />
+      </form>
+    </li>
+    <li>
+      <a href="/api/v1/assignment">GET: List assignments</a>
+    </li>
+    <li>
+      <a href="/api/v1/assignment/{id}">DELETE: Delete assignment by ID</a>
+    </li>
+    <li>
+      <a href="/api/v1/assignment">POST: Create assignment from body JSON</a>
+    </li>
+    <li>
+      <a href="/api/v1/assignment">PUT: Update assignment from body JSON</a>
+    </li>
+    <h2>Blobs</h2>
+    <li>
+      <a href="/api/v1/blob/<path>">GET: Provide blob presigned urls</a>
+    </li>
+    <h2>Blogs</h2>
     <li>
       <a href="/api/v1/blog">GET: List blogs</a>
     </li>
@@ -34,6 +67,7 @@
         <input type="submit" value="Get blog" onclick="getBlogById()" />
       </form>
     </li>
+    <h2>Courses</h2>
     <li>
       <a href="/api/v1/course/{id}">GET: Get course by ID</a>
       <form onsubmit="return false">
@@ -53,8 +87,25 @@
     <li>
       <a href="/api/v1/course">PUT: Update course from body JSON</a>
     </li>
+    <h2>Sections</h2>
     <li>
-      <a href="/api/v1/blob/<path>">GET: Provide blob presigned urls</a>
+      <a href="/api/v1/section/{id}">GET: Get section by ID</a>
+      <form onsubmit="return false">
+        <input id="section-id-input" type="text" placeholder="Section ID" />
+        <input type="submit" value="Get section" onclick="getSectionById()" />
+      </form>
+    </li>
+    <li>
+      <a href="/api/v1/section">GET: List sections</a>
+    </li>
+    <li>
+      <a href="/api/v1/section/{id}">DELETE: Delete section by ID</a>
+    </li>
+    <li>
+      <a href="/api/v1/section">POST: Create section from body JSON</a>
+    </li>
+    <li>
+      <a href="/api/v1/section">PUT: Update section from body JSON</a>
     </li>
   </ul>
 </body>
