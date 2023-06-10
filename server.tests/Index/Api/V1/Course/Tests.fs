@@ -1,4 +1,4 @@
-module Index.Api.V1.Tests
+module Index.Api.V1.Course.Tests
 
 open FSharp.Control
 open System.Net
@@ -8,7 +8,7 @@ open Xunit
 [<Fact>]
 let ``GET /api/v1/course should return 401`` () =
   task {
-    let api = Dependencies.Client
+    let api = Dependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/v1/course")
     Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
@@ -16,7 +16,7 @@ let ``GET /api/v1/course should return 401`` () =
 [<Fact>]
 let ``GET /api/v1/course/ should return 401`` () =
   task {
-    let api = Dependencies.Client
+    let api = Dependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/v1/course/")
     Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
@@ -24,7 +24,7 @@ let ``GET /api/v1/course/ should return 401`` () =
 [<Fact>]
 let ``GET /api/v1/course/intro should return 401`` () =
   task {
-    let api = Dependencies.Client
+    let api = Dependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/v1/course/intro")
     Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
@@ -32,7 +32,7 @@ let ``GET /api/v1/course/intro should return 401`` () =
 [<Fact>]
 let ``GET /api/v1/course/asd should return 401`` () =
   task {
-    let api = Dependencies.Client
+    let api = Dependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/v1/course/asd")
     Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }

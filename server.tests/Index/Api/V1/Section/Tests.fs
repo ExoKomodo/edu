@@ -1,4 +1,4 @@
-module Index.Api.V1.Tests
+module Index.Api.V1.Section.Tests
 
 open FSharp.Control
 open System.Net
