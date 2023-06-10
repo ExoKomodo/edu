@@ -49,6 +49,7 @@ let mustBeLoggedIn : HttpFunc -> HttpContext -> HttpFuncResult =
   requiresAuthentication notLoggedIn
 
 let mustBePaidUsersOrHigher (auth0HttpClient : HttpClient): HttpHandler =
+  // TODO: Parse the jwt yourself for the email, and use mustBeLoggedIn
  fun (next : HttpFunc) (ctx : HttpContext) ->
     let result =
       match ctx.TryGetRequestHeader "Authorization" with
