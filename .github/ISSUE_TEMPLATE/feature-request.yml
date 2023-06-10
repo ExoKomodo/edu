@@ -3,7 +3,7 @@ description: |
   Explain what improvement or additions you believe Edu should have
 title: "[FEATURE] <name your feature here>"
 labels:
-  - enhancement
+  - feature
 assignees:
   - octocat
 body:

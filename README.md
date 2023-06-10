@@ -35,7 +35,7 @@ Install [.Net 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 # Setup mongo creds
 export MONGODB_URI="<connection string>"
 # Setup object storage creds
-export AWS_ACCESS_KEY_ID="DO00GJNKZJVF8EHF4N2T"
+export AWS_ACCESS_KEY_ID="DO00MM6Z43GZ4V6YX8PY"
 export AWS_SECRET_ACCESS_KEY="*************************************"
 ```
 
