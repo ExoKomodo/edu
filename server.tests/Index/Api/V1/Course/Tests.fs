@@ -6,7 +6,7 @@ open TestApi
 open Xunit
 
 [<Fact>]
-let ``GET /api/v1/course should return 401`` () =
+let ``GET /api/v1/course should return 401, without an Authorization header`` () =
   task {
     let api = Dependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/v1/course")
@@ -14,7 +14,7 @@ let ``GET /api/v1/course should return 401`` () =
   }
 
 [<Fact>]
-let ``GET /api/v1/course/ should return 401`` () =
+let ``GET /api/v1/course/ should return 401, without an Authorization header`` () =
   task {
     let api = Dependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/v1/course/")
@@ -22,7 +22,7 @@ let ``GET /api/v1/course/ should return 401`` () =
   }
 
 [<Fact>]
-let ``GET /api/v1/course/intro should return 401`` () =
+let ``GET /api/v1/course/intro should return 401, without an Authorization header`` () =
   task {
     let api = Dependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/v1/course/intro")
@@ -30,9 +30,45 @@ let ``GET /api/v1/course/intro should return 401`` () =
   }
 
 [<Fact>]
-let ``GET /api/v1/course/asd should return 401`` () =
+let ``GET /api/v1/course/asd should return 401, without an Authorization header`` () =
   task {
     let api = Dependencies.Server.CreateClient()
+    let! response = api.GetAsync("/api/v1/course/asd")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``GET /api/v1/course should return 401, with a bad Authorization header`` () =
+  task {
+    let api = Dependencies.Server.CreateClient()
+    api.DefaultRequestHeaders.Add("Authorization", "foo")
+    let! response = api.GetAsync("/api/v1/course")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``GET /api/v1/course/ should return 401, with a bad Authorization header`` () =
+  task {
+    let api = Dependencies.Server.CreateClient()
+    api.DefaultRequestHeaders.Add("Authorization", "foo")
+    let! response = api.GetAsync("/api/v1/course/")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``GET /api/v1/course/intro should return 401, with a bad Authorization header`` () =
+  task {
+    let api = Dependencies.Server.CreateClient()
+    api.DefaultRequestHeaders.Add("Authorization", "foo")
+    let! response = api.GetAsync("/api/v1/course/intro")
+    Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
+  }
+
+[<Fact>]
+let ``GET /api/v1/course/asd should return 401, with a bad Authorization header`` () =
+  task {
+    let api = Dependencies.Server.CreateClient()
+    api.DefaultRequestHeaders.Add("Authorization", "foo")
     let! response = api.GetAsync("/api/v1/course/asd")
     Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode)
   }
