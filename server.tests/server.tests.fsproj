@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="TestHelpers.fs" />
     <Compile Include="TestApi.fs" />
     <!-- NOTE: Picks up EVERY files named `Tests.fs` -->
     <Compile Include="**/Tests.fs" />

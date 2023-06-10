@@ -8,7 +8,7 @@ open Xunit
 [<Fact>]
 let ``GET /api should succeed`` () =
   task {
-    let api = Dependencies.Server.CreateClient()
+    let api = TestDependencies.Server.CreateClient()
     let! response = api.GetAsync("/api")
     Assert.True(response.IsSuccessStatusCode)
   }
@@ -16,7 +16,7 @@ let ``GET /api should succeed`` () =
 [<Fact>]
 let ``GET /api/ should succeed`` () =
   task {
-    let api = Dependencies.Server.CreateClient()
+    let api = TestDependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/")
     Assert.True(response.IsSuccessStatusCode)
   }
@@ -24,7 +24,7 @@ let ``GET /api/ should succeed`` () =
 [<Fact>]
 let ``GET /api/asd should return 404`` () =
   task {
-    let api = Dependencies.Server.CreateClient()
+    let api = TestDependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/asd")
     Assert.Equal(HttpStatusCode.NotFound, response.StatusCode)
   }

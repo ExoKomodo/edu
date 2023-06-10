@@ -1,15 +1,34 @@
 module TestApi
-  
+
+open Giraffe
 open Microsoft.AspNetCore.Mvc.Testing
 open Program
-open Microsoft.AspNetCore.TestHost
+open System
+open System.Net.Http
 
 let runTestApi () =
   (new WebApplicationFactory<Program>()).Server
 
-type Dependencies () =
+let unauthenticatedAuth0HttpClient = new HttpClient(
+  BaseAddress = new Uri("https://exokomodo.us.auth0.com")
+)
+
+let serializer = Helpers.getSerializer()
+
+type TestDependencies () =
   static let server =
-    printfn "We are getting called more than once, probably on Open"
     runTestApi()
   
+  static let clientSecret = Environment.GetEnvironmentVariable("CLIENT_SECRET")
+  static let accessTokenAsync =
+    async {
+      let! response = TestHelpers.getAccessTokenAsync unauthenticatedAuth0HttpClient serializer clientSecret
+      return
+        match response with
+        | Some token -> token.AccessToken
+        | None -> raise (HttpRequestException("Failed to get access token"))
+    }
+
+  static member AccessToken = accessTokenAsync |> Async.RunSynchronously
+  static member ClientSecret = clientSecret
   static member Server = server

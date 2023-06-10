@@ -6,7 +6,6 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
 open Models
 open System.Net.Http
-open System.Text.Json.Serialization
 
 let dependencies = Dependencies.Open()
 
@@ -120,7 +119,7 @@ let configureServices (services : IServiceCollection) =
     )
     .AddJwtBearer(
       fun options ->
-        options.Authority <- $"https://exokomodo.us.auth0.com/"
+        options.Authority <- "https://exokomodo.us.auth0.com/"
         options.Audience <- "https://services.edu.exokomodo.com"
     )
   |> ignore
@@ -129,9 +128,7 @@ let configureServices (services : IServiceCollection) =
     .AddGiraffe()
   |> ignore
 
-  let serializationOptions = SystemTextJson.Serializer.DefaultOptions
-  serializationOptions.Converters.Add(JsonFSharpConverter(JsonUnionEncoding.FSharpLuLike))
-  services.AddSingleton<Json.ISerializer>(SystemTextJson.Serializer(serializationOptions)) |> ignore
+  services.AddSingleton<Json.ISerializer>(Helpers.getSerializer()) |> ignore
 
 let builder = WebApplication.CreateBuilder()
 

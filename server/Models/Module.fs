@@ -12,6 +12,24 @@ open System.Net
 
 type ExoId = string
 
+[<CLIMutable>]
+type Auth0AccessTokenResponse =
+  { [<JsonPropertyName("access_token")>]
+    AccessToken : string
+    [<JsonPropertyName("token_type")>]
+    TokenType : string }
+
+[<CLIMutable>]
+type Auth0Params =
+  { [<JsonPropertyName("grant_type")>]
+    GrantType : string
+    [<JsonPropertyName("client_id")>]
+    ClientId : string
+    [<JsonPropertyName("client_secret")>]
+    ClientSecret : string
+    [<JsonPropertyName("audience")>]
+    Audience : string }
+
 type IDatabaseModelMetadata = 
   abstract Description : string
   abstract Name : string
