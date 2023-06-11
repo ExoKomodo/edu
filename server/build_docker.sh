@@ -8,6 +8,7 @@ cd $(dirname ${BASH_SOURCE[0]})
 
 docker build \
   --build-arg MONGODB_URI=${MONGODB_URI} \
+  --build-arg MONGODB_DATABASE=${MONGODB_DATABASE} \
   --build-arg ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
   --build-arg SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
   .

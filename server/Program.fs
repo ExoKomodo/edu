@@ -21,7 +21,7 @@ let webApp = (choose [
               routef  "/blog/%s" Api.V1.Blog.get
             ])
             routex "/assignment(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (Helpers.canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -38,7 +38,7 @@ let webApp = (choose [
                   bindJson<Assignment> (Api.V1.Builder.put<Assignment> dependencies.AssignmentCollection dependencies.UpdateAssignment)
               ])
             routex "/course(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (Helpers.canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -55,7 +55,7 @@ let webApp = (choose [
                   bindJson<Course> (Api.V1.Builder.put<Course> dependencies.CourseCollection dependencies.UpdateCourse)
               ])
             routex "/section(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (Helpers.canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -76,7 +76,7 @@ let webApp = (choose [
                 routex  "/user/info(/?)" >=> Api.V1.User.getInfo dependencies.Auth0HttpClient
               ])
             routex "/blob(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (Helpers.canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [

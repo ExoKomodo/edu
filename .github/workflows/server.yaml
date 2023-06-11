@@ -33,6 +33,7 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        MONGODB_DATABASE: edu-test
       run: |
         dotnet test --no-build --verbosity normal
     - name: Install doctl

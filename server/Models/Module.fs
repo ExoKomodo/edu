@@ -148,13 +148,19 @@ type Dependencies =
       let connectionString = Environment.GetEnvironmentVariable("MONGODB_URI")
       match connectionString with
       | null ->
-        printfn "You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
+        printfn "You must set your 'MONGODB_URI' environment variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
         exit 1
       | _ ->
-        let client = new MongoClient(connectionString)
-        let database = client.GetDatabase("edu")
-        printfn "Initialized Mongo!"
-        database
+        let databaseName = Environment.GetEnvironmentVariable("MONGODB_DATABASE")
+        match databaseName with
+        | null ->
+          printfn "You must set your 'MONGODB_DATABASE' environment variable."
+          exit 1
+        | _ ->
+          let client = new MongoClient(connectionString)
+          let database = client.GetDatabase(databaseName)
+          printfn "Initialized Mongo!"
+          database
 
     static member TestS3Connection(client : AmazonS3Client): bool =
       let buckets = client.ListBucketsAsync(new CancellationToken()) |> Async.AwaitTask |> Async.RunSynchronously

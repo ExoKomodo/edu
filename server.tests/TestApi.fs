@@ -19,10 +19,11 @@ type TestDependencies () =
   static let server =
     runTestApi()
   
-  static let clientSecret = Environment.GetEnvironmentVariable("CLIENT_SECRET")
+  static let clientId = Environment.GetEnvironmentVariable("AUTH0_CLIENT_ID")
+  static let clientSecret = Environment.GetEnvironmentVariable("AUTH0_CLIENT_SECRET")
   static let accessTokenAsync =
     async {
-      let! response = TestHelpers.getAccessTokenAsync unauthenticatedAuth0HttpClient serializer clientSecret
+      let! response = TestHelpers.getAccessTokenAsync unauthenticatedAuth0HttpClient serializer clientId clientSecret
       return
         match response with
         | Some token -> token.AccessToken
@@ -30,5 +31,6 @@ type TestDependencies () =
     }
 
   static member AccessToken = accessTokenAsync |> Async.RunSynchronously
+  static member ClientId = clientId
   static member ClientSecret = clientSecret
   static member Server = server

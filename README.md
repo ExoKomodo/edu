@@ -32,7 +32,7 @@ Refer to the [`README`](./client/README.md#run-unit-tests-with-vitest)
 Install [.Net 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
 ```bash
-# Setup mongo creds
+# Setup mongo creds. Feel free to make your own mongodb database and connect to that.
 export MONGODB_URI="<connection string>"
 # Setup object storage creds
 export AWS_ACCESS_KEY_ID="DO00MM6Z43GZ4V6YX8PY"

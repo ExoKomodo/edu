@@ -5,13 +5,13 @@ open Models
 open System.Net.Http
 open System.Text
 
-let getAccessTokenAsync (unauthenticatedAuth0HttpClient : HttpClient) (serializer : Json.ISerializer) (clientSecret : string) : Async<option<Auth0AccessTokenResponse>> =
+let getAccessTokenAsync (unauthenticatedAuth0HttpClient : HttpClient) (serializer : Json.ISerializer) (clientId : string) (clientSecret : string) : Async<option<Auth0AccessTokenResponse>> =
   printfn "Getting access token..."
   async {
     let jsonContent = new StringContent(
       serializer.SerializeToString(
         { GrantType = "client_credentials"
-          ClientId = "NWnLqtU89JR6drCGaabYygA2zUUQ7woG"
+          ClientId = clientId
           ClientSecret = clientSecret
           Audience = "https://services.edu.exokomodo.com" }
       ),
