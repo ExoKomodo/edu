@@ -6,10 +6,8 @@ open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Net.Http.Headers
 open System.Text.Json.Serialization
-open JWT.Builder
 open System.Collections.Generic
-open JWT
-open JWT.Algorithms
+open Jose
 
 let (|StringPrefix|_|) (prefix : string) (str : string) =
   if str.StartsWith(prefix) then
@@ -28,9 +26,7 @@ let paidUsers = [
 let getUserInfoAsync (auth0HttpClient : HttpClient) (serializer : Json.ISerializer) : Async<option<UserInfo>> =
   async {
     let! response = auth0HttpClient.GetAsync("/userinfo") |> Async.AwaitTask
-    printfn "Hello"
     let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    printfn "%s" content
     try
       return serializer.Deserialize<UserInfo> content |> Some
     with
@@ -51,14 +47,14 @@ let notLoggedIn =
 let mustBeLoggedIn : HttpFunc -> HttpContext -> HttpFuncResult =
   requiresAuthentication notLoggedIn
 
-let getDecoder (serializer : JWT.IJsonSerializer) : JwtDecoder =
-  let decoder = new JwtDecoder(serializer, new JwtBase64UrlEncoder())
-  // var typ = header.Type; // JWT
-  // var alg = header.Algorithm; // RS256
-  // var kid = header.KeyId; // CFAEAE2D650A6CA9862575DE54371EA980643849
-  decoder
+let getWellKnownKeysAsync (auth0HttpClient : HttpClient) =
+  async {
+    let! response = auth0HttpClient.GetAsync("/.well-known/jwks.json") |> Async.AwaitTask
+    let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+    return JwkSet.FromJson(content, JWT.DefaultSettings.JsonMapper)
+  }
 
-let validateAccessToken (decoder : JwtDecoder) (bearer : string) : string =
+let validateAccessToken (auth0HttpClient : HttpClient) (bearer : string) : string =
   // NOTE: Machine to machine
   // Bearer - eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVxLVAtTE5oODZ2TkZ6VUNCSnZjVSJ9.eyJpc3MiOiJodHRwczovL2V4b2tvbW9kby51cy5hdXRoMC5jb20vIiwic3ViIjoiTlduTHF0VTg5SlI2ZHJDR2FhYll5Z0EyelVVUTd3b0dAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vc2VydmljZXMuZWR1LmV4b2tvbW9kby5jb20iLCJpYXQiOjE2ODY0OTYwNTcsImV4cCI6MTY4NjU4MjQ1NywiYXpwIjoiTlduTHF0VTg5SlI2ZHJDR2FhYll5Z0EyelVVUTd3b0ciLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMifQ.YY_v7KxfY84v1CiY9TM8fTszqedikzELHQpFR5eDxhFXl2gvQ_RnSUN-GLe87UT4lN4AjjuaOFLIDXYuTz-6db8CmKMqUeMDWaiRAgfXqydbmWU1ymtdmCN-gXsNfYu-916LaUOrTn0h5YuC_TZHFK7c2cuZ2C-1iSNdi4duCeyveeTxwjXSHobh5-K5dvl0IkWcu2G2fpqSJY_MlQQCENmYp_TOouPtx36KaSPmlVuFW041bQE-swLQ2jw1PlJPtwIeaO5S0YYH537uY0UG52mify1CtJnvRwMi8r88V64HMOl6Y_qNMwRbSzGJnHX5RaWchWWhoMhj4uY0uwTYlA
   // Decoded payload - {
@@ -84,15 +80,20 @@ let validateAccessToken (decoder : JwtDecoder) (bearer : string) : string =
   //   "azp": "d0nbGyYvhTxPjyL1eaa3K4ojLDUNt1LX",
   //   "scope": "openid profile email"
   // }
-  printfn "bearer %s" bearer
-  let header = decoder.DecodeHeader<Serializers.JsonWebTokenHeader> bearer
-  printfn "Bearer header decoded: %s" header.Algorithm
-  let decoded = decoder.DecodeToObject<IDictionary<string, string>> bearer
-  printfn "Bearer decoded: %O" decoded.Keys
+  let header = Jose.JWT.Headers<Models.JsonWebTokenHeader>(bearer, JWT.DefaultSettings)
+  printfn "Bearer header decoded: %s" header.KeyId
+  let kid = header.KeyId
+  let keySet = getWellKnownKeysAsync auth0HttpClient |> Async.RunSynchronously
+  let key =
+    List.find
+      (fun (x : Jwk) -> x.KeyId = kid)
+      (Seq.toList keySet.Keys)
+  let decoded = Jose.JWT.Decode<IDictionary<string, obj>> (bearer, key)
+  let clientId = decoded["azp"] :?> string
+  // TODO: Return jwt object that is readable, or parse this into a custom auth object
   bearer
 
 let canAccessPaidContent (auth0HttpClient : HttpClient): HttpHandler =
-  // TODO: Parse the jwt yourself for the client id to determine user or machine
   mustBeLoggedIn >=> fun (next : HttpFunc) (ctx : HttpContext) ->
     let result =
       match ctx.TryGetRequestHeader "Authorization" with
@@ -100,7 +101,7 @@ let canAccessPaidContent (auth0HttpClient : HttpClient): HttpHandler =
         match authorizationHeader with
         | StringPrefix "Bearer " token ->
           auth0HttpClient.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Bearer", token)
-          validateAccessToken (getDecoder (Serializers.JsonSerializer())) token |> ignore
+          validateAccessToken auth0HttpClient token |> ignore
           match getUserInfoAsync auth0HttpClient (ctx.GetJsonSerializer()) |> Async.RunSynchronously with
           | Some userInfo ->
             let isAdmin = List.contains userInfo.Email admins

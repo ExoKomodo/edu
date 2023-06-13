@@ -60,6 +60,23 @@ type CourseIndex =
   { Courses : Dictionary<string, CourseMetadata> }
 
 [<CLIMutable>]
+type JsonWebTokenHeader =
+  { [<JsonPropertyName("typ")>]
+    Type : string
+    [<JsonPropertyName("cty")>]
+    ContentType : string
+    [<JsonPropertyName("alg")>]
+    Algorithm : string
+    [<JsonPropertyName("kid")>]
+    KeyId : string
+    [<JsonPropertyName("x5u")>]
+    X5u : string
+    [<JsonPropertyName("x5c")>]
+    X5c : string
+    [<JsonPropertyName("x5t")>]
+    X5t : string }
+
+[<CLIMutable>]
 type SectionMetadata =
   { Description : string
     Name : string
