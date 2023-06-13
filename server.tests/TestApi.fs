@@ -13,7 +13,7 @@ let unauthenticatedAuth0HttpClient = new HttpClient(
   BaseAddress = new Uri("https://exokomodo.us.auth0.com")
 )
 
-let serializer = Helpers.getSerializer()
+let serializer = Serializers.JsonSerializer()
 
 type TestDependencies () =
   static let server =
@@ -29,8 +29,10 @@ type TestDependencies () =
         | Some token -> token.AccessToken
         | None -> raise (HttpRequestException("Failed to get access token"))
     }
+  static let jsonSerializer = Serializers.JsonSerializer()
 
   static member AccessToken = accessTokenAsync |> Async.RunSynchronously
   static member ClientId = clientId
   static member ClientSecret = clientSecret
+  static member JsonSerializer = jsonSerializer
   static member Server = server

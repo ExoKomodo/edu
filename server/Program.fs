@@ -128,7 +128,7 @@ let configureServices (services : IServiceCollection) =
     .AddGiraffe()
   |> ignore
 
-  services.AddSingleton<Json.ISerializer>(Helpers.getSerializer()) |> ignore
+  services.AddSingleton<Json.ISerializer>(Serializers.JsonSerializer()) |> ignore
 
 let builder = WebApplication.CreateBuilder()
 

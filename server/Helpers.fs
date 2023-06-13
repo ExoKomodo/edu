@@ -8,6 +8,8 @@ open System.Net.Http.Headers
 open System.Text.Json.Serialization
 open JWT.Builder
 open System.Collections.Generic
+open JWT
+open JWT.Algorithms
 
 let (|StringPrefix|_|) (prefix : string) (str : string) =
   if str.StartsWith(prefix) then
@@ -22,11 +24,6 @@ let admins = [
 let paidUsers = [
   "jamesaorson@gmail.com";
 ]
-
-let getSerializer () =
-  let serializationOptions = SystemTextJson.Serializer.DefaultOptions
-  serializationOptions.Converters.Add(JsonFSharpConverter(JsonUnionEncoding.FSharpLuLike))
-  new SystemTextJson.Serializer(serializationOptions)
 
 let getUserInfoAsync (auth0HttpClient : HttpClient) (serializer : Json.ISerializer) : Async<option<UserInfo>> =
   async {
@@ -54,7 +51,14 @@ let notLoggedIn =
 let mustBeLoggedIn : HttpFunc -> HttpContext -> HttpFuncResult =
   requiresAuthentication notLoggedIn
 
-let validateAccessToken (bearer : string) : string =
+let getDecoder (serializer : JWT.IJsonSerializer) : JwtDecoder =
+  let decoder = new JwtDecoder(serializer, new JwtBase64UrlEncoder())
+  // var typ = header.Type; // JWT
+  // var alg = header.Algorithm; // RS256
+  // var kid = header.KeyId; // CFAEAE2D650A6CA9862575DE54371EA980643849
+  decoder
+
+let validateAccessToken (decoder : JwtDecoder) (bearer : string) : string =
   // NOTE: Machine to machine
   // Bearer - eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkVxLVAtTE5oODZ2TkZ6VUNCSnZjVSJ9.eyJpc3MiOiJodHRwczovL2V4b2tvbW9kby51cy5hdXRoMC5jb20vIiwic3ViIjoiTlduTHF0VTg5SlI2ZHJDR2FhYll5Z0EyelVVUTd3b0dAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vc2VydmljZXMuZWR1LmV4b2tvbW9kby5jb20iLCJpYXQiOjE2ODY0OTYwNTcsImV4cCI6MTY4NjU4MjQ1NywiYXpwIjoiTlduTHF0VTg5SlI2ZHJDR2FhYll5Z0EyelVVUTd3b0ciLCJndHkiOiJjbGllbnQtY3JlZGVudGlhbHMifQ.YY_v7KxfY84v1CiY9TM8fTszqedikzELHQpFR5eDxhFXl2gvQ_RnSUN-GLe87UT4lN4AjjuaOFLIDXYuTz-6db8CmKMqUeMDWaiRAgfXqydbmWU1ymtdmCN-gXsNfYu-916LaUOrTn0h5YuC_TZHFK7c2cuZ2C-1iSNdi4duCeyveeTxwjXSHobh5-K5dvl0IkWcu2G2fpqSJY_MlQQCENmYp_TOouPtx36KaSPmlVuFW041bQE-swLQ2jw1PlJPtwIeaO5S0YYH537uY0UG52mify1CtJnvRwMi8r88V64HMOl6Y_qNMwRbSzGJnHX5RaWchWWhoMhj4uY0uwTYlA
   // Decoded payload - {
@@ -81,8 +85,9 @@ let validateAccessToken (bearer : string) : string =
   //   "scope": "openid profile email"
   // }
   printfn "bearer %s" bearer
-  
-  let decoded = JwtBuilder.Create().MustVerifySignature().Decode<IDictionary<string, obj>>(bearer)     
+  let header = decoder.DecodeHeader<Serializers.JsonWebTokenHeader> bearer
+  printfn "Bearer header decoded: %s" header.Algorithm
+  let decoded = decoder.DecodeToObject<IDictionary<string, string>> bearer
   printfn "Bearer decoded: %O" decoded.Keys
   bearer
 
@@ -95,7 +100,7 @@ let canAccessPaidContent (auth0HttpClient : HttpClient): HttpHandler =
         match authorizationHeader with
         | StringPrefix "Bearer " token ->
           auth0HttpClient.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Bearer", token)
-          validateAccessToken token |> ignore
+          validateAccessToken (getDecoder (Serializers.JsonSerializer())) token |> ignore
           match getUserInfoAsync auth0HttpClient (ctx.GetJsonSerializer()) |> Async.RunSynchronously with
           | Some userInfo ->
             let isAdmin = List.contains userInfo.Email admins
