@@ -1,7 +1,7 @@
 module Api.V1.Blog
 
 open Giraffe
-open Helpers
+open Lib.ActivePatterns
 open Microsoft.AspNetCore.Http
 open Models
 open System.IO

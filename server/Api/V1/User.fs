@@ -2,6 +2,8 @@ module Api.V1.User
 
 open Giraffe
 open Helpers
+open Lib.ActivePatterns
+open Lib.Giraffe.Handlers
 open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Net.Http.Headers

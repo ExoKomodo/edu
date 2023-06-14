@@ -6,6 +6,7 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
 open Models
 open System.Net.Http
+open Handlers
 
 let dependencies = Dependencies.Open()
 
@@ -21,7 +22,7 @@ let webApp = (choose [
               routef  "/blog/%s" Api.V1.Blog.get
             ])
             routex "/assignment(/?)(.*)" >=>
-              (Helpers.canAccessPaidContent dependencies.Auth0HttpClient) >=>
+              (canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -38,7 +39,7 @@ let webApp = (choose [
                   bindJson<Assignment> (Api.V1.Builder.put<Assignment> dependencies.AssignmentCollection dependencies.UpdateAssignment)
               ])
             routex "/course(/?)(.*)" >=>
-              (Helpers.canAccessPaidContent dependencies.Auth0HttpClient) >=>
+              (canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -55,7 +56,7 @@ let webApp = (choose [
                   bindJson<Course> (Api.V1.Builder.put<Course> dependencies.CourseCollection dependencies.UpdateCourse)
               ])
             routex "/section(/?)(.*)" >=>
-              (Helpers.canAccessPaidContent dependencies.Auth0HttpClient) >=>
+              (canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -76,7 +77,7 @@ let webApp = (choose [
                 routex  "/user/info(/?)" >=> Api.V1.User.getInfo dependencies.Auth0HttpClient
               ])
             routex "/blob(/?)(.*)" >=>
-              (Helpers.canAccessPaidContent dependencies.Auth0HttpClient) >=>
+              (canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
