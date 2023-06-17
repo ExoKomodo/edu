@@ -16,6 +16,10 @@ let notLoggedIn : HttpFunc -> HttpContext -> HttpFuncResult =
     "Some Realm"
     "You must be logged in."
 
+type HandlerContextParameters =
+  static member BearerToken : string = "ExoLibGiraffeBearerToken"
+  static member Auth0Client : string = "ExoLibGiraffeAuth0Client"
+
 let mustBeLoggedIn (auth0HttpClient : HttpClient) (validator : HttpClient -> string -> option<Auth0Client>) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let result =
@@ -28,6 +32,9 @@ let mustBeLoggedIn (auth0HttpClient : HttpClient) (validator : HttpClient -> str
           let auth0Client = validator auth0HttpClient token
           match auth0Client with
           | None -> notLoggedIn
-          | _ -> justContinue
+          | _ ->
+            ctx.Items[HandlerContextParameters.BearerToken] <- token
+            ctx.Items[HandlerContextParameters.Auth0Client] <- auth0Client
+            justContinue
         | _ -> notLoggedIn
     result next ctx
