@@ -18,7 +18,7 @@ let paidUsers = [
   "jamesaorson@gmail.com";
 ]
 
-let canAccessPaidContent (auth0HttpClient : HttpClient): HttpHandler =
+let canAccessPaidContent (auth0HttpClient : HttpClient) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let result =
       match ctx.TryGetRequestHeader "Authorization" with
