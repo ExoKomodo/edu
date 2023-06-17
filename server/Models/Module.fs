@@ -2,43 +2,14 @@ module Models
 
 open Amazon.S3
 open Constants
-open System.Collections.Generic
-open System.Text.Json.Serialization
 open MongoDB.Driver
-open System.Net.Http
 open System
-open System.Threading
+open System.Collections.Generic
 open System.Net
+open System.Net.Http
+open System.Threading
 
 type ExoId = string
-
-[<CLIMutable>]
-type Auth0AccessTokenResponse =
-  { [<JsonPropertyName("access_token")>]
-    AccessToken : string
-    [<JsonPropertyName("token_type")>]
-    TokenType : string }
-
-type Auth0Client =
-  | Machine
-  | User
-
-  static member FromClientId (clientId : string) : option<Auth0Client> =
-    match clientId with
-    | "NWnLqtU89JR6drCGaabYygA2zUUQ7woG" -> Some Machine
-    | "d0nbGyYvhTxPjyL1eaa3K4ojLDUNt1LX" -> Some User
-    | _ -> None
-
-[<CLIMutable>]
-type Auth0Params =
-  { [<JsonPropertyName("grant_type")>]
-    GrantType : string
-    [<JsonPropertyName("client_id")>]
-    ClientId : string
-    [<JsonPropertyName("client_secret")>]
-    ClientSecret : string
-    [<JsonPropertyName("audience")>]
-    Audience : string }
 
 type IDatabaseModelMetadata = 
   abstract Description : string
@@ -68,23 +39,6 @@ type Course =
 [<CLIMutable>]
 type CourseIndex =
   { Courses : Dictionary<string, CourseMetadata> }
-
-[<CLIMutable>]
-type JsonWebTokenHeader =
-  { [<JsonPropertyName("typ")>]
-    Type : string
-    [<JsonPropertyName("cty")>]
-    ContentType : string
-    [<JsonPropertyName("alg")>]
-    Algorithm : string
-    [<JsonPropertyName("kid")>]
-    KeyId : string
-    [<JsonPropertyName("x5u")>]
-    X5u : string
-    [<JsonPropertyName("x5c")>]
-    X5c : string
-    [<JsonPropertyName("x5t")>]
-    X5t : string }
 
 [<CLIMutable>]
 type SectionMetadata =

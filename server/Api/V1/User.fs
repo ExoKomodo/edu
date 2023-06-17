@@ -2,12 +2,12 @@ module Api.V1.User
 
 open Giraffe
 open Lib.ActivePatterns
+open Lib.Auth0
 open Lib.Giraffe.Handlers
+open Lib.Serializers
 open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Net.Http.Headers
-open Lib.Jwt
-open Lib.Serializers
 
 let getInfo (auth0HttpClient : HttpClient) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->

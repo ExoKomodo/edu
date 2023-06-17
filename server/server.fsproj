@@ -32,11 +32,10 @@
 
         <Compile Include="Lib/ActivePatterns.fs" />
         <Compile Include="Lib/Serializers.fs" />
-        <Compile Include="Lib/Jwt/Module.fs" />
+        <Compile Include="Lib/Auth0/Module.fs" />
         <Compile Include="Lib/Giraffe/Handlers.fs" />
         <Compile Include="Constants.fs" />
         <Compile Include="Models/Module.fs" />
-        <Compile Include="Helpers.fs" />
         <Compile Include="Handlers.fs" />
         <Compile Include="Index.fs" />
         <Compile Include="Api/Index.fs" />

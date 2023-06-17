@@ -1,11 +1,11 @@
 module TestApi
 
-open Giraffe
+open Lib
+open Lib.Auth0
 open Microsoft.AspNetCore.Mvc.Testing
 open Program
 open System
 open System.Net.Http
-open Lib
 
 let runTestApi () =
   (new WebApplicationFactory<Program>()).Server
@@ -22,8 +22,9 @@ type TestDependencies () =
   
   static let clientId = Environment.GetEnvironmentVariable("AUTH0_CLIENT_ID")
   static let clientSecret = Environment.GetEnvironmentVariable("AUTH0_CLIENT_SECRET")
+  static let clientParams = Auth0ClientParams.FromEduClientCredentials clientId clientSecret
   static let accessToken =
-    match Helpers.getMachineToMachineAccessToken unauthenticatedAuth0HttpClient serializer clientId clientSecret with
+    match getMachineToMachineAccessTokenAsync unauthenticatedAuth0HttpClient serializer clientParams |> Async.RunSynchronously with
     | Some token -> token.AccessToken
     | None -> raise (HttpRequestException("Failed to get access token"))
   static let jsonSerializer = Serializers.JsonSerializer()

@@ -1,15 +1,21 @@
 module Handlers
 
 open Giraffe
-open Helpers
-open Models
+open Lib.ActivePatterns
+open Lib.Auth0
+open Lib.Giraffe.Handlers
+open Lib.Serializers
 open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Net.Http.Headers
-open Lib.ActivePatterns
-open Lib.Giraffe.Handlers
-open Lib.Jwt
-open Lib.Serializers
+
+let admins = [
+  "exokomodo@gmail.com";
+  "brandonapol@cedarville.edu";
+]
+let paidUsers = [
+  "jamesaorson@gmail.com";
+]
 
 let canAccessPaidContent (auth0HttpClient : HttpClient): HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
