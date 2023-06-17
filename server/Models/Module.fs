@@ -19,6 +19,16 @@ type Auth0AccessTokenResponse =
     [<JsonPropertyName("token_type")>]
     TokenType : string }
 
+type Auth0Client =
+  | Machine
+  | User
+
+  static member FromClientId (clientId : string) : option<Auth0Client> =
+    match clientId with
+    | "NWnLqtU89JR6drCGaabYygA2zUUQ7woG" -> Some Machine
+    | "d0nbGyYvhTxPjyL1eaa3K4ojLDUNt1LX" -> Some User
+    | _ -> None
+
 [<CLIMutable>]
 type Auth0Params =
   { [<JsonPropertyName("grant_type")>]
@@ -131,23 +141,6 @@ type Blog =
 [<CLIMutable>]
 type BlogIndex =
   { Blogs : Dictionary<string, BlogMetadata> }
-
-[<CLIMutable>]
-type UserInfo =
-  { [<JsonPropertyName("email")>]
-    Email : string
-    [<JsonPropertyName("email_verified")>]
-    IsEmailVerified : bool
-    [<JsonPropertyName("nickname")>]
-    Nickname : string
-    [<JsonPropertyName("name")>]
-    Name : string
-    [<JsonPropertyName("picture")>]
-    Picture : string
-    [<JsonPropertyName("sub")>]
-    Sub : string
-    [<JsonPropertyName("updated_at")>]
-    UpdatedAt : string }
 
 type Dependencies =
   { Database : IMongoDatabase

@@ -7,6 +7,7 @@ open Microsoft.Extensions.Logging
 open Models
 open System.Net.Http
 open Handlers
+open Lib.Serializers
 
 let dependencies = Dependencies.Open()
 
@@ -129,7 +130,7 @@ let configureServices (services : IServiceCollection) =
     .AddGiraffe()
   |> ignore
 
-  services.AddSingleton<Json.ISerializer>(Serializers.JsonSerializer()) |> ignore
+  services.AddSingleton<Json.ISerializer>(JsonSerializer()) |> ignore
 
 let builder = WebApplication.CreateBuilder()
 

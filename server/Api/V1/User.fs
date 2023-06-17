@@ -1,12 +1,13 @@
 module Api.V1.User
 
 open Giraffe
-open Helpers
 open Lib.ActivePatterns
 open Lib.Giraffe.Handlers
 open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Net.Http.Headers
+open Lib.Jwt
+open Lib.Serializers
 
 let getInfo (auth0HttpClient : HttpClient) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
@@ -17,7 +18,7 @@ let getInfo (auth0HttpClient : HttpClient) : HttpHandler =
         auth0HttpClient.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Bearer", token)
         json
           (getUserInfoAsync
-            auth0HttpClient (ctx.GetJsonSerializer()) |> Async.RunSynchronously)
+            auth0HttpClient (ctx.GetJsonSerializer() :?> JsonSerializer) |> Async.RunSynchronously)
           next
           ctx
       | _ -> notLoggedIn next ctx

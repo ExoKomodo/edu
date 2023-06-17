@@ -1,19 +1,12 @@
 module Helpers
 
-open Giraffe
 open Models
-open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Collections.Generic
 open Jose
 open System.Text
-
-let getWellKnownKeysAsync (auth0HttpClient : HttpClient) =
-  async {
-    let! response = auth0HttpClient.GetAsync("/.well-known/jwks.json") |> Async.AwaitTask
-    let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    return JwkSet.FromJson(content, JWT.DefaultSettings.JsonMapper)
-  }
+open Lib.Jwt
+open Lib.Serializers
 
 let admins = [
   "exokomodo@gmail.com";
@@ -23,7 +16,7 @@ let paidUsers = [
   "jamesaorson@gmail.com";
 ]
 
-let getMachineToMachineAccessToken (unauthenticatedAuth0HttpClient : HttpClient) (serializer : Serializers.JsonSerializer) (clientId : string) (clientSecret : string) : option<Auth0AccessTokenResponse> =
+let getMachineToMachineAccessToken (unauthenticatedAuth0HttpClient : HttpClient) (serializer : JsonSerializer) (clientId : string) (clientSecret : string) : option<Auth0AccessTokenResponse> =
   let jsonContent = new StringContent(
     serializer.Serialize(
       { GrantType = "client_credentials"
@@ -55,32 +48,18 @@ let getMachineToMachineAccessToken (unauthenticatedAuth0HttpClient : HttpClient)
       printfn "Failed HTTP request for access token: %s" ex.Message
       None
 
-let getUserInfoAsync (auth0HttpClient : HttpClient) (serializer : Json.ISerializer) : Async<option<UserInfo>> =
-  async {
-    let! response = auth0HttpClient.GetAsync("/userinfo") |> Async.AwaitTask
-    let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    try
-      return serializer.Deserialize<UserInfo> content |> Some
-    with
-      | :? System.Text.Json.JsonException as ex ->
-        printfn "%s" ex.Message
-        return None
-  }
-
-let validateAccessTokenWithKeySet (keySet : JwkSet) (bearer : string) : string =
+let validateAccessTokenWithKeySet (keySet : JwkSet) (bearer : string) : option<Auth0Client> =
   let header = Jose.JWT.Headers<Models.JsonWebTokenHeader>(bearer, JWT.DefaultSettings)
-  printfn "Bearer header decoded: %s" header.KeyId
   let kid = header.KeyId
   let key =
     List.find
       (fun (x : Jwk) -> x.KeyId = kid)
       (Seq.toList keySet.Keys)
   let decoded = Jose.JWT.Decode<IDictionary<string, obj>> (bearer, key)
-  let clientId = decoded["azp"] :?> string
-  // TODO: Return jwt object that is readable, or parse this into a custom auth object
-  bearer
+  // NOTE: At this point, the JWT is valid.
+  Auth0Client.FromClientId (decoded["azp"] :?> string)
 
-let validateAccessToken (auth0HttpClient : HttpClient) (bearer : string) : string =
+let validateAccessToken (auth0HttpClient : HttpClient) (bearer : string) : option<Auth0Client> =
   validateAccessTokenWithKeySet
     (getWellKnownKeysAsync auth0HttpClient |> Async.RunSynchronously)
     bearer

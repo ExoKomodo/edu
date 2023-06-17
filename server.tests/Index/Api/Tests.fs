@@ -10,7 +10,7 @@ let ``GET /api should succeed`` () =
   task {
     let api = TestDependencies.Server.CreateClient()
     let! response = api.GetAsync("/api")
-    Assert.True(response.IsSuccessStatusCode)
+    Assert.Equal(HttpStatusCode.OK, response.StatusCode)
   }
 
 [<Fact>]
@@ -18,7 +18,7 @@ let ``GET /api/ should succeed`` () =
   task {
     let api = TestDependencies.Server.CreateClient()
     let! response = api.GetAsync("/api/")
-    Assert.True(response.IsSuccessStatusCode)
+    Assert.Equal(HttpStatusCode.OK, response.StatusCode)
   }
 
 [<Fact>]

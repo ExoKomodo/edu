@@ -1,7 +1,6 @@
-module Serializers
+module Lib.Serializers
 
 open Giraffe
-open System
 open System.Text.Json.Serialization
 open System.IO
 open System.Threading.Tasks

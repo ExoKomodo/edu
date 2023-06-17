@@ -10,7 +10,7 @@ let ``GET / should succeed`` () =
   task {
     let api = TestDependencies.Server.CreateClient()
     let! response = api.GetAsync("/")
-    Assert.True(response.IsSuccessStatusCode)
+    Assert.Equal(HttpStatusCode.OK, response.StatusCode)
   }
 
 [<Fact>]

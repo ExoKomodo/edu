@@ -5,6 +5,7 @@ open Microsoft.AspNetCore.Mvc.Testing
 open Program
 open System
 open System.Net.Http
+open Lib
 
 let runTestApi () =
   (new WebApplicationFactory<Program>()).Server
