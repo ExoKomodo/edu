@@ -1,7 +1,7 @@
 module Edu.Server.Api.V1.Builder
 
 open Giraffe
-open Exo.Lib.ActivePatterns
+open ExoKomodo.Lib.ActivePatterns
 open Microsoft.AspNetCore.Http
 open Edu.Server.Models
 open MongoDB.Driver

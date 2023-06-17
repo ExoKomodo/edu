@@ -2,7 +2,7 @@ open Edu.Server
 open Edu.Server.Handlers
 open Edu.Server.Models
 open Giraffe
-open Exo.Lib.Serializers
+open ExoKomodo.Lib.Serializers
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection

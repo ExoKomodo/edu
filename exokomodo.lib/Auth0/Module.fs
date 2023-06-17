@@ -1,7 +1,7 @@
-module Exo.Lib.Auth0
+module ExoKomodo.Lib.Auth0
 
 open Jose
-open Exo.Lib.Serializers
+open ExoKomodo.Lib.Serializers
 open System.Net.Http
 open System.Text
 open System.Text.Json.Serialization
