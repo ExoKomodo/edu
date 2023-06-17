@@ -77,11 +77,9 @@ type Auth0UserInfo =
 
 let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpClient) (serializer : JsonSerializer) (clientParams : Auth0ClientParams) : Async<option<Auth0AccessTokenResponse>> =
   let jsonContent = new StringContent(
-    serializer.Serialize(
-      clientParams,
-      Encoding.UTF8,
-      "application/json"
-    )
+    serializer.Serialize(clientParams),
+    Encoding.UTF8,
+    "application/json"
   )
   async {
     try

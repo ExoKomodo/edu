@@ -11,8 +11,8 @@ type JsonSerializer() =
   member public this.Deserialize<'T> (data : string) : 'T =
     giraffeSerializer.Deserialize<'T> data
 
-  member public this.Serialize (object : obj) : string =
-    giraffeSerializer.SerializeToString object
+  member public this.Serialize<'T> (object : 'T) : string =
+    giraffeSerializer.SerializeToString<'T> object
 
   static member private BuildGiraffeSerializer () : Json.ISerializer =
     let serializationOptions = SystemTextJson.Serializer.DefaultOptions
