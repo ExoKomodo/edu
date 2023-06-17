@@ -19,13 +19,13 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\exo.lib\exo.lib.fsproj" />
     <ProjectReference Include="..\server\server.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="TestApi.fs" />
-    <Compile Include="Index/Tests.fs" />
-    <Compile Include="Index/Api/Tests.fs" />
-    <Compile Include="Index/Api/V1/Tests.fs" />
+    <!-- NOTE: Picks up EVERY files named `Tests.fs` -->
+    <Compile Include="**/Tests.fs" />
   </ItemGroup>
 </Project>

@@ -13,14 +13,10 @@ services:
       value: EV[1:HPMvG2kCPQi0ns0IQ/rC7Xa01Gki00M4:eoLSujhbHKHi8nQc1oYYt5k5eO1S2RNhjeHOmDXo9Htijnfx0zxxuJkKA1b6+9mxIitNNqFgX8mjqPex01KcGvlcMvx+Y8jKg3vDbmfLobygBjeexY3Jeb6HR6lBVv6kUiSUJjCoGcYzsfy94QgCVvwnZ/RSoE9Rae/tvLHDAEF9yFARONNwDw==]
       scope: RUN_TIME
       type: SECRET
-    - key: AUTH0_CLIENT_ID
-      value: d0nbGyYvhTxPjyL1eaa3K4ojLDUNt1LX
+    - key: MONGODB_DATABASE
+      value: edu
       scope: RUN_TIME
       type: GENERAL
-    - key: AUTH0_CLIENT_SECRET
-      scope: RUN_TIME
-      type: SECRET
-      value: EV[1:EO47SfFt1n+zpt7fEgJL4jWtsYLvkjAq:L+Df+W9yMPCdYy8ZNquWR/B5WiN6JG0URWUxnpOw8FbBiKySto4VCtRxlLoEZmDVOtxN1XuGVGpfsKpp/W4ViJp1guSel/35tDeOJ1ykDzc=]
     - key: AWS_ACCESS_KEY_ID
       scope: RUN_TIME
       type: GENERAL

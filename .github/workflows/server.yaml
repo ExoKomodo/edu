@@ -30,9 +30,12 @@ jobs:
         dotnet build --no-restore
     - name: Test
       env:
+        AUTH0_CLIENT_ID: ${{ vars.AUTH0_CLIENT_ID }}
+        AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
         AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        MONGODB_DATABASE: ${{ vars.MONGODB_DATABASE }}
       run: |
         dotnet test --no-build --verbosity normal
     - name: Install doctl

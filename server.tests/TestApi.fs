@@ -1,15 +1,36 @@
-module TestApi
-  
+module Edu.Server.Tests.TestApi
+
+open Exo.Lib.Auth0
+open Exo.Lib.Serializers
 open Microsoft.AspNetCore.Mvc.Testing
 open Program
-open Microsoft.AspNetCore.TestHost
+open System
+open System.Net.Http
 
 let runTestApi () =
   (new WebApplicationFactory<Program>()).Server
 
-type Dependencies () =
+let unauthenticatedAuth0HttpClient = new HttpClient(
+  BaseAddress = new Uri("https://exokomodo.us.auth0.com")
+)
+
+let serializer = JsonSerializer()
+
+type TestDependencies () =
   static let server =
-    printfn "We are getting called more than once, probably on Open"
     runTestApi()
   
+  static let clientId = Environment.GetEnvironmentVariable("AUTH0_CLIENT_ID")
+  static let clientSecret = Environment.GetEnvironmentVariable("AUTH0_CLIENT_SECRET")
+  static let clientParams = Auth0ClientParams.FromEduClientCredentials clientId clientSecret
+  static let accessToken =
+    match getMachineToMachineAccessTokenAsync unauthenticatedAuth0HttpClient serializer clientParams |> Async.RunSynchronously with
+    | Some token -> token.AccessToken
+    | None -> raise (HttpRequestException("Failed to get access token"))
+  static let jsonSerializer = JsonSerializer()
+
+  static member AccessToken = accessToken
+  static member ClientId = clientId
+  static member ClientSecret = clientSecret
+  static member JsonSerializer = jsonSerializer
   static member Server = server

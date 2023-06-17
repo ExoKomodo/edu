@@ -13,7 +13,7 @@ type HttpHeaders = {
 };
 
 export default class HttpServiceV1 {
-  static baseOrigin: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com' : 'http://localhost:80';
+  static baseOrigin: string = process.env.NODE_ENV == 'production' ? 'https://services.edu.exokomodo.com' : 'http://localhost:5000';
   static baseUrl: string = `${HttpServiceV1.baseOrigin}/api/v1`;
   static auth0UrlScheme: string = 'https://';
   static auth0BaseUrl: string = 'exokomodo.us.auth0.com';

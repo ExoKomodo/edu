@@ -1,4 +1,4 @@
-module Index
+module Edu.Server.Index
 
 open Giraffe
 

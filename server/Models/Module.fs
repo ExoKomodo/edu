@@ -1,14 +1,13 @@
-module Models
+module Edu.Server.Models
 
 open Amazon.S3
-open Constants
-open System.Collections.Generic
-open System.Text.Json.Serialization
+open Edu.Server.Constants
 open MongoDB.Driver
-open System.Net.Http
 open System
-open System.Threading
+open System.Collections.Generic
 open System.Net
+open System.Net.Http
+open System.Threading
 
 type ExoId = string
 
@@ -97,23 +96,6 @@ type Blog =
 type BlogIndex =
   { Blogs : Dictionary<string, BlogMetadata> }
 
-[<CLIMutable>]
-type UserInfo =
-  { [<JsonPropertyName("email")>]
-    Email : string
-    [<JsonPropertyName("email_verified")>]
-    IsEmailVerified : bool
-    [<JsonPropertyName("nickname")>]
-    Nickname : string
-    [<JsonPropertyName("name")>]
-    Name : string
-    [<JsonPropertyName("picture")>]
-    Picture : string
-    [<JsonPropertyName("sub")>]
-    Sub : string
-    [<JsonPropertyName("updated_at")>]
-    UpdatedAt : string }
-
 type Dependencies =
   { Database : IMongoDatabase
     AssignmentCollection : IMongoCollection<Assignment>
@@ -130,13 +112,19 @@ type Dependencies =
       let connectionString = Environment.GetEnvironmentVariable("MONGODB_URI")
       match connectionString with
       | null ->
-        printfn "You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
+        printfn "You must set your 'MONGODB_URI' environment variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable"
         exit 1
       | _ ->
-        let client = new MongoClient(connectionString)
-        let database = client.GetDatabase("edu")
-        printfn "Initialized Mongo!"
-        database
+        let databaseName = Environment.GetEnvironmentVariable("MONGODB_DATABASE")
+        match databaseName with
+        | null ->
+          printfn "You must set your 'MONGODB_DATABASE' environment variable."
+          exit 1
+        | _ ->
+          let client = new MongoClient(connectionString)
+          let database = client.GetDatabase(databaseName)
+          printfn "Initialized Mongo!"
+          database
 
     static member TestS3Connection(client : AmazonS3Client): bool =
       let buckets = client.ListBucketsAsync(new CancellationToken()) |> Async.AwaitTask |> Async.RunSynchronously

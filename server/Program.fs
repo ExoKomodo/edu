@@ -1,12 +1,13 @@
+open Edu.Server
+open Edu.Server.Handlers
+open Edu.Server.Models
 open Giraffe
-open Microsoft.AspNetCore.Authentication.JwtBearer
+open Exo.Lib.Serializers
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
-open Models
 open System.Net.Http
-open System.Text.Json.Serialization
 
 let dependencies = Dependencies.Open()
 
@@ -22,7 +23,7 @@ let webApp = (choose [
               routef  "/blog/%s" Api.V1.Blog.get
             ])
             routex "/assignment(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -39,7 +40,7 @@ let webApp = (choose [
                   bindJson<Assignment> (Api.V1.Builder.put<Assignment> dependencies.AssignmentCollection dependencies.UpdateAssignment)
               ])
             routex "/course(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -56,7 +57,7 @@ let webApp = (choose [
                   bindJson<Course> (Api.V1.Builder.put<Course> dependencies.CourseCollection dependencies.UpdateCourse)
               ])
             routex "/section(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -77,7 +78,7 @@ let webApp = (choose [
                 routex  "/user/info(/?)" >=> Api.V1.User.getInfo dependencies.Auth0HttpClient
               ])
             routex "/blob(/?)(.*)" >=>
-              (Helpers.mustBePaidUsersOrHigher dependencies.Auth0HttpClient) >=>
+              (canAccessPaidContent dependencies.Auth0HttpClient) >=>
               (choose [
                 GET >=>
                   (choose [
@@ -113,25 +114,11 @@ let configureLogging (builder : ILoggingBuilder) =
 
 let configureServices (services : IServiceCollection) =
   services
-    .AddAuthentication(
-      fun options ->
-        options.DefaultAuthenticateScheme <- JwtBearerDefaults.AuthenticationScheme
-        options.DefaultChallengeScheme <- JwtBearerDefaults.AuthenticationScheme
-    )
-    .AddJwtBearer(
-      fun options ->
-        options.Authority <- $"https://exokomodo.us.auth0.com/"
-        options.Audience <- "https://services.edu.exokomodo.com"
-    )
-  |> ignore
-  services
     .AddCors()
     .AddGiraffe()
   |> ignore
 
-  let serializationOptions = SystemTextJson.Serializer.DefaultOptions
-  serializationOptions.Converters.Add(JsonFSharpConverter(JsonUnionEncoding.FSharpLuLike))
-  services.AddSingleton<Json.ISerializer>(SystemTextJson.Serializer(serializationOptions)) |> ignore
+  services.AddSingleton<Json.ISerializer>(JsonSerializer()) |> ignore
 
 let builder = WebApplication.CreateBuilder()
 
@@ -140,7 +127,6 @@ configureServices builder.Services
 
 let app = builder.Build()
 // NOTE: Order matters. CORS must be configured before starting Giraffe.
-app.UseAuthentication() |> ignore
 app.UseCors configureCors |> ignore
 app.UseGiraffe webApp
 app.Run()

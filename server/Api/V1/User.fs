@@ -1,7 +1,10 @@
-module Api.V1.User
+module Edu.Server.Api.V1.User
 
 open Giraffe
-open Helpers
+open Exo.Lib.ActivePatterns
+open Exo.Lib.Auth0
+open Exo.Lib.Giraffe.Handlers
+open Exo.Lib.Serializers
 open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Net.Http.Headers
@@ -15,7 +18,7 @@ let getInfo (auth0HttpClient : HttpClient) : HttpHandler =
         auth0HttpClient.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Bearer", token)
         json
           (getUserInfoAsync
-            auth0HttpClient (ctx.GetJsonSerializer()) |> Async.RunSynchronously)
+            auth0HttpClient (ctx.GetJsonSerializer() :?> JsonSerializer) |> Async.RunSynchronously)
           next
           ctx
       | _ -> notLoggedIn next ctx

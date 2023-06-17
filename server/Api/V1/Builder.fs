@@ -1,9 +1,9 @@
-module Api.V1.Builder
+module Edu.Server.Api.V1.Builder
 
 open Giraffe
-open Helpers
+open Exo.Lib.ActivePatterns
 open Microsoft.AspNetCore.Http
-open Models
+open Edu.Server.Models
 open MongoDB.Driver
 open System.Threading
 
@@ -81,7 +81,6 @@ let inline updateModel<^T when ^T :> IDatabaseModel> (collection : IMongoCollect
   fun (next : HttpFunc) (ctx : HttpContext) ->
     let filter = Builders<^T>.Filter.Eq("Id", model.Id)
     collection.UpdateOne(filter, update model, null, new CancellationToken()) |> ignore
-    printfn "%O" model
     json model next ctx
 
 let inline getInFormat<^T when ^T :> IDatabaseModel> (formatter : ^T -> HttpFunc -> HttpContext -> HttpFuncResult) (collection : IMongoCollection<^T>) (id : string) : HttpHandler =

@@ -16,6 +16,11 @@ if [[ -z ${AWS_SECRET_ACCESS_KEY} ]]; then
   CODE=1
 fi
 
+if [[ -z ${MONGODB_DATABASE} ]]; then
+  echo "MISSING: MONGODB_DATABASE is required for database access"
+  CODE=1
+fi
+
 if [[ -z ${MONGODB_URI} ]]; then
   echo "MISSING: MONGODB_URI is required for database access"
   CODE=1
