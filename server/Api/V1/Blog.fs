@@ -1,7 +1,7 @@
 module Edu.Server.Api.V1.Blog
 
 open Giraffe
-open Exo.Lib.ActivePatterns
+open ExoKomodo.Lib.ActivePatterns
 open Microsoft.AspNetCore.Http
 open Edu.Server.Models
 open System.IO

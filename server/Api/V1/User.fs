@@ -1,10 +1,10 @@
 module Edu.Server.Api.V1.User
 
 open Giraffe
-open Exo.Lib.ActivePatterns
-open Exo.Lib.Auth0
-open Exo.Lib.Giraffe.Handlers
-open Exo.Lib.Serializers
+open ExoKomodo.Lib.ActivePatterns
+open ExoKomodo.Lib.Auth0
+open ExoKomodo.Lib.Giraffe.Handlers
+open ExoKomodo.Lib.Serializers
 open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Net.Http.Headers

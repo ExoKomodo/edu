@@ -1,7 +1,7 @@
 module Edu.Server.Tests.TestApi
 
-open Exo.Lib.Auth0
-open Exo.Lib.Serializers
+open ExoKomodo.Lib.Auth0
+open ExoKomodo.Lib.Serializers
 open Microsoft.AspNetCore.Mvc.Testing
 open Program
 open System

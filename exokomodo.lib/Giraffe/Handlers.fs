@@ -1,10 +1,10 @@
-module Exo.Lib.Giraffe.Handlers
+module ExoKomodo.Lib.Giraffe.Handlers
 
 open Giraffe
 open Microsoft.AspNetCore.Http
 open System.Net.Http
-open Exo.Lib.ActivePatterns
-open Exo.Lib.Auth0
+open ExoKomodo.Lib.ActivePatterns
+open ExoKomodo.Lib.Auth0
 open System.Net.Http.Headers
 
 let justContinue : HttpHandler =

@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\exo.lib\exo.lib.fsproj" />
+        <ProjectReference Include="..\exokomodo.lib\exokomodo.lib.fsproj" />
     </ItemGroup>
 
     <ItemGroup>
