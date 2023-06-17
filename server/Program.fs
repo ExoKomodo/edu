@@ -3,7 +3,6 @@ open Edu.Server.Handlers
 open Edu.Server.Models
 open Giraffe
 open Exo.Lib.Serializers
-open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
@@ -115,18 +114,6 @@ let configureLogging (builder : ILoggingBuilder) =
 
 let configureServices (services : IServiceCollection) =
   services
-    .AddAuthentication(
-      fun options ->
-        options.DefaultAuthenticateScheme <- JwtBearerDefaults.AuthenticationScheme
-        options.DefaultChallengeScheme <- JwtBearerDefaults.AuthenticationScheme
-    )
-    .AddJwtBearer(
-      fun options ->
-        options.Authority <- "https://exokomodo.us.auth0.com/"
-        options.Audience <- "https://services.edu.exokomodo.com"
-    )
-  |> ignore
-  services
     .AddCors()
     .AddGiraffe()
   |> ignore
@@ -140,7 +127,6 @@ configureServices builder.Services
 
 let app = builder.Build()
 // NOTE: Order matters. CORS must be configured before starting Giraffe.
-app.UseAuthentication() |> ignore
 app.UseCors configureCors |> ignore
 app.UseGiraffe webApp
 app.Run()
