@@ -1,8 +1,8 @@
-module Index.Api.V1.Section.Tests
+module Edu.Server.Tests.Index.Api.V1.Section.Tests
 
 open FSharp.Control
 open System.Net
-open TestApi
+open Edu.Server.Tests.TestApi
 open Xunit
 
 let ``GET /api/v1/section should return 401, without an Authorization header`` () =

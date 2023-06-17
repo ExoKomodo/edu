@@ -1,7 +1,7 @@
-module Models
+module Edu.Server.Models
 
 open Amazon.S3
-open Constants
+open Edu.Server.Constants
 open MongoDB.Driver
 open System
 open System.Collections.Generic

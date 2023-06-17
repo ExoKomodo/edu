@@ -1,4 +1,4 @@
-module Constants
+module Edu.Server.Constants
 
 [<Literal>]
 let auth0BaseUrl = "exokomodo.us.auth0.com"

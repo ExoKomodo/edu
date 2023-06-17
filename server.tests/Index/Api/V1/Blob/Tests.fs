@@ -1,8 +1,8 @@
-module Index.Api.V1.Blob.Tests
+module Edu.Server.Tests.Index.Api.V1.Blob.Tests
 
 open FSharp.Control
 open System.Net
-open TestApi
+open Edu.Server.Tests.TestApi
 open Xunit
 
 let bearerToken = $"Bearer {TestDependencies.AccessToken}"

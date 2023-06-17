@@ -1,13 +1,14 @@
+open Edu.Server
+open Edu.Server.Handlers
+open Edu.Server.Models
 open Giraffe
+open Exo.Lib.Serializers
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
-open Models
 open System.Net.Http
-open Handlers
-open Lib.Serializers
 
 let dependencies = Dependencies.Open()
 

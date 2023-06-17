@@ -1,13 +1,12 @@
-module Api.V1.Blob
+module Edu.Server.Api.V1.Blob
 
 open Amazon.S3
-open Constants
+open Edu.Server.Constants
 open Giraffe
 open Microsoft.AspNetCore.Http
 open Amazon.S3.Model
 open System
-open Microsoft.Extensions.Logging
-open Models
+open Edu.Server.Models
 
 let private _bindUrlForBlob (ctx : HttpContext) : string =
   let args = ctx.BindQueryString<BlobQueryArgs>()

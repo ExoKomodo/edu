@@ -1,8 +1,8 @@
-module Index.Api.Tests
+module Edu.Server.Tests.Index.Api.Tests
 
 open FSharp.Control
 open System.Net
-open TestApi
+open Edu.Server.Tests.TestApi
 open Xunit
 
 [<Fact>]

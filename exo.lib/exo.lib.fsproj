@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="ActivePatterns.fs" />
-    <Compile Include="Serializers.fs" />
+    <Compile Include="ActivePatterns/Module.fs" />
+    <Compile Include="Serializers/Module.fs" />
     <Compile Include="Auth0/Module.fs" />
     <Compile Include="Giraffe/Handlers.fs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-module Api.Index
+module Edu.Server.Api.Index
 
 open Giraffe
 

@@ -1,9 +1,9 @@
-module Api.V1.Builder
+module Edu.Server.Api.V1.Builder
 
 open Giraffe
-open Lib.ActivePatterns
+open Exo.Lib.ActivePatterns
 open Microsoft.AspNetCore.Http
-open Models
+open Edu.Server.Models
 open MongoDB.Driver
 open System.Threading
 

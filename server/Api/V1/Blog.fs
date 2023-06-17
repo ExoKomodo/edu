@@ -1,9 +1,9 @@
-module Api.V1.Blog
+module Edu.Server.Api.V1.Blog
 
 open Giraffe
-open Lib.ActivePatterns
+open Exo.Lib.ActivePatterns
 open Microsoft.AspNetCore.Http
-open Models
+open Edu.Server.Models
 open System.IO
 open System.Text.Json
 

@@ -1,4 +1,4 @@
-module Lib.Serializers
+module Exo.Lib.Serializers
 
 open Giraffe
 open System.Text.Json.Serialization

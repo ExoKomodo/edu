@@ -1,7 +1,7 @@
-module TestApi
+module Edu.Server.Tests.TestApi
 
-open Lib
-open Lib.Auth0
+open Exo.Lib.Auth0
+open Exo.Lib.Serializers
 open Microsoft.AspNetCore.Mvc.Testing
 open Program
 open System
@@ -14,7 +14,7 @@ let unauthenticatedAuth0HttpClient = new HttpClient(
   BaseAddress = new Uri("https://exokomodo.us.auth0.com")
 )
 
-let serializer = Serializers.JsonSerializer()
+let serializer = JsonSerializer()
 
 type TestDependencies () =
   static let server =
@@ -27,7 +27,7 @@ type TestDependencies () =
     match getMachineToMachineAccessTokenAsync unauthenticatedAuth0HttpClient serializer clientParams |> Async.RunSynchronously with
     | Some token -> token.AccessToken
     | None -> raise (HttpRequestException("Failed to get access token"))
-  static let jsonSerializer = Serializers.JsonSerializer()
+  static let jsonSerializer = JsonSerializer()
 
   static member AccessToken = accessToken
   static member ClientId = clientId

@@ -1,4 +1,4 @@
-module Lib.Giraffe.Handlers
+module Exo.Lib.Giraffe.Handlers
 
 open Giraffe
 open Microsoft.AspNetCore.Http
