@@ -5,7 +5,6 @@
     
     <ItemGroup>
        <PackageReference Include="AWSSDK.S3" Version="3.7.104.16" />
-       <PackageReference Include="FSharp.SystemTextJson" Version="1.1.23" />
        <PackageReference Include="Giraffe" Version="6.0.0" />
        <!-- NOTE: https://auth0.com/docs/quickstart/backend/aspnet-core-webapi/01-authorization#validate-access-tokens -->
        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
@@ -13,7 +12,10 @@
        <!-- NOTE: https://forums.fsharp.org/t/mongodb-how-to-use-it-in-f-any-users-here/1355/8 -->
        <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
        <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
-       <PackageReference Include="jose-jwt" Version="4.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\lib\lib.fsproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -30,10 +32,6 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
 
-        <Compile Include="Lib/ActivePatterns.fs" />
-        <Compile Include="Lib/Serializers.fs" />
-        <Compile Include="Lib/Auth0/Module.fs" />
-        <Compile Include="Lib/Giraffe/Handlers.fs" />
         <Compile Include="Constants.fs" />
         <Compile Include="Models/Module.fs" />
         <Compile Include="Handlers.fs" />
