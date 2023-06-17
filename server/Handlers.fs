@@ -9,6 +9,7 @@ open Microsoft.AspNetCore.Http
 open System.Net.Http
 open System.Net.Http.Headers
 
+// TODO: Add access control lists to external data definition rather than in code
 let admins = [
   "exokomodo@gmail.com";
   "brandonapol@cedarville.edu";
