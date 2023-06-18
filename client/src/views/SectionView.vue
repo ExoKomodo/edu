@@ -52,6 +52,7 @@ async function createSectionAsync(state: SectionEditorState) {
     metadata: {
       name: state.name,
       description: state.description,
+      // TODO: Link to course
       courseId: '',
     },
   };

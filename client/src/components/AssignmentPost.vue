@@ -48,7 +48,9 @@ async function saveAssignmentAsync(state: AssignmentEditorState) {
     metadata: {
       name: state.name,
       description: state.description,
+      // TODO: Link to sections
       requiredSections: [],
+      // TODO: Link to course
       courseId: '',
     },
   };

@@ -53,6 +53,7 @@ async function createAssignmentAsync(state: AssignmentEditorState) {
       name: state.name,
       description: state.description,
       requiredSections: [],
+      // TODO: Link to course
       courseId: '',
     },
   };
