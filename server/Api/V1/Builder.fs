@@ -16,8 +16,8 @@ open System.Threading
 
 //     static member GenerateUpdateAssignment (assignment : Assignment) =
 //       let mutable update = Builders<Assignment>.Update.Set(
-//         (fun _assignment -> _assignment.ProblemDescription),
-//         assignment.ProblemDescription
+//         (fun _assignment -> _assignment.ProblemExplanation),
+//         assignment.ProblemExplanation
 //       )
 //       update <- update.Set(
 //         (fun _assignment -> _assignment.Metadata),
