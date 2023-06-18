@@ -120,9 +120,12 @@ let inline put<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>)
   fun (next : HttpFunc) (ctx : HttpContext) ->
     updateModel collection model update next ctx
 
-let inline getAllMetadata<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) : HttpHandler =
+let getAllMetadata<'T, 'U when 'T :> IDatabaseModel and 'U :> IDatabaseModelMetadata> (collection : IMongoCollection<'T>) : HttpHandler =
   fun (next : HttpFunc) (ctx : HttpContext) ->
-    ( (getModels collection)
-      |> Seq.map (fun model -> model.Id, model.Metadata)
+    let models =
+      (getModels collection)
+      // NOTE: The cast is required so `json` can properly inspet the specific type and map the subfields
+      |> Seq.map (fun model -> model.Id, model.Metadata :?> 'U)
       |> dict
-      |> json) next ctx
+      |> json
+    models next ctx
