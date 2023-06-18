@@ -5,9 +5,10 @@
   <div v-else>
     <AssignmentPost :id=id
                 :name=state.assignment.metadata.name
-                :problem-explanation=state.assignment.problemExplanation
+                :problemExplanation=state.assignment.problemExplanation
                 :description=state.assignment.metadata.description
-                :course-id=props.courseId />
+                :courseId=props.courseId
+                :sectionIds=state.assignment.metadata.requiredSectionIds />
   </div>
 </template>
 

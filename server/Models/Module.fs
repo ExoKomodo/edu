@@ -62,7 +62,7 @@ type Section =
 type AssignmentMetadata =
   { Description : string
     Name : string
-    RequiredSections : Section[]
+    RequiredSectionIds : ExoId[]
     CourseId : ExoId }
   interface IDatabaseModelMetadata with
     member x.Description = x.Description

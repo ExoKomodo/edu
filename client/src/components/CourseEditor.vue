@@ -54,6 +54,7 @@ export type CourseEditorState = {
   name: string,
   description: string,
   content: string,
+  templatedContent: string,
 };
 
 const auth0 = useAuth0();
@@ -68,7 +69,7 @@ const props = defineProps<{
   courseContent: string,
 }>();
 
-const state = reactive({
+const state = reactive<CourseEditorState>({
   isEditMode: false,
   showPreview: false,
   id: props.courseId,

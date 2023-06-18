@@ -29,7 +29,7 @@
       <p v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
       <div>
         <label for="required-sections">Choose required sections:</label>
-        <select id="required-sections" name="required-sections" class="h-10" multiple>
+        <select id="required-sections" name="required-sections" class="h-10" v-model="state.requiredSectionIds" multiple>
           <option v-for="(sectionMetadata, id) of sectionIndex" :value="id" class="text-black">{{ castToSectionMetadata(sectionMetadata).name }}</option>
         </select> 
       </div>
@@ -49,7 +49,7 @@ import { reactive } from 'vue';
 import AuthService from '@/services/AuthService';
 import SectionService from '@/services/SectionService';
 import { useAuth0 } from '@auth0/auth0-vue';
-import type { SectionMetadata } from '@/models';
+import type { Id, SectionMetadata } from '@/models';
 import { useToast } from 'vue-toastification';
 
 export type AssignmentEditorState = {
@@ -59,6 +59,7 @@ export type AssignmentEditorState = {
   name: string,
   description: string,
   problemExplanation: string,
+  requiredSectionIds: Id[],
 };
 
 const auth0 = useAuth0();
@@ -71,15 +72,17 @@ const props = defineProps<{
   assignmentName: string,
   assignmentDescription: string,
   assignmentProblemExplanation: string,
+  assignmentSectionIds: Id[],
 }>();
 
-const state = reactive({
+const state = reactive<AssignmentEditorState>({
   isEditMode: false,
   showPreview: false,
   id: props.assignmentId,
   name: props.assignmentName,
   description: props.assignmentDescription,
   problemExplanation: props.assignmentProblemExplanation,
+  requiredSectionIds: props.assignmentSectionIds,
 });
 
 const sectionIndex = await SectionService.getAllAsync(

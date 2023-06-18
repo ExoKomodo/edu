@@ -63,7 +63,7 @@ const props = defineProps<{
   sectionDifficulty: number,
 }>();
 
-const state = reactive({
+const state = reactive<SectionEditorState>({
   isEditMode: false,
   showPreview: false,
   id: props.sectionId,

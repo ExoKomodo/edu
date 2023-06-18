@@ -26,7 +26,7 @@ export type AssignmentIndex = Map<Id, AssignmentMetadata>;
 export interface AssignmentMetadata {
   description: string
   name: string
-  requiredSections: Section[]
+  requiredSectionIds: Id[]
   courseId: Id
 };
 

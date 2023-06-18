@@ -20,7 +20,8 @@
                     assignmentId=""
                     assignmentProblemExplanation=""
                     assignmentDescription=""
-                    assignmentName=""></AssignmentEditor>
+                    assignmentName=""
+                    :assignmentSectionIds="[]"></AssignmentEditor>
       </div>
     </div>
   </div>
@@ -56,7 +57,7 @@ async function createAssignmentAsync(state: AssignmentEditorState) {
     metadata: {
       name: state.name,
       description: state.description,
-      requiredSections: [],
+      requiredSectionIds: state.requiredSectionIds,
       courseId: props.courseId,
     },
   };
