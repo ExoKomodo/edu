@@ -87,7 +87,6 @@ function castToSectionId(value: number) {
 
 // NOTE: Needed to fool the type checker with the loop values
 function castToSectionMetadata(value: [string, SectionMetadata]) {
-  console.log(value);
   return (value as unknown) as SectionMetadata;
 }
 

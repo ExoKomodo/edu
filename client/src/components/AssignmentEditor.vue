@@ -27,6 +27,12 @@
       <CodeEditor v-model="state.description"
                   :height="2"></CodeEditor>
       <p v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
+      <div>
+        <label for="required-sections">Choose required sections:</label>
+        <select id="required-sections" name="required-sections" class="h-10" multiple>
+          <option v-for="(sectionMetadata, id) of sectionIndex" :value="id" class="text-black">{{ castToSectionMetadata(sectionMetadata).name }}</option>
+        </select> 
+      </div>
       <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Problem Explanation</div>
       <CodeEditor v-model="state.problemExplanation"
                   language="html"
@@ -41,7 +47,9 @@ import Button from '@/components/Button.vue';
 import CodeEditor from '@/components/CodeEditor.vue';
 import { reactive } from 'vue';
 import AuthService from '@/services/AuthService';
+import SectionService from '@/services/SectionService';
 import { useAuth0 } from '@auth0/auth0-vue';
+import type { SectionMetadata } from '@/models';
 import { useToast } from 'vue-toastification';
 
 export type AssignmentEditorState = {
@@ -54,6 +62,7 @@ export type AssignmentEditorState = {
 };
 
 const auth0 = useAuth0();
+const toast = useToast();
 
 const props = defineProps<{
   handler: (state: AssignmentEditorState) => void,
@@ -72,4 +81,15 @@ const state = reactive({
   description: props.assignmentDescription,
   problemExplanation: props.assignmentProblemExplanation,
 });
+
+const sectionIndex = await SectionService.getAllAsync(
+  {
+    toast: toast,
+    token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }),
+  }
+);
+
+function castToSectionMetadata(value: [string, SectionMetadata]) {
+  return (value as unknown) as SectionMetadata;
+}
 </script>
