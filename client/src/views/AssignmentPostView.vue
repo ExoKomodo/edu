@@ -5,7 +5,7 @@
   <div v-else>
     <AssignmentPost :id="id"
                 :name="state.assignment.metadata.name"
-                :problem-description="state.assignment.problemDescription"
+                :problem-explanation="state.assignment.problemExplanation"
                 :description=state.assignment.metadata.description />
   </div>
 </template>

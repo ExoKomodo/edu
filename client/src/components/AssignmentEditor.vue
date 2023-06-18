@@ -23,15 +23,15 @@
       <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-12">Name</div>
       <CodeEditor v-model="state.name" :height="2"></CodeEditor>
       <p v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-2xl font-bold border-slate-400 rounded border-2 p-1 pl-2">{{ state.name?.toUpperCase() }}</p>
-      <div class="text-white border-white border-2 rounded p-1 pl-2 p my-2 mr-1">Description</div>
+      <div class="text-white border-white border-2 rounded p-1 pl-2 p my-2 mr-1">Short Description</div>
       <CodeEditor v-model="state.description"
                   :height="2"></CodeEditor>
       <p v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
-      <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Content</div>
-      <CodeEditor v-model="state.problemDescription"
+      <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Problem Explanation</div>
+      <CodeEditor v-model="state.problemExplanation"
                   language="html"
                   :height="40"></CodeEditor>
-      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.problemDescription"></div>
+      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.problemExplanation"></div>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export type AssignmentEditorState = {
   id: string,
   name: string,
   description: string,
-  problemDescription: string,
+  problemExplanation: string,
 };
 
 const auth0 = useAuth0();
@@ -61,7 +61,7 @@ const props = defineProps<{
   assignmentId: string,
   assignmentName: string,
   assignmentDescription: string,
-  assignmentProblemDescription: string,
+  assignmentProblemExplanation: string,
 }>();
 
 const state = reactive({
@@ -70,6 +70,6 @@ const state = reactive({
   id: props.assignmentId,
   name: props.assignmentName,
   description: props.assignmentDescription,
-  problemDescription: props.assignmentProblemDescription,
+  problemExplanation: props.assignmentProblemExplanation,
 });
 </script>

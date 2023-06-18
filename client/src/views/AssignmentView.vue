@@ -17,7 +17,7 @@
         <AssignmentEditor :handler="createAssignmentAsync"
                     handlerText="Create"
                     assignmentId=""
-                    assignmentProblemDescription=""
+                    assignmentProblemExplanation=""
                     assignmentDescription=""
                     assignmentName=""></AssignmentEditor>
       </div>
@@ -48,7 +48,7 @@ const state = reactive({
 async function createAssignmentAsync(state: AssignmentEditorState) {
   const assignmentToCreate = {
     id: state.id,
-    problemDescription: state.problemDescription,
+    problemExplanation: state.problemExplanation,
     metadata: {
       name: state.name,
       description: state.description,

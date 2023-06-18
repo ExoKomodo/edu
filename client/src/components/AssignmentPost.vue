@@ -6,7 +6,7 @@
       <AssignmentEditor :handler="saveAssignmentAsync"
                     handlerText="Update"
                     :assignmentId="state.id"
-                    :assignmentProblemDescription="state.problemDescription"
+                    :assignmentProblemExplanation="state.problemExplanation"
                     :assignmentDescription="state.description"
                     :assignmentName="state.name"></AssignmentEditor>
     </div>
@@ -29,7 +29,7 @@ const props = defineProps<{
   id: string,
   name: string,
   description: string,
-  problemDescription: string,
+  problemExplanation: string,
 }>();
 
 const state = reactive({
@@ -38,13 +38,13 @@ const state = reactive({
   id: props.id,
   name: props.name,
   description: props.description,
-  problemDescription: props.problemDescription,
+  problemExplanation: props.problemExplanation,
 });
 
 async function saveAssignmentAsync(state: AssignmentEditorState) {
   const assignmentToUpdate: Assignment = {
     id: props.id,
-    problemDescription: state.problemDescription,
+    problemExplanation: state.problemExplanation,
     metadata: {
       name: state.name,
       description: state.description,

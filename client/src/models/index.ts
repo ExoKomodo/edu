@@ -17,7 +17,7 @@ export interface BlogMetadata {
 
 export interface Assignment {
   id: Id
-  problemDescription: string
+  problemExplanation: string
   metadata: AssignmentMetadata
 };
 
