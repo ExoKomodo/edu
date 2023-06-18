@@ -29,9 +29,13 @@
       <p v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
       <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Difficulty (integer)</div>
       <CodeEditor v-model="state.difficulty"
+                  :height="2"></CodeEditor>
+      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.difficulty"></div>
+      <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Content</div>
+      <CodeEditor v-model="state.content"
                   language="html"
                   :height="40"></CodeEditor>
-      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.difficulty"></div>
+      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.content"></div>
     </div>
   </div>
 </template>
@@ -48,6 +52,7 @@ export type SectionEditorState = {
   showPreview: boolean,
   id: string,
   name: string,
+  content: string,
   description: string,
   difficulty: string,
 };
@@ -59,6 +64,7 @@ const props = defineProps<{
   handlerText: string,
   sectionId: string,
   sectionName: string,
+  sectionContent: string,
   sectionDescription: string,
   sectionDifficulty: number,
 }>();
@@ -68,6 +74,7 @@ const state = reactive<SectionEditorState>({
   showPreview: false,
   id: props.sectionId,
   name: props.sectionName,
+  content: props.sectionContent,
   description: props.sectionDescription,
   difficulty: props.sectionDifficulty.toString(),
 });

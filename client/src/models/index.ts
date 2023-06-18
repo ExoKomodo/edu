@@ -46,6 +46,7 @@ export interface CourseMetadata {
 
 export interface Section {
   id: Id
+  content: string
   difficulty: number
   metadata: SectionMetadata
 };

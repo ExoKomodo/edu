@@ -52,6 +52,7 @@ type SectionMetadata =
 [<CLIMutable>]
 type Section =
   { Id : ExoId
+    Content : string
     Difficulty : uint
     Metadata : SectionMetadata }
   interface IDatabaseModel with

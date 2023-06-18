@@ -18,6 +18,7 @@
         <SectionEditor :handler="createSectionAsync"
                     handlerText="Create"
                     sectionId=""
+                    sectionContent=""
                     :sectionDifficulty=1
                     sectionDescription=""
                     sectionName=""></SectionEditor>
@@ -52,6 +53,7 @@ const state = reactive({
 async function createSectionAsync(state: SectionEditorState) {
   const sectionToCreate = {
     id: state.id,
+    content: state.content,
     difficulty: Number.parseInt(state.difficulty) as number,
     metadata: {
       name: state.name,
