@@ -14,7 +14,6 @@
                     :description=" castToCourseMetadata(course).description" />
           <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteCourseAsync(castToCourseId(id))" text="Delete?" class="w-20"></Button>
         </span>
-        <!-- TODO: Link to course -->
         <CourseEditor :handler="createCourseAsync"
                     handlerText="Create"
                     courseId=""
