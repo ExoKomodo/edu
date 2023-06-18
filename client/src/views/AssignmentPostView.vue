@@ -3,10 +3,11 @@
     <Spinner></Spinner>
   </div>
   <div v-else>
-    <AssignmentPost :id="id"
-                :name="state.assignment.metadata.name"
-                :problem-explanation="state.assignment.problemExplanation"
-                :description=state.assignment.metadata.description />
+    <AssignmentPost :id=id
+                :name=state.assignment.metadata.name
+                :problem-explanation=state.assignment.problemExplanation
+                :description=state.assignment.metadata.description
+                :course-id=props.courseId />
   </div>
 </template>
 
@@ -23,6 +24,7 @@ import { useToast } from 'vue-toastification';
 const auth0 = useAuth0();
 const props = defineProps<{
   id: string,
+  courseId: string,
 }>();
 const state = reactive({
   isLoading: true,

@@ -3,6 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-white">
       <p v-if="auth0.isAuthenticated" class="text-2xl font-bold border-slate-400 rounded border-2 p-1 pl-2">{{ state.name?.toUpperCase() }}</p>
       <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
+      <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">Difficulty: {{ state.difficulty }}</p>
       <SectionEditor :handler="saveSectionAsync"
                     handlerText="Update"
                     :sectionId="state.id"
@@ -27,6 +28,7 @@ const toast = useToast();
 
 const props = defineProps<{
   id: string,
+  courseId: string,
   name: string,
   description: string,
   difficulty: number,
@@ -48,8 +50,7 @@ async function saveSectionAsync(state: SectionEditorState) {
     metadata: {
       name: state.name,
       description: state.description,
-      // TODO: Link to course
-      courseId: '',
+      courseId: props.courseId,
     },
   };
   await SectionService.updateAsync(sectionToUpdate, { toast: toast, token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }) });

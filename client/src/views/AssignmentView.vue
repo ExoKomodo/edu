@@ -1,7 +1,7 @@
 <template>
   <div class="assignmentBackground min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 my-5">
-      <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">assignments</h1>
+      <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">Assignments</h1>
       <div v-if="state.isLoading" class="flex place-content-center">
         <Spinner></Spinner>
       </div>
@@ -10,6 +10,7 @@
           <AssignmentLink
                     class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
                     :id="castToAssignmentId(id)"
+                    :courseId=props.courseId
                     :name="castToAssignmentMetadata(assignment).name"
                     :description=" castToAssignmentMetadata(assignment).description" />
           <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteAssignmentAsync(castToAssignmentId(id))" text="Delete?" class="w-20"></Button>
@@ -33,13 +34,16 @@ import AssignmentLink from '@/components/AssignmentLink.vue';
 import AssignmentService from '@/services/AssignmentService';
 import Spinner from '@/components/Spinner.vue';
 import type { AssignmentIndex, AssignmentMetadata, Id } from '@/models';
-import { onMounted, reactive } from 'vue';
+import { defineProps, onMounted, reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useToast } from "vue-toastification";
 
 const auth0 = useAuth0();
 const toast = useToast();
 
+const props = defineProps<{
+  courseId: string,
+}>();
 const state = reactive({
   isLoading: true,
   assignmentIndex: {} as AssignmentIndex,
@@ -53,8 +57,7 @@ async function createAssignmentAsync(state: AssignmentEditorState) {
       name: state.name,
       description: state.description,
       requiredSections: [],
-      // TODO: Link to course
-      courseId: '',
+      courseId: props.courseId,
     },
   };
   await AssignmentService.createAsync(
@@ -90,14 +93,12 @@ function castToAssignmentMetadata(value: [string, AssignmentMetadata]) {
 
 onMounted(async () => {
   try {
-    console.log('mount 1');
     state.assignmentIndex = await AssignmentService.getAllAsync(
       {
         toast: toast,
         token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }),
       }
     );
-    console.log('mount 2');
   }
   finally {
     state.isLoading = false;
