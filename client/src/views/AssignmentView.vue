@@ -34,7 +34,7 @@ import AssignmentLink from '@/components/AssignmentLink.vue';
 import AssignmentService from '@/services/AssignmentService';
 import Spinner from '@/components/Spinner.vue';
 import type { AssignmentIndex, AssignmentMetadata, Id } from '@/models';
-import { defineProps, onMounted, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useToast } from "vue-toastification";
 

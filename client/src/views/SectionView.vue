@@ -34,7 +34,7 @@ import SectionLink from '@/components/SectionLink.vue';
 import SectionService from '@/services/SectionService';
 import Spinner from '@/components/Spinner.vue';
 import type { SectionIndex, SectionMetadata, Id } from '@/models';
-import { defineProps, onMounted, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useToast } from "vue-toastification";
 
