@@ -62,7 +62,7 @@ type Section =
 type AssignmentMetadata =
   { Description : string
     Name : string
-    RequiredSections : list<Section>
+    RequiredSectionIds : ExoId[]
     CourseId : ExoId }
   interface IDatabaseModelMetadata with
     member x.Description = x.Description
@@ -71,7 +71,7 @@ type AssignmentMetadata =
 [<CLIMutable>]
 type Assignment =
   { Id : ExoId
-    ProblemDescription : string
+    ProblemExplanation : string
     Metadata : AssignmentMetadata }
   interface IDatabaseModel with
     member x.Id = x.Id
@@ -143,8 +143,8 @@ type Dependencies =
     
     static member GenerateUpdateAssignment (assignment : Assignment) =
       let mutable update = Builders<Assignment>.Update.Set(
-        (fun _assignment -> _assignment.ProblemDescription),
-        assignment.ProblemDescription
+        (fun _assignment -> _assignment.ProblemExplanation),
+        assignment.ProblemExplanation
       )
       update <- update.Set(
         (fun _assignment -> _assignment.Metadata),

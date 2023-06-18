@@ -32,6 +32,30 @@ const router = createRouter({
       component: () => import('@/views/CoursePostView.vue'),
     },
     {
+      path: '/course/:courseId/section',
+      name: 'sections',
+      props: true,
+      component: () => import('@/views/SectionView.vue'),
+    },
+    {
+      path: '/course/:courseId/section/:id',
+      name: 'section',
+      props: true,
+      component: () => import('@/views/SectionPostView.vue'),
+    },
+    {
+      path: '/course/:courseId/assignment',
+      name: 'assignments',
+      props: true,
+      component: () => import('@/views/AssignmentView.vue'),
+    },
+    {
+      path: '/course/:courseId/assignment/:id',
+      name: 'assignment',
+      props: true,
+      component: () => import('@/views/AssignmentPostView.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
       component: () => import('@/views/AboutView.vue'),

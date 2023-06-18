@@ -1,4 +1,22 @@
-``<script setup lang="ts">
+<template>
+  <div class="blogBackground min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 my-5">
+      <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">blogs</h1>
+      <div v-if="state.isLoading" class="flex place-content-center">
+        <Spinner></Spinner>
+      </div>
+      <div v-else>
+        <BlogLink v-for="(blog, id) of state.blogIndex.blogs"
+                  class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
+                  :id="castToBlogId(id)"
+                  :title="castToBlogMetadata(blog).title"
+                  :description=" castToBlogMetadata(blog).description" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
 import BlogLink from '@/components/BlogLink.vue';
 import BlogService from '@/services/BlogService';
 import Spinner from '@/components/Spinner.vue';
@@ -31,21 +49,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<template>
-  <div class="blogBackground min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 my-5">
-      <h1 class="p-2 bg-mysticStone text-white rounded flex justify-center text-3xl font-bold my-3">blogs</h1>
-      <div v-if="state.isLoading" class="flex place-content-center">
-        <Spinner></Spinner>
-      </div>
-      <div v-else>
-        <BlogLink v-for="(blog, id) of state.blogIndex.blogs"
-                  class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
-                  :id="castToBlogId(id)"
-                  :title="castToBlogMetadata(blog).title"
-                  :description=" castToBlogMetadata(blog).description" />
-      </div>
-    </div>
-  </div>
-</template>

@@ -15,6 +15,21 @@ export interface BlogMetadata {
   title: string
 };
 
+export interface Assignment {
+  id: Id
+  problemExplanation: string
+  metadata: AssignmentMetadata
+};
+
+export type AssignmentIndex = Map<Id, AssignmentMetadata>;
+
+export interface AssignmentMetadata {
+  description: string
+  name: string
+  requiredSectionIds: Id[]
+  courseId: Id
+};
+
 export interface Course {
   id: Id
   content: string
@@ -27,6 +42,20 @@ export type CourseIndex = Map<Id, CourseMetadata>;
 export interface CourseMetadata {
   description: string
   name: string
+};
+
+export interface Section {
+  id: Id
+  difficulty: number
+  metadata: SectionMetadata
+};
+
+export type SectionIndex = Map<Id, SectionMetadata>;
+
+export interface SectionMetadata {
+  description: string
+  name: string
+  courseId: Id
 };
 
 export type UserInfo = {

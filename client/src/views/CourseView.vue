@@ -87,14 +87,12 @@ function castToCourseMetadata(value: [string, CourseMetadata]) {
 
 onMounted(async () => {
   try {
-    console.log('mount 1');
     state.courseIndex = await CourseService.getAllAsync(
       {
         toast: toast,
         token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }),
       }
     );
-    console.log('mount 2');
   }
   finally {
     state.isLoading = false;

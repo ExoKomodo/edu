@@ -27,7 +27,7 @@ let webApp = (choose [
               (choose [
                 GET >=>
                   (choose [
-                    routex  "/assignment(/?)" >=> Api.V1.Builder.getAllMetadata<Assignment> dependencies.AssignmentCollection
+                    routex  "/assignment(/?)" >=> Api.V1.Builder.getAllMetadata<Assignment, AssignmentMetadata> dependencies.AssignmentCollection
                     routef  "/assignment/%s"  (Api.V1.Builder.get<Assignment> dependencies.AssignmentCollection)
                   ])
                 DELETE >=>
@@ -44,7 +44,7 @@ let webApp = (choose [
               (choose [
                 GET >=>
                   (choose [
-                    routex  "/course(/?)" >=> Api.V1.Builder.getAllMetadata<Course> dependencies.CourseCollection
+                    routex  "/course(/?)" >=> Api.V1.Builder.getAllMetadata<Course, CourseMetadata> dependencies.CourseCollection
                     routef  "/course/%s"  (Api.V1.Builder.get<Course> dependencies.CourseCollection)
                   ])
                 DELETE >=>
@@ -61,7 +61,7 @@ let webApp = (choose [
               (choose [
                 GET >=>
                   (choose [
-                    routex  "/section(/?)" >=> Api.V1.Builder.getAllMetadata<Section> dependencies.SectionCollection
+                    routex  "/section(/?)" >=> Api.V1.Builder.getAllMetadata<Section, SectionMetadata> dependencies.SectionCollection
                     routef  "/section/%s"  (Api.V1.Builder.get<Section> dependencies.SectionCollection)
                   ])
                 DELETE >=>

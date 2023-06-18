@@ -1,6 +1,6 @@
 <template>
   <div v-if="AuthService.isAdmin(auth0)" class="bg-mysticStone text-white border-slate-400 border-2 rounded p-1 pl-2 my-2">
-    <div class="text-2xl">Course Editor</div>
+    <div class="text-2xl">Section Editor</div>
     <input type="checkbox"
           id="edit-mode"
           name="editMode"
@@ -13,7 +13,6 @@
     <div :class="{ invisible: !state.isEditMode }">
       <input type="checkbox"
             id="show-preview"
-            @change="onPreviewChangeAsync"
             name="showPreview"
             v-model="state.showPreview">
       <label for="show-preview"> Show preview?</label>
@@ -28,12 +27,11 @@
       <CodeEditor v-model="state.description"
                   :height="2"></CodeEditor>
       <p v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
-      <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Content</div>
-      <CodeEditor v-model="state.content"
+      <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Difficulty (integer)</div>
+      <CodeEditor v-model="state.difficulty"
                   language="html"
-                  v-on:update:model-value="onContentChangeAsync"
                   :height="40"></CodeEditor>
-      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.templatedContent"></div>
+      <div v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.difficulty"></div>
     </div>
   </div>
 </template>
@@ -44,52 +42,33 @@ import CodeEditor from '@/components/CodeEditor.vue';
 import { reactive } from 'vue';
 import AuthService from '@/services/AuthService';
 import { useAuth0 } from '@auth0/auth0-vue';
-import CourseService from '@/services/CourseService';
-import { useToast } from 'vue-toastification';
 
-export type CourseEditorState = {
+export type SectionEditorState = {
   isEditMode: boolean,
   showPreview: boolean,
   id: string,
   name: string,
   description: string,
-  content: string,
-  templatedContent: string,
+  difficulty: string,
 };
 
 const auth0 = useAuth0();
-const toast = useToast();
 
 const props = defineProps<{
-  handler: (state: CourseEditorState) => void,
+  handler: (state: SectionEditorState) => void,
   handlerText: string,
-  courseId: string,
-  courseName: string,
-  courseDescription: string,
-  courseContent: string,
+  sectionId: string,
+  sectionName: string,
+  sectionDescription: string,
+  sectionDifficulty: number,
 }>();
 
-const state = reactive<CourseEditorState>({
+const state = reactive<SectionEditorState>({
   isEditMode: false,
   showPreview: false,
-  id: props.courseId,
-  name: props.courseName,
-  description: props.courseDescription,
-  content: props.courseContent,
-  templatedContent: props.courseContent,
+  id: props.sectionId,
+  name: props.sectionName,
+  description: props.sectionDescription,
+  difficulty: props.sectionDifficulty.toString(),
 });
-
-const token = await AuthService.getAccessTokenAsync(auth0, { toast: toast });
-
-async function onPreviewChangeAsync(event: any) {
-  if (event.target.checked) {
-    state.templatedContent = await CourseService.fillTemplateAsync(state.content, { toast: toast, token: token });
-  }
-}
-
-async function onContentChangeAsync(event: any) {
-  if (state.showPreview) {
-    state.templatedContent = await CourseService.fillTemplateAsync(state.content, { toast: toast, token: token });
-  }
-}
 </script>
