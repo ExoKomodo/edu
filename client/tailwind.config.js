@@ -4,6 +4,11 @@ module.exports = {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx,vue}",
   ],
+  safelist: [
+    {
+      pattern: /text-.+/,
+    },
+  ],
   theme: {
     extend: {
       colors: {
