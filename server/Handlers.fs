@@ -14,8 +14,26 @@ let admins = [
   "exokomodo@gmail.com";
   "brandonapol@cedarville.edu";
 ]
-let paidUsers = [
+
+let paidEmailUsers = [
   "jamesaorson@gmail.com";
+]
+
+let paidAppleSubs = [
+  "000029.21872332bd244cca8b5cf65af46d5e00.2035"; // jamesaorson@gmail.com
+]
+let paidAuth0Subs = [
+  "645e74e43d813747ca2578ee"; // exokomodo@gmail.com
+]
+let paidGoogleSubs = [
+  "107263294567498975062"; // exokomodo@gmail.com
+  "113937910186417093745"; // jamesaorson@gmail.com
+]
+let paidGithubSubs = [
+  "17893076"; // jamesaorson@gmail.com
+]
+let paidMicrosoftSubs = [
+  "9e29fe3ca9a421c1"; // jamesaorson@gmail.com
 ]
 
 let canAccessPaidContent (auth0HttpClient : HttpClient) : HttpHandler =
@@ -35,10 +53,33 @@ let canAccessPaidContent (auth0HttpClient : HttpClient) : HttpHandler =
             match getUserInfoAsync auth0HttpClient (ctx.GetJsonSerializer() :?> JsonSerializer) |> Async.RunSynchronously with
             | None -> notLoggedIn
             | Some userInfo ->
-              let isAdmin = List.contains userInfo.Email admins
-              let isPaidUser = List.contains userInfo.Email paidUsers
-              match isAdmin, isPaidUser with
-              | false, false -> RequestErrors.FORBIDDEN "Not a paid user or higher permissions"
-              | _, _ -> justContinue
+              match userInfo.Email with
+              | Some email ->
+                printfn "Email auth method"
+                let isAllowed = List.contains true [
+                  List.contains email admins;
+                  List.contains email paidEmailUsers;
+                ]
+                if isAllowed then
+                  justContinue
+                else
+                  RequestErrors.FORBIDDEN "Not an admin or paid user, logging in via email"
+              | None ->
+                printfn "Other auth method"
+                let subResults =
+                  match userInfo.Sub with
+                  | StringPrefix "apple|" subId -> Some(subId, paidAppleSubs)
+                  | StringPrefix "auth0|" subId -> Some(subId, paidAuth0Subs)
+                  | StringPrefix "github|" subId -> Some(subId, paidGithubSubs)
+                  | StringPrefix "google-oauth2|" subId -> Some(subId, paidGoogleSubs)
+                  | StringPrefix "windowslive|" subId -> Some(subId, paidMicrosoftSubs)
+                  | _ -> None
+                match subResults with
+                | Some (subId, paidSubs) ->
+                  if List.contains subId paidSubs then
+                    justContinue
+                  else
+                    RequestErrors.FORBIDDEN "Not a paid user"
+                | None -> RequestErrors.FORBIDDEN $"Not a supported auth method with sub={userInfo.Sub}"
         | _ -> notLoggedIn
     result next ctx
