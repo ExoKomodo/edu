@@ -61,9 +61,9 @@ type Auth0ClientParams =
 [<CLIMutable>]
 type Auth0UserInfo =
   { [<JsonPropertyName("email")>]
-    Email : string
+    Email : option<string>
     [<JsonPropertyName("email_verified")>]
-    IsEmailVerified : bool
+    IsEmailVerified : option<bool>
     [<JsonPropertyName("nickname")>]
     Nickname : string
     [<JsonPropertyName("name")>]
