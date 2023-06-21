@@ -8,6 +8,8 @@ open System
 open System.IO
 open System.Threading.Tasks
 
+// TODO: Write a dictionary converter - https://github.com/dvsekhvalnov/jose-jwt/blob/cb426b83e1e2010cdb7b9c062532ce1b27905f71/jose-jwt/json/NewtonsoftMapper.cs#L9
+
 type private OptionConverter() =
   // SOURCE: http://gorodinski.com/blog/2013/01/05/json-dot-net-type-converters-for-f-option-list-tuple/
   inherit JsonConverter()
@@ -67,3 +69,10 @@ type JsonSerializer() =
 
     member __.SerializeToString<'T> (object : 'T) : string =
       giraffeSerializer.SerializeToString<'T> object
+
+  interface Jose.IJsonMapper with
+    member this.Parse<'T>(data: string): 'T =
+      this.Deserialize<'T> data
+
+    member this.Serialize(object: obj): string = 
+      this.Serialize object
