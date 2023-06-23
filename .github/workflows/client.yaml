@@ -15,7 +15,7 @@ defaults:
     working-directory: ./client
 
 jobs:
-  build:
+  build-client:
     runs-on: ubuntu-latest
     strategy:
       matrix:

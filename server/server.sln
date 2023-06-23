@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "server", "src\server.fsproj", "{9C315859-3881-4519-A518-FD40C799E1DC}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "tests", "tests\tests.fsproj", "{550A86E2-A240-4F1F-BF17-10AF7A189D09}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "exokomodo.lib", "exokomodo.lib\exokomodo.lib.fsproj", "{948F679C-BD07-4A28-B429-2A96902A1932}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C315859-3881-4519-A518-FD40C799E1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C315859-3881-4519-A518-FD40C799E1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C315859-3881-4519-A518-FD40C799E1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C315859-3881-4519-A518-FD40C799E1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{550A86E2-A240-4F1F-BF17-10AF7A189D09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{550A86E2-A240-4F1F-BF17-10AF7A189D09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{550A86E2-A240-4F1F-BF17-10AF7A189D09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{550A86E2-A240-4F1F-BF17-10AF7A189D09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{948F679C-BD07-4A28-B429-2A96902A1932}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{948F679C-BD07-4A28-B429-2A96902A1932}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{948F679C-BD07-4A28-B429-2A96902A1932}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{948F679C-BD07-4A28-B429-2A96902A1932}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
