@@ -60,72 +60,139 @@ open System.Threading
 //         bindJson<Assignment> (Api.V1.Builder.put<Assignment> dependencies.AssignmentCollection dependencies.UpdateAssignment)
 //     ])
 
-let inline createModel<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (model : ^T) : HttpHandler =
-  collection.InsertOne(model, null, new CancellationToken())
-  
-  json model
+let inline createModel< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (model : ^T)
+    : HttpHandler =
+    collection.InsertOne(model, null, new CancellationToken())
 
-let inline deleteModel<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (id : string) =
-  let filter = Builders<^T>.Filter.Eq("Id", id)
-  collection.DeleteOne(filter) |> ignore
+    json model
 
-let inline getModels<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) =
-  collection.Find(Builders<^T>.Filter.Empty).ToEnumerable()
-  |> Seq.cast<^T>
+let inline deleteModel< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (id : string)
+    =
+    let filter =
+        Builders< ^T>.Filter
+            .Eq("Id", id)
 
-let inline getModel<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (id : string) =
-  let filter = Builders<^T>.Filter.Eq("Id", id)
-  collection.Find(filter).FirstOrDefault()
+    collection.DeleteOne(filter) |> ignore
 
-let inline updateModel<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (model : ^T) (update : ^T -> UpdateDefinition<^T>) : HttpHandler =
-  fun (next : HttpFunc) (ctx : HttpContext) ->
-    let filter = Builders<^T>.Filter.Eq("Id", model.Id)
-    collection.UpdateOne(filter, update model, null, new CancellationToken()) |> ignore
-    json model next ctx
+let inline getModels< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    =
+    collection
+        .Find(Builders< ^T>.Filter.Empty)
+        .ToEnumerable()
+    |> Seq.cast< ^T>
 
-let inline getInFormat<^T when ^T :> IDatabaseModel> (formatter : ^T -> HttpFunc -> HttpContext -> HttpFuncResult) (collection : IMongoCollection<^T>) (id : string) : HttpHandler =
-  let model = getModel collection id
-  match box model with
-  | null -> RequestErrors.NOT_FOUND $"Model not found with id {id}"
-  | _ -> formatter model
+let inline getModel< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (id : string)
+    =
+    let filter =
+        Builders< ^T>.Filter
+            .Eq("Id", id)
 
-let inline getAsXml<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (id : string) : HttpHandler = getInFormat xml collection id
+    collection
+        .Find(filter)
+        .FirstOrDefault()
 
-let inline getAsJson<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (id : string) : HttpHandler = getInFormat json collection id
+let inline updateModel< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (model : ^T)
+    (update : ^T -> UpdateDefinition< ^T >)
+    : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let filter =
+            Builders< ^T>.Filter
+                .Eq("Id", model.Id)
 
-let inline delete<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (id : string) : HttpHandler =
-  fun (next : HttpFunc) (ctx : HttpContext) ->
-    deleteModel collection id
-    json id next ctx
+        collection.UpdateOne(
+            filter,
+            update model,
+            null,
+            new CancellationToken()
+        )
+        |> ignore
+
+        json model next ctx
+
+let inline getInFormat< ^T when ^T :> IDatabaseModel>
+    (formatter : ^T -> HttpFunc -> HttpContext -> HttpFuncResult)
+    (collection : IMongoCollection< ^T >)
+    (id : string)
+    : HttpHandler =
+    let model = getModel collection id
+
+    match box model with
+    | null -> RequestErrors.NOT_FOUND $"Model not found with id {id}"
+    | _ -> formatter model
+
+let inline getAsXml< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (id : string)
+    : HttpHandler =
+    getInFormat xml collection id
+
+let inline getAsJson< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (id : string)
+    : HttpHandler =
+    getInFormat json collection id
+
+let inline delete< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (id : string)
+    : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        deleteModel collection id
+        json id next ctx
 
 
-let inline get<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (id : string) : HttpHandler =
-  fun (next : HttpFunc) (ctx : HttpContext) ->
-    let accept =
-      match ctx.TryGetRequestHeader "Accept" with
-      | None -> "application/json"
-      | Some value -> value
+let inline get< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (id : string)
+    : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let accept =
+            match ctx.TryGetRequestHeader "Accept" with
+            | None -> "application/json"
+            | Some value -> value
 
-    let result =
-      match accept with
-      | StringPrefix "application/xml" _ | StringPrefix "text/xml" _ -> getAsXml collection id
-      | _ -> getAsJson collection id
-    result next ctx
+        let result =
+            match accept with
+            | StringPrefix "application/xml" _
+            | StringPrefix "text/xml" _ -> getAsXml collection id
+            | _ -> getAsJson collection id
 
-let inline post<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (model : ^T) : HttpHandler =
-  fun (next : HttpFunc) (ctx : HttpContext) ->
-    createModel collection model next ctx
+        result next ctx
 
-let inline put<^T when ^T :> IDatabaseModel> (collection : IMongoCollection<^T>) (update : ^T -> UpdateDefinition<^T>) (model : ^T) : HttpHandler =
-  fun (next : HttpFunc) (ctx : HttpContext) ->
-    updateModel collection model update next ctx
+let inline post< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (model : ^T)
+    : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        createModel collection model next ctx
 
-let getAllMetadata<'T, 'U when 'T :> IDatabaseModel and 'U :> IDatabaseModelMetadata> (collection : IMongoCollection<'T>) : HttpHandler =
-  fun (next : HttpFunc) (ctx : HttpContext) ->
-    let models =
-      (getModels collection)
-      // NOTE: The cast is required so `json` can properly inspet the specific type and map the subfields
-      |> Seq.map (fun model -> model.Id, model.Metadata :?> 'U)
-      |> dict
-      |> json
-    models next ctx
+let inline put< ^T when ^T :> IDatabaseModel>
+    (collection : IMongoCollection< ^T >)
+    (update : ^T -> UpdateDefinition< ^T >)
+    (model : ^T)
+    : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        updateModel collection model update next ctx
+
+let getAllMetadata<'T, 'U
+    when 'T :> IDatabaseModel and 'U :> IDatabaseModelMetadata>
+    (collection : IMongoCollection<'T>)
+    : HttpHandler =
+    fun (next : HttpFunc) (ctx : HttpContext) ->
+        let models =
+            (getModels collection)
+            // NOTE: The cast is required so `json` can properly inspet the specific type and map the subfields
+            |> Seq.map (fun model -> model.Id, model.Metadata :?> 'U)
+            |> dict
+            |> json
+
+        models next ctx
