@@ -192,8 +192,9 @@ type Dependencies = {
     static member GenerateUpdateSection (section : Section) =
         let mutable update =
             Builders<Section>.Update
-                .Set((fun _section -> _section.Difficulty), section.Difficulty)
-
+                .Set((fun _section -> _section.Content), section.Content)
+        update <-
+            update.Set((fun _section -> _section.Difficulty), section.Difficulty)
         update <-
             update.Set((fun _section -> _section.Metadata), section.Metadata)
 
