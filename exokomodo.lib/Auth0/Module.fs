@@ -1,34 +1,33 @@
 module ExoKomodo.Lib.Auth0
 
-open Jose
 open ExoKomodo.Lib.Serializers
+open Jose
 open System.Net.Http
 open System.Text
-open System.Text.Json.Serialization
 open System.Collections.Generic
 
 [<CLIMutable>]
 type Auth0JwtHeader =
-  { [<JsonPropertyName("typ")>]
+  { [<Newtonsoft.Json.JsonProperty("typ")>]
     Type : string
-    [<JsonPropertyName("cty")>]
+    [<Newtonsoft.Json.JsonProperty("cty")>]
     ContentType : string
-    [<JsonPropertyName("alg")>]
+    [<Newtonsoft.Json.JsonProperty("alg")>]
     Algorithm : string
-    [<JsonPropertyName("kid")>]
+    [<Newtonsoft.Json.JsonProperty("kid")>]
     KeyId : string
-    [<JsonPropertyName("x5u")>]
+    [<Newtonsoft.Json.JsonProperty("x5u")>]
     X5u : string
-    [<JsonPropertyName("x5c")>]
+    [<Newtonsoft.Json.JsonProperty("x5c")>]
     X5c : string
-    [<JsonPropertyName("x5t")>]
+    [<Newtonsoft.Json.JsonProperty("x5t")>]
     X5t : string }
 
 [<CLIMutable>]
 type Auth0AccessTokenResponse =
-  { [<JsonPropertyName("access_token")>]
+  { [<Newtonsoft.Json.JsonProperty("access_token")>]
     AccessToken : string
-    [<JsonPropertyName("token_type")>]
+    [<Newtonsoft.Json.JsonProperty("token_type")>]
     TokenType : string }
 
 type Auth0Client =
@@ -43,13 +42,13 @@ type Auth0Client =
 
 [<CLIMutable>]
 type Auth0ClientParams =
-  { [<JsonPropertyName("grant_type")>]
+  { [<Newtonsoft.Json.JsonProperty("grant_type")>]
     GrantType : string
-    [<JsonPropertyName("client_id")>]
+    [<Newtonsoft.Json.JsonProperty("client_id")>]
     ClientId : string
-    [<JsonPropertyName("client_secret")>]
+    [<Newtonsoft.Json.JsonProperty("client_secret")>]
     ClientSecret : string
-    [<JsonPropertyName("audience")>]
+    [<Newtonsoft.Json.JsonProperty("audience")>]
     Audience : string }
 
     static member FromEduClientCredentials (clientId : string) (clientSecret : string) : Auth0ClientParams =
@@ -60,22 +59,22 @@ type Auth0ClientParams =
 
 [<CLIMutable>]
 type Auth0UserInfo =
-  { [<JsonPropertyName("email")>]
-    Email : string
-    [<JsonPropertyName("email_verified")>]
-    IsEmailVerified : bool
-    [<JsonPropertyName("nickname")>]
+  { [<Newtonsoft.Json.JsonProperty("email")>]
+    Email : option<string>
+    [<Newtonsoft.Json.JsonProperty("email_verified")>]
+    IsEmailVerified : option<bool>
+    [<Newtonsoft.Json.JsonProperty("nickname")>]
     Nickname : string
-    [<JsonPropertyName("name")>]
+    [<Newtonsoft.Json.JsonProperty("name")>]
     Name : string
-    [<JsonPropertyName("picture")>]
+    [<Newtonsoft.Json.JsonProperty("picture")>]
     Picture : string
-    [<JsonPropertyName("sub")>]
+    [<Newtonsoft.Json.JsonProperty("sub")>]
     Sub : string
-    [<JsonPropertyName("updated_at")>]
+    [<Newtonsoft.Json.JsonProperty("updated_at")>]
     UpdatedAt : string }
 
-let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpClient) (serializer : JsonSerializer) (clientParams : Auth0ClientParams) : Async<option<Auth0AccessTokenResponse>> =
+let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpClient) (serializer : Json.Serializer) (clientParams : Auth0ClientParams) : Async<option<Auth0AccessTokenResponse>> =
   let jsonContent = new StringContent(
     serializer.Serialize(clientParams),
     Encoding.UTF8,
@@ -88,14 +87,17 @@ let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpCli
           "oauth/token",
           jsonContent
         ) |> Async.AwaitTask
+      let content = 
+        response.Content.ReadAsStringAsync()
+        |> Async.AwaitTask
+        |> Async.RunSynchronously
       if response.IsSuccessStatusCode then
-        return serializer.Deserialize<Auth0AccessTokenResponse>(
-          response.Content.ReadAsStringAsync()
-            |> Async.AwaitTask
-            |> Async.RunSynchronously
-        ) |> Some
+        return serializer.Deserialize<Auth0AccessTokenResponse>(content) |> Some
       else
-        printfn "HTTP request for access token failed with status code %s" (response.StatusCode.ToString())
+        printfn
+          "HTTP request for access token failed with status code %s: %s"
+          (response.StatusCode.ToString())
+          content
         return None
     with
       | :? HttpRequestException as ex ->
@@ -103,7 +105,7 @@ let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpCli
         return None
   }
 
-let getUserInfoAsync (client : HttpClient) (serializer : JsonSerializer) : Async<option<Auth0UserInfo>> =
+let getUserInfoAsync (client : HttpClient) (serializer : Json.Serializer) : Async<option<Auth0UserInfo>> =
   async {
     let! response = client.GetAsync("/userinfo") |> Async.AwaitTask
     let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
@@ -111,19 +113,21 @@ let getUserInfoAsync (client : HttpClient) (serializer : JsonSerializer) : Async
       return serializer.Deserialize<Auth0UserInfo> content |> Some
     with
       | :? Json.JsonException as ex ->
-        printfn "%s" ex.Message
+        printfn "Failed to deserialize json while getting user info: %s" ex.Message
         return None
   }
+
+let private jsonMapperSettings = JWT.DefaultSettings.RegisterMapper(Json.Serializer())
 
 let getWellKnownKeysAsync (client : HttpClient) : Async<JwkSet> =
   async {
     let! response = client.GetAsync("/.well-known/jwks.json") |> Async.AwaitTask
     let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    return JwkSet.FromJson(content, JWT.DefaultSettings.JsonMapper)
+    return JwkSet.FromJson(content, jsonMapperSettings.JsonMapper)
   }
 
 let validateAccessTokenWithKeySet (keySet : JwkSet) (bearer : string) : option<Auth0Client> =
-  let header = Jose.JWT.Headers<Auth0JwtHeader>(bearer, JWT.DefaultSettings)
+  let header = Jose.JWT.Headers<Auth0JwtHeader>(bearer, jsonMapperSettings)
   let kid = header.KeyId
   let key =
     List.find

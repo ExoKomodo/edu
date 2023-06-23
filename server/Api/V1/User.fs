@@ -18,7 +18,7 @@ let getInfo (auth0HttpClient : HttpClient) : HttpHandler =
         auth0HttpClient.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Bearer", token)
         json
           (getUserInfoAsync
-            auth0HttpClient (ctx.GetJsonSerializer() :?> JsonSerializer) |> Async.RunSynchronously)
+            auth0HttpClient (ctx.GetJsonSerializer() :?> Json.Serializer) |> Async.RunSynchronously)
           next
           ctx
       | _ -> notLoggedIn next ctx
