@@ -46,6 +46,7 @@ let canAccessPaidContent (auth0HttpClient : HttpClient) : HttpHandler =
         | StringPrefix "Bearer " token ->
           auth0HttpClient.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Bearer", token)
           let auth0Client = validateAccessToken auth0HttpClient token
+          printfn "Token: %s" token
           match auth0Client with
           | None -> notLoggedIn
           | Some Machine -> justContinue
@@ -55,7 +56,6 @@ let canAccessPaidContent (auth0HttpClient : HttpClient) : HttpHandler =
             | Some userInfo ->
               match userInfo.Email with
               | Some email ->
-                printfn "Email auth method"
                 let isAllowed = List.contains true [
                   List.contains email admins;
                   List.contains email paidEmailUsers;
@@ -65,7 +65,6 @@ let canAccessPaidContent (auth0HttpClient : HttpClient) : HttpHandler =
                 else
                   RequestErrors.FORBIDDEN "Not an admin or paid user, logging in via email"
               | None ->
-                printfn "Other auth method"
                 let subResults =
                   match userInfo.Sub with
                   | StringPrefix "apple|" subId -> Some(subId, paidAppleSubs)

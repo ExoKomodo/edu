@@ -1,33 +1,33 @@
 module ExoKomodo.Lib.Auth0
 
 open Jose
-open Newtonsoft.Json
+open Serializers
 open System.Net.Http
 open System.Text
 open System.Collections.Generic
 
 [<CLIMutable>]
 type Auth0JwtHeader =
-  { [<JsonProperty("typ")>]
+  { [<Newtonsoft.Json.JsonProperty("typ")>]
     Type : string
-    [<JsonProperty("cty")>]
+    [<Newtonsoft.Json.JsonProperty("cty")>]
     ContentType : string
-    [<JsonProperty("alg")>]
+    [<Newtonsoft.Json.JsonProperty("alg")>]
     Algorithm : string
-    [<JsonProperty("kid")>]
+    [<Newtonsoft.Json.JsonProperty("kid")>]
     KeyId : string
-    [<JsonProperty("x5u")>]
+    [<Newtonsoft.Json.JsonProperty("x5u")>]
     X5u : string
-    [<JsonProperty("x5c")>]
+    [<Newtonsoft.Json.JsonProperty("x5c")>]
     X5c : string
-    [<JsonProperty("x5t")>]
+    [<Newtonsoft.Json.JsonProperty("x5t")>]
     X5t : string }
 
 [<CLIMutable>]
 type Auth0AccessTokenResponse =
-  { [<JsonProperty("access_token")>]
+  { [<Newtonsoft.Json.JsonProperty("access_token")>]
     AccessToken : string
-    [<JsonProperty("token_type")>]
+    [<Newtonsoft.Json.JsonProperty("token_type")>]
     TokenType : string }
 
 type Auth0Client =
@@ -42,13 +42,13 @@ type Auth0Client =
 
 [<CLIMutable>]
 type Auth0ClientParams =
-  { [<JsonProperty("grant_type")>]
+  { [<Newtonsoft.Json.JsonProperty("grant_type")>]
     GrantType : string
-    [<JsonProperty("client_id")>]
+    [<Newtonsoft.Json.JsonProperty("client_id")>]
     ClientId : string
-    [<JsonProperty("client_secret")>]
+    [<Newtonsoft.Json.JsonProperty("client_secret")>]
     ClientSecret : string
-    [<JsonProperty("audience")>]
+    [<Newtonsoft.Json.JsonProperty("audience")>]
     Audience : string }
 
     static member FromEduClientCredentials (clientId : string) (clientSecret : string) : Auth0ClientParams =
@@ -59,22 +59,22 @@ type Auth0ClientParams =
 
 [<CLIMutable>]
 type Auth0UserInfo =
-  { [<JsonProperty("email")>]
+  { [<Newtonsoft.Json.JsonProperty("email")>]
     Email : option<string>
-    [<JsonProperty("email_verified")>]
+    [<Newtonsoft.Json.JsonProperty("email_verified")>]
     IsEmailVerified : option<bool>
-    [<JsonProperty("nickname")>]
+    [<Newtonsoft.Json.JsonProperty("nickname")>]
     Nickname : string
-    [<JsonProperty("name")>]
+    [<Newtonsoft.Json.JsonProperty("name")>]
     Name : string
-    [<JsonProperty("picture")>]
+    [<Newtonsoft.Json.JsonProperty("picture")>]
     Picture : string
-    [<JsonProperty("sub")>]
+    [<Newtonsoft.Json.JsonProperty("sub")>]
     Sub : string
-    [<JsonProperty("updated_at")>]
+    [<Newtonsoft.Json.JsonProperty("updated_at")>]
     UpdatedAt : string }
 
-let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpClient) (serializer : Serializers.JsonSerializer) (clientParams : Auth0ClientParams) : Async<option<Auth0AccessTokenResponse>> =
+let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpClient) (serializer : JsonSerializer) (clientParams : Auth0ClientParams) : Async<option<Auth0AccessTokenResponse>> =
   let jsonContent = new StringContent(
     serializer.Serialize(clientParams),
     Encoding.UTF8,
@@ -123,7 +123,7 @@ let getWellKnownKeysAsync (client : HttpClient) : Async<JwkSet> =
   async {
     let! response = client.GetAsync("/.well-known/jwks.json") |> Async.AwaitTask
     let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    return JwkSet.FromJson(content, jsonMapperSettings.JsonMapper)
+    return JwkSet.FromJson(content, JsonSerializer())
   }
 
 let validateAccessTokenWithKeySet (keySet : JwkSet) (bearer : string) : option<Auth0Client> =
