@@ -27,7 +27,7 @@ type TestDependencies () =
     match getMachineToMachineAccessTokenAsync unauthenticatedAuth0HttpClient serializer clientParams |> Async.RunSynchronously with
     | Some token -> token.AccessToken
     | None -> raise (HttpRequestException("Failed to get access token"))
-  static let jsonSerializer = JsonSerializer()
+  static let jsonSerializer = Json.Serializer()
 
   static member AccessToken = accessToken
   static member ClientId = clientId
