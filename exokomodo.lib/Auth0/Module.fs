@@ -123,7 +123,7 @@ let getWellKnownKeysAsync (client : HttpClient) : Async<JwkSet> =
   async {
     let! response = client.GetAsync("/.well-known/jwks.json") |> Async.AwaitTask
     let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    return JwkSet.FromJson(content, Json.Serializer())
+    return JwkSet.FromJson(content, jsonMapperSettings.JsonMapper)
   }
 
 let validateAccessTokenWithKeySet (keySet : JwkSet) (bearer : string) : option<Auth0Client> =
