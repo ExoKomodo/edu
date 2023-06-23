@@ -3,9 +3,9 @@ module ExoKomodo.Lib.Serializers.Json
 open Giraffe
 open Microsoft.FSharp.Reflection
 open System
+open System.Collections.Generic
 open System.IO
 open System.Threading.Tasks
-open System.Collections.Generic
 
 type NestedDictionaryConverter() =
   // SOURCE: https://github.com/dvsekhvalnov/jose-jwt/blob/cb426b83e1e2010cdb7b9c062532ce1b27905f71/jose-jwt/json/NewtonsoftMapper.cs#L13
