@@ -51,7 +51,7 @@ let canAccessPaidContent (auth0HttpClient : HttpClient) : HttpHandler =
           | None -> notLoggedIn
           | Some Machine -> justContinue
           | Some User -> 
-            match getUserInfoAsync auth0HttpClient (ctx.GetJsonSerializer() :?> JsonSerializer) |> Async.RunSynchronously with
+            match getUserInfoAsync auth0HttpClient (ctx.GetJsonSerializer() :?> Json.Serializer) |> Async.RunSynchronously with
             | None -> notLoggedIn
             | Some userInfo ->
               match userInfo.Email with

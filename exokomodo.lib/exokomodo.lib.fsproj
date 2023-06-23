@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <Compile Include="ActivePatterns/Module.fs" />
-    <Compile Include="Serializers/Module.fs" />
+    <Compile Include="Serializers/Json.fs" />
     <Compile Include="Auth0/Module.fs" />
     <Compile Include="Giraffe/Handlers.fs" />
   </ItemGroup>

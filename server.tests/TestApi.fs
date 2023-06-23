@@ -14,7 +14,7 @@ let unauthenticatedAuth0HttpClient = new HttpClient(
   BaseAddress = new Uri("https://exokomodo.us.auth0.com")
 )
 
-let serializer = JsonSerializer()
+let serializer = Json.Serializer()
 
 type TestDependencies () =
   static let server =

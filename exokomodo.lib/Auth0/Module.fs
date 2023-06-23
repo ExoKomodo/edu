@@ -1,7 +1,7 @@
 module ExoKomodo.Lib.Auth0
 
+open ExoKomodo.Lib.Serializers
 open Jose
-open Serializers
 open System.Net.Http
 open System.Text
 open System.Collections.Generic
@@ -74,7 +74,7 @@ type Auth0UserInfo =
     [<Newtonsoft.Json.JsonProperty("updated_at")>]
     UpdatedAt : string }
 
-let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpClient) (serializer : JsonSerializer) (clientParams : Auth0ClientParams) : Async<option<Auth0AccessTokenResponse>> =
+let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpClient) (serializer : Json.Serializer) (clientParams : Auth0ClientParams) : Async<option<Auth0AccessTokenResponse>> =
   let jsonContent = new StringContent(
     serializer.Serialize(clientParams),
     Encoding.UTF8,
@@ -105,7 +105,7 @@ let getMachineToMachineAccessTokenAsync(unauthenticatedAuth0HttpClient : HttpCli
         return None
   }
 
-let getUserInfoAsync (client : HttpClient) (serializer : Serializers.JsonSerializer) : Async<option<Auth0UserInfo>> =
+let getUserInfoAsync (client : HttpClient) (serializer : Json.Serializer) : Async<option<Auth0UserInfo>> =
   async {
     let! response = client.GetAsync("/userinfo") |> Async.AwaitTask
     let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
@@ -117,13 +117,13 @@ let getUserInfoAsync (client : HttpClient) (serializer : Serializers.JsonSeriali
         return None
   }
 
-let private jsonMapperSettings = JWT.DefaultSettings.RegisterMapper(Serializers.JsonSerializer())
+let private jsonMapperSettings = JWT.DefaultSettings.RegisterMapper(Json.Serializer())
 
 let getWellKnownKeysAsync (client : HttpClient) : Async<JwkSet> =
   async {
     let! response = client.GetAsync("/.well-known/jwks.json") |> Async.AwaitTask
     let! content = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-    return JwkSet.FromJson(content, JsonSerializer())
+    return JwkSet.FromJson(content, Json.Serializer())
   }
 
 let validateAccessTokenWithKeySet (keySet : JwkSet) (bearer : string) : option<Auth0Client> =
