@@ -27,7 +27,7 @@ Refer to the [`README`](./client/README.md#run-unit-tests-with-vitest)
 
 ## [Server](./server/)
 
-### [Server](./server/) - Setup
+### [Server](./server/src) - Setup
 
 Install [.Net 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
 
@@ -39,9 +39,9 @@ export AWS_ACCESS_KEY_ID="DO00MM6Z43GZ4V6YX8PY"
 export AWS_SECRET_ACCESS_KEY="*************************************"
 ```
 
-### [Server](./server/) - Run
+### [Server](./server/src) - Run
 
-#### Using [helper script](./server/run.sh)
+#### Using [helper script](./server/src/run.sh)
 
 The helper script will verify the environment you are running in. By doing so, you should be able to successfully run the server, as long as this script can run. If the script cannot successfully run, the script will proactively tell you what is wrong with the environment and why.
 
@@ -65,9 +65,9 @@ With hot reloading:
 dotnet watch run
 ```
 
-### [server.tests](./server.tests/) - Test
+### [server/tests](./server/tests/) - Test
 
-#### Using [helper script](./server/test.sh)
+#### Using [helper script](./server/tests/test.sh)
 
 The helper script will verify the environment you are running in. By doing so, you should be able to successfully run the server, as long as this script can run. If the script cannot successfully run, the script will proactively tell you what is wrong with the environment and why.
 
@@ -91,7 +91,7 @@ With hot reloading:
 dotnet watch test
 ```
 
-### [Server](./server/) - Mongo
+### [Server](./server/src) - Mongo
 
 #### Interacting with Mongo
 
@@ -154,7 +154,7 @@ let update = Builders<Course>.Update.Set(
 collection.UpdateOne(filter, update) |> ignore
 ```
 
-### [Server](./server/) - Object Storage (s3)
+### [Server](./server/src) - Object Storage (s3)
 
 #### Installing aws cli
 

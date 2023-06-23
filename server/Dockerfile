@@ -5,7 +5,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS builder
 
 COPY . /server
 
-WORKDIR /server
+WORKDIR /server/src
 
 RUN dotnet publish --configuration Release
 
@@ -30,9 +30,11 @@ RUN apt-get update -qy
 RUN apt-get install -qy --no-install-recommends \
   openresty
 
-WORKDIR /server
+WORKDIR /server/nginx
 
-RUN ./nginx/setup.sh
+RUN ./setup.sh
+
+WORKDIR /server/src
 
 EXPOSE 80
 ENV ASPNETCORE_URLS=http://+:5000

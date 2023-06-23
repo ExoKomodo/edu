@@ -20,7 +20,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\exokomodo.lib\exokomodo.lib.fsproj" />
-    <ProjectReference Include="..\server\server.fsproj" />
+    <ProjectReference Include="..\src\server.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
