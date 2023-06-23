@@ -46,7 +46,6 @@ let canAccessPaidContent (auth0HttpClient : HttpClient) : HttpHandler =
         | StringPrefix "Bearer " token ->
           auth0HttpClient.DefaultRequestHeaders.Authorization <- new AuthenticationHeaderValue("Bearer", token)
           let auth0Client = validateAccessToken auth0HttpClient token
-          printfn "Token: %s" token
           match auth0Client with
           | None -> notLoggedIn
           | Some Machine -> justContinue

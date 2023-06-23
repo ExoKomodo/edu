@@ -113,7 +113,7 @@ let getUserInfoAsync (client : HttpClient) (serializer : Json.Serializer) : Asyn
       return serializer.Deserialize<Auth0UserInfo> content |> Some
     with
       | :? Json.JsonException as ex ->
-        printfn "%s" ex.Message
+        printfn "Failed to deserialize json while getting user info: %s" ex.Message
         return None
   }
 

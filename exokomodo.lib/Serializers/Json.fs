@@ -9,7 +9,6 @@ open System.Collections.Generic
 
 type NestedDictionaryConverter() =
   inherit Newtonsoft.Json.Converters.CustomCreationConverter<obj>()
-  // TODO: Write a dictionary converter - https://github.com/dvsekhvalnov/jose-jwt/blob/cb426b83e1e2010cdb7b9c062532ce1b27905f71/jose-jwt/json/NewtonsoftMapper.cs#L9
 
   override __.Create(objectType : Type) : obj =
     if objectType = typeof<IEnumerable<_>> then
@@ -63,12 +62,13 @@ type Serializer() =
     giraffeSerializer.SerializeToString<'T> object
   
   member private __.DeserializeJose<'T> (data : string) : 'T =
-    // TODO: https://github.com/dvsekhvalnov/jose-jwt/blob/cb426b83e1e2010cdb7b9c062532ce1b27905f71/jose-jwt/json/NewtonsoftMapper.cs#L18
-    ()
+    if typeof<'T> = typeof<IDictionary<string, obj>> then
+      joseSerializer.Deserialize<'T> data
+    else
+      giraffeSerializer.Deserialize<'T> data
   
-  member private __.Serialize<'T> (object :'T) : string =
-    // TODO: https://github.com/dvsekhvalnov/jose-jwt/blob/cb426b83e1e2010cdb7b9c062532ce1b27905f71/jose-jwt/json/NewtonsoftMapper.cs#L13
-    ()
+  member private __.SerializeJose<'T> (object :'T) : string =
+    joseSerializer.SerializeToString<'T> object
 
   static member private BuildCommonSettings () =
     let settings = Newtonsoft.Json.JsonSerializerSettings(
@@ -108,7 +108,7 @@ type Serializer() =
 
   interface Jose.IJsonMapper with
     member this.Parse<'T>(data: string): 'T =
-      this.Deserialize<'T> data
+      this.DeserializeJose<'T> data
 
     member this.Serialize(object: obj): string = 
-      this.Serialize object
+      this.SerializeJose object
