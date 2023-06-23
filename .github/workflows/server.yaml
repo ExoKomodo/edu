@@ -6,13 +6,15 @@ on:
       - main
     paths:
       - server/**
-      - Edu.sln
   pull_request:
     branches:
       - main
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: ./server
 
     runs-on: ubuntu-latest
 
