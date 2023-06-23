@@ -4,7 +4,7 @@ root = false
 
 # DOCS: https://fsprojects.github.io/fantomas/docs/end-users/Configuration.html
 [*.{fs,fsx,fsi}]
-indent_size = 4
+tab_width=4
 fsharp_align_function_signature_to_indentation = false
 fsharp_alternative_long_member_definitions = false
 fsharp_array_or_list_multiline_formatter = character_width

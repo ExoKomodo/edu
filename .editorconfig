@@ -4,6 +4,8 @@ root = true
 
 # Unix-style newlines with a newline ending every file
 [*]
+tab_width=2
+indent_size=tab
 end_of_line = lf
 insert_final_newline = true
 max_line_length = 80

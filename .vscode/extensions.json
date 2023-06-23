@@ -12,6 +12,7 @@
     "wayou.vscode-todo-highlight",
     "bierner.color-info",
     "naumovs.color-highlight",
-    "rangav.vscode-thunder-client"
+    "rangav.vscode-thunder-client",
+    "editorconfig.editorconfig"
   ]
 }
