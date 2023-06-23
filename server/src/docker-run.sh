@@ -4,6 +4,6 @@ set -euo pipefail
 
 openresty
 
-cd /server/bin/Release/net7.0
+cd /server/src/bin/Release/net7.0
 
 ./server
