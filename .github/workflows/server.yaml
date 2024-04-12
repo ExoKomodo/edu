@@ -22,17 +22,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
+
     - name: Restore dependencies
       run: |
         dotnet restore
+
     - name: Build
       run: |
         dotnet build --no-restore
+
     - name: Test
       env:
         AUTH0_CLIENT_ID: ${{ vars.AUTH0_CLIENT_ID }}
@@ -43,15 +47,18 @@ jobs:
         MONGODB_DATABASE: ${{ vars.MONGODB_DATABASE }}
       run: |
         dotnet test --no-build --verbosity normal
+
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
       if: ${{ github.ref == 'refs/heads/main' }}
       with:
         token: ${{ secrets.DOCTL_TOKEN }}
+
     - name: Update DigitalOcean app spec
       if: ${{ github.ref == 'refs/heads/main' }}
       run: |
         doctl apps update ${{ secrets.DO_APP_ID }} --spec ./.do/app.yaml
+
     - name: Send status to Discord
       uses: nebularg/actions-discord-webhook@v1
       if: always()
