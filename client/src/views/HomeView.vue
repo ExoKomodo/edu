@@ -3,8 +3,8 @@
     <div class="flex flex-row justify-center items-center">
         <div class="flex flex-col justify-center items-center md:h-screen xs:h-4/5 xs:m-10">
           <div class="relative rounded-lg p-6 bg-opacity-25 backdrop-filter backdrop-blur-lg bg-white shadow-xl m-3">
-            <p class="p-1 text-2xl font-bold text-virgil drop-shadow-lg">After the bootcamp.</p>
-            <p class="p-1 text-virgil">Learn what wasn't taught to you. Upskill and grow.</p>
+            <p class="p-1 text-2xl font-bold text-virgil drop-shadow-lg">The Programmer's Trade School</p>
+            <p class="p-1 text-virgil">Learn the fundamentals that have changed our world.</p>
             <CodeEditor v-on:update:language="onLanguageChange" ref="editor" v-model="pythonState.content" :language="pythonState.language" :theme="pythonState.theme" :height="20"></CodeEditor>
           </div>
         </div>
@@ -32,12 +32,13 @@ import { onMounted, reactive, ref, type Ref } from 'vue';
 import Constants from '@/services/Constants';
 import Helpers from '@/services/Helpers';
 
-const description: string = `Learn more about coding with our highly qualified instructors. <a class="text-darkCyan" href="/">EK.edu</a> is oriented around
-            bootcamp graduates, CS graduates, and others who are interested in becoming artisans of software. We aim to 
-            take learners beyond the basics of how to write code, and focus on transforming into an artist of programming.`;
-const altDescription: string = `Our classes come with years of real life experience and work in a variety of spaces including 
-  small private businesses, enterprise companies, government contracts, freelance work, and more. Learn to problem solve in 
-  language-agnostic ways and become a master of the full stack.`;
+const description: string = `Learn more about Computer Science with our highly qualified instructors.
+            <a class="text-darkCyan" href="/">EK.edu</a> is oriented around anyone interested in
+            becoming artisans of software and keepers of digital knowledge.`;
+const altDescription: string = `Computer Science degrees waste much of your time on the classical waste
+            involved in a Liberal Arts education. Bootcamps acted like a solution to this problem for
+            people who wanted to start rapidly working in software, but overcorrected into specialization.
+            Change your trajectory and join the first Computer Science trade school`;
 
 type CodeEditorModel = {
   content: string,
