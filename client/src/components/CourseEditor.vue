@@ -27,7 +27,7 @@
       <div class="text-white border-white border-2 rounded p-1 pl-2 p my-2 mr-1">Description</div>
       <CodeEditor v-model="state.description"
                   :height="2"></CodeEditor>
-      <p v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">{{ state.description }}</p>
+      <p v-if="AuthService.isAdmin(auth0) && state.isEditMode && state.showPreview" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.description"></p>
       <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-8">Content</div>
       <CodeEditor v-model="state.content"
                   language="html"
