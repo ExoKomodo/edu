@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - client/**
+      - .github/**
+      - CNAME
   pull_request:
     branches:
       - main
