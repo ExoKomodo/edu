@@ -13,7 +13,7 @@
 
 ### [Client](./client/) - Setup
 
-Install nodejs v18+. Using [`nvm`](https://github.com/nvm-sh/nvm) is the best option.
+Install nodejs v20+. Using [`nvm`](https://github.com/nvm-sh/nvm) is the best option.
 
 After installing, refer to the [`README`](./client/README.md#project-setup)
 
@@ -29,7 +29,7 @@ Refer to the [`README`](./client/README.md#run-unit-tests-with-vitest)
 
 ### [Server](./server/src) - Setup
 
-Install [.Net 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+Install [.Net 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
 ```bash
 # Setup mongo creds. Feel free to make your own mongodb database and connect to that.
