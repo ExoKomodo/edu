@@ -86,11 +86,13 @@ import AuthService from '@/services/AuthService';
 import Button from '@/components/Button.vue';
 import router from '@/router/index';
 import { RouterLink } from 'vue-router';
-import { ref } from 'vue'
+import { ref} from 'vue'
+import type { Ref } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
+import type { User } from '@auth0/auth0-vue';
 
 const auth0 = useAuth0();
-const user = auth0.user;
+const user: Ref<User> = auth0.user as Ref<User>;
 const isAuthenticated = auth0.isAuthenticated;
 
 const routes = router.options.routes.filter(
