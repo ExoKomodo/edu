@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - server/**
+      - .do/**
+      - .github/**
   pull_request:
     branches:
       - main
