@@ -29,6 +29,16 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    - name: Check CLI tools
+      run: |
+        for tool in dotnet; do
+          if ! command -v $tool &> /dev/null; then
+            echo "${tool} is not installed"
+            exit 1
+          fi
+          ${tool} --version
+        done
+
     - name: Restore dependencies
       run: |
         dotnet restore

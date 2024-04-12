@@ -13,7 +13,7 @@
 
 ### [Client](./client/) - Setup
 
-Install nodejs v18+. Using [`nvm`](https://github.com/nvm-sh/nvm) is the best option.
+Install nodejs v20+. Using [`nvm`](https://github.com/nvm-sh/nvm) is the best option.
 
 After installing, refer to the [`README`](./client/README.md#project-setup)
 
