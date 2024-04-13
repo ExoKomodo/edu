@@ -83,7 +83,7 @@ jobs:
           --spec ${{ github.workspace }}/do/app.yaml
 
   success:
-    name: Consolidated success
+    name: Success
     runs-on: ubuntu-latest
     needs:
     - build
