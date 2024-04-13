@@ -74,7 +74,6 @@ jobs:
 
   success:
     name: Consolidated success
-    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     needs:
     - build
