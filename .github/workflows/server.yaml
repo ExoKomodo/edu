@@ -54,6 +54,12 @@ jobs:
         MONGODB_DATABASE: ${{ vars.MONGODB_DATABASE }}
       run: |
         dotnet test --no-build --verbosity normal
+    
+    - name: Upload deployment spe
+      uses: actions/upload-artifact@v4
+      with:
+        name: do
+        path: .do
 
   deploy:
     name: Deploy server
@@ -62,7 +68,8 @@ jobs:
     - build
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Download artifact
+      uses: actions/download-artifact@v4
 
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
@@ -72,7 +79,8 @@ jobs:
     - name: Update DigitalOcean app spec
       if: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        doctl apps update ${{ secrets.DO_APP_ID }} --spec ./.do/app.yaml
+        doctl apps update ${{ secrets.DO_APP_ID }} \
+          --spec ${{ github.workspace }}/do/app.yaml
 
   success:
     name: Consolidated success
