@@ -84,7 +84,7 @@ jobs:
         publish_dir: dist
         allow_empty_commit: false
         keep_files: false
-        force_orphan: true
+        force_orphan: false
         cname: edu.exokomodo.com
 
   success:
