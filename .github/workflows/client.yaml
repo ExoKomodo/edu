@@ -76,11 +76,6 @@ jobs:
     - name: Check artifact
       run: |
         ls -la client-dist
-        ls -la client-dist/dist
-        if [ ! -d client/dist ]; then
-          echo "Artifact not found"
-          exit 1
-        fi
 
     - name: Deploy
       if: ${{ github.ref == 'refs/heads/main' }}
@@ -88,12 +83,20 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: client/dist
+        publish_dir: client-dist
         allow_empty_commit: false
         keep_files: false
         force_orphan: true
         cname: edu.exokomodo.com
 
+  success:
+    name: Consolidated success
+    runs-on: ubuntu-latest
+    needs:
+    - build
+    - deploy
+
+    steps:
     - name: Send status to Discord
       uses: nebularg/actions-discord-webhook@v1
       if: always()
