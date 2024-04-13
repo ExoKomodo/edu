@@ -55,7 +55,7 @@ jobs:
       run: |
         dotnet test --no-build --verbosity normal
     
-    - name: Upload deployment spe
+    - name: Upload deployment spec
       uses: actions/upload-artifact@v4
       with:
         name: do
