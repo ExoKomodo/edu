@@ -14,8 +14,13 @@ defaults:
     working-directory: ./client
 
 jobs:
-  build-client:
+  build:
+    name: Build client
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
 
     steps:
     - uses: actions/checkout@v4
@@ -54,18 +59,42 @@ jobs:
       run: |
         npm run test:e2e
 
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: client/dist
+
+  deploy:
+    name: Deploy client
+    runs-on: ubuntu-latest
+    needs:
+    - build
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+
     - name: Deploy
       if: ${{ github.ref == 'refs/heads/main' }}
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: client/dist
+        publish_dir: dist
         allow_empty_commit: false
         keep_files: false
-        force_orphan: true
+        force_orphan: false
         cname: edu.exokomodo.com
 
+  success:
+    name: Success
+    runs-on: ubuntu-latest
+    needs:
+    - build
+    - deploy
+
+    steps:
     - name: Send status to Discord
       uses: nebularg/actions-discord-webhook@v1
       if: always()

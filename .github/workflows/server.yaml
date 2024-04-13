@@ -10,7 +10,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-server:
+  build:
+    name: Build server
     defaults:
       run:
         working-directory: ./server
@@ -53,18 +54,42 @@ jobs:
         MONGODB_DATABASE: ${{ vars.MONGODB_DATABASE }}
       run: |
         dotnet test --no-build --verbosity normal
+    
+    - name: Upload deployment spec
+      uses: actions/upload-artifact@v4
+      with:
+        name: do
+        path: .do
+
+  deploy:
+    name: Deploy server
+    runs-on: ubuntu-latest
+    needs:
+    - build
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
 
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
-      if: ${{ github.ref == 'refs/heads/main' }}
       with:
         token: ${{ secrets.DOCTL_TOKEN }}
 
     - name: Update DigitalOcean app spec
       if: ${{ github.ref == 'refs/heads/main' }}
       run: |
-        doctl apps update ${{ secrets.DO_APP_ID }} --spec ./.do/app.yaml
+        doctl apps update ${{ secrets.DO_APP_ID }} \
+          --spec ${{ github.workspace }}/do/app.yaml
 
+  success:
+    name: Success
+    runs-on: ubuntu-latest
+    needs:
+    - build
+    - deploy
+
+    steps:
     - name: Send status to Discord
       uses: nebularg/actions-discord-webhook@v1
       if: always()
