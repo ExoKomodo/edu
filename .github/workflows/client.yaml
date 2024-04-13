@@ -61,7 +61,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: client-dist
+        name: dist
         path: client/dist
 
   deploy:
@@ -73,17 +73,13 @@ jobs:
     - name: Download artifact
       uses: actions/download-artifact@v4
 
-    - name: Check artifact
-      run: |
-        ls -la client-dist
-
     - name: Deploy
       if: ${{ github.ref == 'refs/heads/main' }}
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
-        publish_dir: client-dist
+        publish_dir: dist
         allow_empty_commit: false
         keep_files: false
         force_orphan: true
