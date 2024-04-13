@@ -57,7 +57,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: client
+        name: client-dist
         path: client/dist
 
   deploy:
@@ -69,8 +69,8 @@ jobs:
 
     - name: Check artifact
       run: |
-        ls -la client
-        ls -la client/dist
+        ls -la client-dist
+        ls -la client-dist/dist
         if [ ! -d client/dist ]; then
           echo "Artifact not found"
           exit 1
