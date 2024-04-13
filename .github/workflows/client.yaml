@@ -14,7 +14,7 @@ defaults:
     working-directory: ./client
 
 jobs:
-  build-client:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -53,6 +53,28 @@ jobs:
     - name: E2E tests
       run: |
         npm run test:e2e
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: client
+        path: client/dist
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+
+    - name: Check artifact
+      run: |
+        ls -la client
+        ls -la client/dist
+        if [ ! -d client/dist ]; then
+          echo "Artifact not found"
+          exit 1
+        fi
 
     - name: Deploy
       if: ${{ github.ref == 'refs/heads/main' }}
