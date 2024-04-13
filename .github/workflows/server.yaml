@@ -70,11 +70,6 @@ jobs:
     steps:
     - name: Download artifact
       uses: actions/download-artifact@v4
-    
-    - name: Check artifact
-      run: |
-        ls -la
-        ls -la do
 
     - name: Install doctl
       uses: digitalocean/action-doctl@v2
