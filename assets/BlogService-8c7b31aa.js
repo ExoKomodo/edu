@@ -1,1 +1,0 @@
-import{H as c}from"./index-09a06164.js";class o{static async getAsync(e,t={}){var r;try{return await c.getAsync("blog",e,t)}catch(a){throw(r=t.toast)==null||r.error(`Failed to get blog: ${a}`),a}}static async getAllAsync(e={}){var t;try{return await c.getAllAsync("blog",e)}catch(r){throw(t=e.toast)==null||t.error(`Failed to get all blogs: ${r}`),r}}}export{o as B};
