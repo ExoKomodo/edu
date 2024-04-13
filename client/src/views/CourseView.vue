@@ -7,19 +7,13 @@
       </div>
       <div v-else>
         <span v-for="(course, id) of state.courseIndex">
-          <CourseLink
-                    class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
-                    :id="castToCourseId(id)"
-                    :name="castToCourseMetadata(course).name"
-                    :description=" castToCourseMetadata(course).description" />
-          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteCourseAsync(castToCourseId(id))" text="Delete?" class="w-20"></Button>
+          <CourseLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="castToCourseId(id)"
+            :name="castToCourseMetadata(course).name" :description="castToCourseMetadata(course).description" />
+          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteCourseAsync(castToCourseId(id))"
+            text="Delete?" class="w-20"></Button>
         </span>
-        <CourseEditor :handler="createCourseAsync"
-                    handlerText="Create"
-                    courseId=""
-                    courseContent=""
-                    courseDescription=""
-                    courseName=""></CourseEditor>
+        <CourseEditor :handler="createCourseAsync" handlerText="Create" courseId="" courseContent=""
+          courseDescription="" courseName=""></CourseEditor>
       </div>
     </div>
   </div>
@@ -68,8 +62,8 @@ async function deleteCourseAsync(id: string) {
   await CourseService.deleteAsync(
     id,
     {
-      toast: toast, 
-      token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }) ,
+      toast: toast,
+      token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }),
     }
   );
   window.location.reload();

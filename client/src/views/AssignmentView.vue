@@ -7,21 +7,16 @@
       </div>
       <div v-else>
         <span v-for="(assignment, id) of state.assignmentIndex">
-          <AssignmentLink
-                    class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
-                    :id="castToAssignmentId(id)"
-                    :courseId=props.courseId
-                    :name="castToAssignmentMetadata(assignment).name"
-                    :description=" castToAssignmentMetadata(assignment).description" />
-          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteAssignmentAsync(castToAssignmentId(id))" text="Delete?" class="w-20"></Button>
+          <AssignmentLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="castToAssignmentId(id)"
+            :courseId=props.courseId :name="castToAssignmentMetadata(assignment).name"
+            :description="castToAssignmentMetadata(assignment).description" />
+          <Button v-if="AuthService.isAdmin(auth0)"
+            :handler="async () => await deleteAssignmentAsync(castToAssignmentId(id))" text="Delete?"
+            class="w-20"></Button>
         </span>
-        <AssignmentEditor :handler="createAssignmentAsync"
-                    handlerText="Create"
-                    assignmentId=""
-                    assignmentProblemExplanation=""
-                    assignmentDescription=""
-                    assignmentName=""
-                    :assignmentSectionIds="[]"></AssignmentEditor>
+        <AssignmentEditor :handler="createAssignmentAsync" handlerText="Create" assignmentId=""
+          assignmentProblemExplanation="" assignmentDescription="" assignmentName="" :assignmentSectionIds="[]">
+        </AssignmentEditor>
       </div>
     </div>
   </div>
@@ -75,8 +70,8 @@ async function deleteAssignmentAsync(id: string) {
   await AssignmentService.deleteAsync(
     id,
     {
-      toast: toast, 
-      token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }) ,
+      toast: toast,
+      token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }),
     }
   );
   window.location.reload();

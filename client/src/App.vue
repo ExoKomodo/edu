@@ -10,4 +10,3 @@ import Navbar from './components/Navbar.vue';
     <RouterView />
   </Suspense>
 </template>
-

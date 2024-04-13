@@ -3,11 +3,9 @@
     <Spinner></Spinner>
   </div>
   <div v-else>
-    <CoursePost :id="id"
-                :name="state.course.metadata.name"
-                :content="state.course.content"
-                :templated-content="state.course.templatedContent ? state.course.templatedContent : ''"
-                :description=state.course.metadata.description />
+    <CoursePost :id="id" :name="state.course.metadata.name" :content="state.course.content"
+      :templated-content="state.course.templatedContent ? state.course.templatedContent : ''"
+      :description=state.course.metadata.description />
   </div>
 </template>
 

@@ -7,10 +7,8 @@
       </div>
       <div v-else>
         <BlogLink v-for="(blog, id) of state.blogIndex.blogs"
-                  class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
-                  :id="castToBlogId(id)"
-                  :title="castToBlogMetadata(blog).title"
-                  :description=" castToBlogMetadata(blog).description" />
+          class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="castToBlogId(id)"
+          :title="castToBlogMetadata(blog).title" :description="castToBlogMetadata(blog).description" />
       </div>
     </div>
   </div>
