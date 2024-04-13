@@ -4,7 +4,7 @@
       <div class="flex flex-col justify-center items-center md:h-screen xs:h-4/5 xs:m-10">
         <div class="relative rounded-lg p-6 bg-opacity-25 backdrop-filter backdrop-blur-lg bg-white shadow-xl m-3">
           <p class="p-1 text-2xl font-bold text-virgil drop-shadow-lg">The Programmer's Trade School</p>
-          <p class="p-1 text-virgil">Learn the fundamentals that have changed our world.</p>
+          <p class="p-1 text-virgil">Learn the fundamentals that have changed our world</p>
           <CodeEditor v-on:update:language="onLanguageChange" ref="editor" v-model="pythonState.content"
             :language="pythonState.language" :theme="pythonState.theme" :height="20"></CodeEditor>
         </div>
