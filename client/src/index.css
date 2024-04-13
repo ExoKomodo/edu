@@ -5,68 +5,71 @@
 /* NOTE: Apply a natural box layout model to all elements, but allowing components to change */
 /* https://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
-*, *:before, *:after {
-    box-sizing: inherit;
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
-    background: #001219;
+  background: #001219;
 }
 
 .hover\:bg-midnightGreen:hover .text-tiffanyBlue {
-    color: #FFFFFF;
-    transition-duration: 250ms;
+  color: #FFFFFF;
+  transition-duration: 250ms;
 }
 
 .mainBackground {
-    background: rgb(0,18,25);
-    background: linear-gradient(143deg, rgba(0,18,25,1) 0%, rgba(0,95,115,1) 26%, rgba(233,216,166,1) 100%);    
+  background: rgb(0, 18, 25);
+  background: linear-gradient(143deg, rgba(0, 18, 25, 1) 0%, rgba(0, 95, 115, 1) 26%, rgba(233, 216, 166, 1) 100%);
 }
 
 .altBackground {
-    background: rgb(0,18,25);
-    background: linear-gradient(257deg, rgba(0,18,25,1) 0%, rgba(0,95,115,1) 26%, rgba(233,216,166,1) 100%);
+  background: rgb(0, 18, 25);
+  background: linear-gradient(257deg, rgba(0, 18, 25, 1) 0%, rgba(0, 95, 115, 1) 26%, rgba(233, 216, 166, 1) 100%);
 }
 
 .blogBackground {
-    background: rgb(0,18,25);
-    background: linear-gradient(70deg, rgba(0,18,25,1) 0%, rgba(148,210,189,1) 26%, rgba(233,216,166,1) 100%);
+  background: rgb(0, 18, 25);
+  background: linear-gradient(70deg, rgba(0, 18, 25, 1) 0%, rgba(148, 210, 189, 1) 26%, rgba(233, 216, 166, 1) 100%);
 }
 
 .postBackground {
-    background: rgb(0,68,83);
-    background: radial-gradient(circle, #004453 0%, rgba(0,18,25,1) 100%);
+  background: rgb(0, 68, 83);
+  background: radial-gradient(circle, #004453 0%, rgba(0, 18, 25, 1) 100%);
 }
 
 .courseBackground {
-    background: rgb(0,18,25);
-    background: linear-gradient(70deg, rgba(0,18,25,1) 0%, rgba(148,210,189,1) 26%, rgba(233,216,166,1) 100%);
+  background: rgb(0, 18, 25);
+  background: linear-gradient(70deg, rgba(0, 18, 25, 1) 0%, rgba(148, 210, 189, 1) 26%, rgba(233, 216, 166, 1) 100%);
 }
 
 .coursePostBackground {
-    background: rgb(0,68,83);
-    background: radial-gradient(circle, #004453 0%, rgba(0,18,25,1) 100%);
+  background: rgb(0, 68, 83);
+  background: radial-gradient(circle, #004453 0%, rgba(0, 18, 25, 1) 100%);
 }
 
 .aboutBackground {
-    background: rgb(0,68,83);
-    background: linear-gradient(90deg, rgba(0,68,83,1) 0%, rgba(0,0,0,1) 100%);
+  background: rgb(0, 68, 83);
+  background: linear-gradient(90deg, rgba(0, 68, 83, 1) 0%, rgba(0, 0, 0, 1) 100%);
 }
 
 .navBorder {
-    border-top: 2px solid #005F73;
+  border-top: 2px solid #005F73;
 }
 
 *::-webkit-scrollbar {
-    width: 1px;
+  width: 1px;
 }
-  
+
 *::-webkit-scrollbar-track {
-    background: lightgray;
+  background: lightgray;
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #001219;
+  background-color: #001219;
 }

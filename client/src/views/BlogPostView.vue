@@ -30,7 +30,8 @@ onMounted(async () => {
     <Spinner></Spinner>
   </div>
   <div v-else>
-    <BlogPost :title=state.blog.metadata.title :content=state.blog.content :description=state.blog.metadata.description />
+    <BlogPost :title=state.blog.metadata.title :content=state.blog.content
+      :description=state.blog.metadata.description />
   </div>
-  
+
 </template>

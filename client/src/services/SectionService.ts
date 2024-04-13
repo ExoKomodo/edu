@@ -3,7 +3,7 @@ import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import type { Section, SectionIndex, Id } from '@/models';
 
 export default class SectionService {
-  static async createAsync(section: Section, options: HttpOptions={}): Promise<Section> {
+  static async createAsync(section: Section, options: HttpOptions = {}): Promise<Section> {
     try {
       return await HttpServiceV1.postAsync<Section>('section', section, options);
     }
@@ -13,7 +13,7 @@ export default class SectionService {
     }
   }
 
-  static async deleteAsync(id: Id, options: HttpOptions={}): Promise<Section> {
+  static async deleteAsync(id: Id, options: HttpOptions = {}): Promise<Section> {
     try {
       return await HttpServiceV1.deleteAsync<Section>('section', id, options);
     }
@@ -23,11 +23,11 @@ export default class SectionService {
     }
   }
 
-  static async fillTemplateAsync(template: string, options: HttpOptions={}): Promise<string> {
+  static async fillTemplateAsync(template: string, options: HttpOptions = {}): Promise<string> {
     if (!template) {
       return '';
     }
-    // NOTE: Match and captures what is between ${}, to replace with presigned URLss
+    // NOTE: Match and captures what is between ${}, to replace with presigned URLs
     const re = /"\${([0-9a-zA-Z_\-\/\.]+)}"/g;
     const presignedUrls = new Map<string, string>();
     for (let match of template.matchAll(re)) {
@@ -43,7 +43,7 @@ export default class SectionService {
     return template;
   }
 
-  static async getAsync(id: Id, options: HttpOptions={}): Promise<Section> {
+  static async getAsync(id: Id, options: HttpOptions = {}): Promise<Section> {
     try {
       return await HttpServiceV1.getAsync<Section>('section', id, options);
     }
@@ -53,7 +53,7 @@ export default class SectionService {
     }
   }
 
-  static async getAllAsync(options: HttpOptions={}): Promise<SectionIndex> {
+  static async getAllAsync(options: HttpOptions = {}): Promise<SectionIndex> {
     try {
       return await HttpServiceV1.getAllAsync<SectionIndex>('section', options);
     }
@@ -63,7 +63,7 @@ export default class SectionService {
     }
   }
 
-  static async updateAsync(section: Section, options: HttpOptions={}): Promise<Section> {
+  static async updateAsync(section: Section, options: HttpOptions = {}): Promise<Section> {
     try {
       return await HttpServiceV1.putAsync<Section>('section', section, options);
     }

@@ -1,17 +1,17 @@
 <template>
   <div class="sectionPostBackground min-h-screen">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-white">
-      <p v-if="auth0.isAuthenticated" class="text-2xl font-bold border-slate-400 rounded border-2 p-1 pl-2">{{ state.name?.toUpperCase() }}</p>
-      <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.description"></p>
-      <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">Difficulty: {{ state.difficulty }}</p>
-      <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2" v-html="state.content"></p>
-      <SectionEditor :handler="saveSectionAsync"
-                    handlerText="Update"
-                    :sectionId="state.id"
-                    :sectionContent="state.content"
-                    :sectionDifficulty="state.difficulty"
-                    :sectionDescription="state.description"
-                    :sectionName="state.name"></SectionEditor>
+      <p v-if="auth0.isAuthenticated" class="text-2xl font-bold border-slate-400 rounded border-2 p-1 pl-2">{{
+        state.name?.toUpperCase() }}</p>
+      <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2"
+        v-html="state.description"></p>
+      <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2">Difficulty: {{
+        state.difficulty }}</p>
+      <p v-if="auth0.isAuthenticated" class="text-xl border-slate-400 rounded border-2 p-1 pl-2 my-2"
+        v-html="state.content"></p>
+      <SectionEditor :handler="saveSectionAsync" handlerText="Update" :sectionId="state.id"
+        :sectionContent="state.content" :sectionDifficulty="state.difficulty" :sectionDescription="state.description"
+        :sectionName="state.name"></SectionEditor>
     </div>
   </div>
 </template>

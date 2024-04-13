@@ -33,7 +33,7 @@ export default class HttpServiceV1 {
     return url;
   }
 
-  static async deleteAsync<T>(urlSuffix: UrlPortion, id: string, options: HttpOptions={}): Promise<T> {
+  static async deleteAsync<T>(urlSuffix: UrlPortion, id: string, options: HttpOptions = {}): Promise<T> {
     const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}/${id}`,
@@ -45,7 +45,7 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async getAsync<T>(urlSuffix: UrlPortion, id: string, options: HttpOptions={}): Promise<T> {
+  static async getAsync<T>(urlSuffix: UrlPortion, id: string, options: HttpOptions = {}): Promise<T> {
     const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}/${id}`,
@@ -57,7 +57,7 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async getAllAsync<T>(urlSuffix: UrlPortion, options: HttpOptions={}): Promise<T> {
+  static async getAllAsync<T>(urlSuffix: UrlPortion, options: HttpOptions = {}): Promise<T> {
     const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
@@ -69,7 +69,7 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async postAsync<T>(urlSuffix: UrlPortion, value: any, options: HttpOptions={}): Promise<T> {
+  static async postAsync<T>(urlSuffix: UrlPortion, value: any, options: HttpOptions = {}): Promise<T> {
     const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
@@ -82,7 +82,7 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async putAsync<T>(urlSuffix: UrlPortion, value: any, options: HttpOptions={}): Promise<T> {
+  static async putAsync<T>(urlSuffix: UrlPortion, value: any, options: HttpOptions = {}): Promise<T> {
     const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       `${HttpServiceV1.constructUrl(urlSuffix)}`,
@@ -95,7 +95,7 @@ export default class HttpServiceV1 {
     return await response.json() as T;
   }
 
-  static async getTextAsync(url: string, options: HttpOptions={}): Promise<string> {
+  static async getTextAsync(url: string, options: HttpOptions = {}): Promise<string> {
     const headers = HttpServiceV1.getDefaultHeaders(options);
     const response = await fetch(
       HttpServiceV1.constructUrl(url),

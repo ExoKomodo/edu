@@ -3,12 +3,8 @@
     <Spinner></Spinner>
   </div>
   <div v-else>
-    <SectionPost :id=id
-                :name=state.section.metadata.name
-                :content=state.section.content
-                :difficulty=state.section.difficulty
-                :description=state.section.metadata.description
-                :course-id=props.courseId />
+    <SectionPost :id=id :name=state.section.metadata.name :content=state.section.content
+      :difficulty=state.section.difficulty :description=state.section.metadata.description :course-id=props.courseId />
   </div>
 </template>
 

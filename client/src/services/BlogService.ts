@@ -2,18 +2,17 @@ import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import type { Blog, BlogIndex, Id } from '@/models';
 
 export default class BlogService {
-  static async getAsync(id: Id, options: HttpOptions={}): Promise<Blog> {
+  static async getAsync(id: Id, options: HttpOptions = {}): Promise<Blog> {
     try {
       return await HttpServiceV1.getAsync<Blog>('blog', id, options);
     }
     catch (err: any) {
-      console.error(err);
       options.toast?.error(`Failed to get blog: ${err}`);
       throw err;
     }
   }
 
-  static async getAllAsync(options: HttpOptions={}): Promise<BlogIndex> {
+  static async getAllAsync(options: HttpOptions = {}): Promise<BlogIndex> {
     try {
       return await HttpServiceV1.getAllAsync<BlogIndex>('blog', options);
     }

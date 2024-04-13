@@ -3,7 +3,7 @@ import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import type { Course, CourseIndex, Id } from '@/models';
 
 export default class CourseService {
-  static async createAsync(course: Course, options: HttpOptions={}): Promise<Course> {
+  static async createAsync(course: Course, options: HttpOptions = {}): Promise<Course> {
     try {
       return await HttpServiceV1.postAsync<Course>('course', course, options);
     }
@@ -13,7 +13,7 @@ export default class CourseService {
     }
   }
 
-  static async deleteAsync(id: Id, options: HttpOptions={}): Promise<Course> {
+  static async deleteAsync(id: Id, options: HttpOptions = {}): Promise<Course> {
     try {
       return await HttpServiceV1.deleteAsync<Course>('course', id, options);
     }
@@ -23,7 +23,7 @@ export default class CourseService {
     }
   }
 
-  static async fillTemplateAsync(template: string, options: HttpOptions={}): Promise<string> {
+  static async fillTemplateAsync(template: string, options: HttpOptions = {}): Promise<string> {
     if (!template) {
       return '';
     }
@@ -43,7 +43,7 @@ export default class CourseService {
     return template;
   }
 
-  static async getAsync(id: Id, options: HttpOptions={}): Promise<Course> {
+  static async getAsync(id: Id, options: HttpOptions = {}): Promise<Course> {
     try {
       const course = await HttpServiceV1.getAsync<Course>('course', id, options);
       try {
@@ -61,7 +61,7 @@ export default class CourseService {
     }
   }
 
-  static async getAllAsync(options: HttpOptions={}): Promise<CourseIndex> {
+  static async getAllAsync(options: HttpOptions = {}): Promise<CourseIndex> {
     try {
       return await HttpServiceV1.getAllAsync<CourseIndex>('course', options);
     }
@@ -71,7 +71,7 @@ export default class CourseService {
     }
   }
 
-  static async updateAsync(course: Course, options: HttpOptions={}): Promise<Course> {
+  static async updateAsync(course: Course, options: HttpOptions = {}): Promise<Course> {
     try {
       return await HttpServiceV1.putAsync<Course>('course', course, options);
     }

@@ -3,7 +3,7 @@ import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import type { Assignment, AssignmentIndex, Id } from '@/models';
 
 export default class AssignmentService {
-  static async createAsync(assignment: Assignment, options: HttpOptions={}): Promise<Assignment> {
+  static async createAsync(assignment: Assignment, options: HttpOptions = {}): Promise<Assignment> {
     try {
       return await HttpServiceV1.postAsync<Assignment>('assignment', assignment, options);
     }
@@ -13,7 +13,7 @@ export default class AssignmentService {
     }
   }
 
-  static async deleteAsync(id: Id, options: HttpOptions={}): Promise<Assignment> {
+  static async deleteAsync(id: Id, options: HttpOptions = {}): Promise<Assignment> {
     try {
       return await HttpServiceV1.deleteAsync<Assignment>('assignment', id, options);
     }
@@ -23,7 +23,7 @@ export default class AssignmentService {
     }
   }
 
-  static async fillTemplateAsync(template: string, options: HttpOptions={}): Promise<string> {
+  static async fillTemplateAsync(template: string, options: HttpOptions = {}): Promise<string> {
     if (!template) {
       return '';
     }
@@ -43,7 +43,7 @@ export default class AssignmentService {
     return template;
   }
 
-  static async getAsync(id: Id, options: HttpOptions={}): Promise<Assignment> {
+  static async getAsync(id: Id, options: HttpOptions = {}): Promise<Assignment> {
     try {
       return await HttpServiceV1.getAsync<Assignment>('assignment', id, options);
     }
@@ -53,7 +53,7 @@ export default class AssignmentService {
     }
   }
 
-  static async getAllAsync(options: HttpOptions={}): Promise<AssignmentIndex> {
+  static async getAllAsync(options: HttpOptions = {}): Promise<AssignmentIndex> {
     try {
       return await HttpServiceV1.getAllAsync<AssignmentIndex>('assignment', options);
     }
@@ -63,7 +63,7 @@ export default class AssignmentService {
     }
   }
 
-  static async updateAsync(assignment: Assignment, options: HttpOptions={}): Promise<Assignment> {
+  static async updateAsync(assignment: Assignment, options: HttpOptions = {}): Promise<Assignment> {
     try {
       return await HttpServiceV1.putAsync<Assignment>('assignment', assignment, options);
     }

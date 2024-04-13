@@ -1,9 +1,8 @@
 <template>
-    <RouterLink :to="`/course/${id}`"
-    class="hover:bg-midnightGreen flex flex-col transition duration-250">
-      <p class="text-2xl">{{ name }}</p>
-      <p class="text-gray-400">{{ description }}...</p>
-    </RouterLink>
+  <RouterLink :to="`/course/${id}`" class="hover:bg-midnightGreen flex flex-col transition duration-250">
+    <p class="text-2xl">{{ name }}</p>
+    <p class="text-gray-400">{{ description }}...</p>
+  </RouterLink>
 
 </template>
 

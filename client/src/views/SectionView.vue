@@ -7,21 +7,14 @@
       </div>
       <div v-else>
         <span v-for="(section, id) of state.sectionIndex">
-          <SectionLink
-                    class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3"
-                    :id="castToSectionId(id)"
-                    :courseId=props.courseId
-                    :name="castToSectionMetadata(section).name"
-                    :description=" castToSectionMetadata(section).description" />
-          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteSectionAsync(castToSectionId(id))" text="Delete?" class="w-20"></Button>
+          <SectionLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="castToSectionId(id)"
+            :courseId=props.courseId :name="castToSectionMetadata(section).name"
+            :description="castToSectionMetadata(section).description" />
+          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteSectionAsync(castToSectionId(id))"
+            text="Delete?" class="w-20"></Button>
         </span>
-        <SectionEditor :handler="createSectionAsync"
-                    handlerText="Create"
-                    sectionId=""
-                    sectionContent=""
-                    :sectionDifficulty=1
-                    sectionDescription=""
-                    sectionName=""></SectionEditor>
+        <SectionEditor :handler="createSectionAsync" handlerText="Create" sectionId="" sectionContent=""
+          :sectionDifficulty=1 sectionDescription="" sectionName=""></SectionEditor>
       </div>
     </div>
   </div>
@@ -75,8 +68,8 @@ async function deleteSectionAsync(id: string) {
   await SectionService.deleteAsync(
     id,
     {
-      toast: toast, 
-      token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }) ,
+      toast: toast,
+      token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }),
     }
   );
   window.location.reload();
