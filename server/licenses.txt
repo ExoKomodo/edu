@@ -1,0 +1,130 @@
+####################################################################################################
+Package:AWSSDK.S3
+Version:3.7.307.15
+project URL:https://github.com/aws/aws-sdk-net/
+Description:Amazon Simple Storage Service (Amazon S3), provides developers and IT teams with secure, durable, highly-scalable object storage.
+licenseUrl:https://licenses.nuget.org/Apache-2.0
+license Type:Apache-2.0
+
+####################################################################################################
+Package:coverlet.collector
+Version:6.0.2
+project URL:https://github.com/coverlet-coverage/coverlet
+Description:Coverlet is a cross platform code coverage library for .NET, with support for line, branch and method coverage.
+licenseUrl:https://licenses.nuget.org/MIT
+license Type:MIT
+
+####################################################################################################
+Package:Giraffe
+Version:6.4.0
+project URL:https://github.com/giraffe-fsharp/giraffe
+Description:A native functional ASP.NET Core web framework for F# developers.
+licenseUrl:https://www.nuget.org/packages/Giraffe/6.4.0/License
+license Type:LICENSE
+
+####################################################################################################
+Package:jose-jwt
+Version:5.0.0
+project URL:https://github.com/dvsekhvalnov/jose-jwt
+Description:Javascript Object Signing and Encryption (JOSE), JSON Web Token (JWT), JSON Web Encryption (JWE) and JSON Web Key (JWK) Implementation for .NET 
+
+Ultimate Javascript Object Signing and Encryption (JOSE), JSON Web Token (JWT), JSON Web Encryption (JWE) and JSON Web Key (JWK) Implementation for .NET and .NET Core. Minimallistic. Zero-dependency. Full suite of signature and encryption algorithms. 
+Supports generating, decoding, encryption and compression of JSON Web Tokens. Full-blown support for JSON Web Keys (RFC 7517) and two way bridging with .NET core cryptography. JSON parsing agnostic. Supports two-phase validation. FIPS compliant. Unencoded payload and detached content support (RFC 7797). 
+JSON Web Encryption (JWE, RFC 7516) support. Cross compatible with all major operating systems - Windows, Linux, MacOS and FreeBSD.
+
+Supported algorithms 
+
+Signing: 
+  - HMAC signatures with HS256, HS384 and HS512. 
+  - ECDSA signatures with ES256, ES384 and ES512. 
+  - RSASSA-PKCS1-V1_5 signatures with RS256, RS384 and RS512. 
+  - RSASSA-PSS signatures (probabilistic signature scheme with appendix) with PS256, PS384 and PS512. 
+  - NONE (unprotected) plain text algorithm without integrity protection 
+
+Encryption: 
+  - RSAES OAEP 256 encryption with A128CBC-HS256, A192CBC-HS384, A256CBC-HS512, A128GCM, A192GCM, A256GCM 
+  - RSAES OAEP encryption with A128CBC-HS256, A192CBC-HS384, A256CBC-HS512, A128GCM, A192GCM, A256GCM 
+  - RSAES-PKCS1-V1_5 encryption with A128CBC-HS256, A192CBC-HS384, A256CBC-HS512, A128GCM, A192GCM, A256GCM 
+  - Direct symmetric key encryption with pre-shared key A128CBC-HS256, A192CBC-HS384, A256CBC-HS512, A128GCM, A192GCM and A256GCM 
+  - A128KW, A192KW, A256KW encryption with A128CBC-HS256, A192CBC-HS384, A256CBC-HS512, A128GCM, A192GCM and A256GCM 
+  - A128GCMKW, A192GCMKW, A256GCMKW encryption with A128CBC-HS256, A192CBC-HS384, A256CBC-HS512, A128GCM, A192GCM and A256GCM 
+  - ECDH-ES encryption with A128CBC-HS256, A128GCM, A192GCM, A256GCM 
+  - ECDH-ES+A128KW, ECDH-ES+A192KW, ECDH-ES+A256KW encryption with A128CBC-HS256, A128GCM, A192GCM, A256GCM 
+  - PBES2-HS256+A128KW, PBES2-HS384+A192KW, PBES2-HS512+A256KW with A128CBC-HS256, A192CBC-HS384, A256CBC-HS512, A128GCM, A192GCM, A256GCM 
+
+Compression: 
+  - DEFLATE compression
+
+RFC 7797: 
+  - Unencoded payload
+  - Detached content
+
+RFC 7516: 
+  - JSON Web Encryption (JWE) support
+
+JSON Web Key (RFC 7517):
+  - RSA, EC, oct keys
+  - X509 Chains, SHA1 & SHA2 thumbprints
+licenseUrl:https://www.nuget.org/packages/jose-jwt/5.0.0/License
+license Type:LICENSE
+
+####################################################################################################
+Package:Microsoft.AspNetCore.Mvc.Testing
+Version:8.0.4
+project URL:https://asp.net/
+Description:Support for writing functional tests for MVC applications.
+
+This package was built from the source code at https://github.com/dotnet/aspnetcore/tree/8486d31e24f30e3fa1809a95699a0adc16f448d7
+licenseUrl:https://licenses.nuget.org/MIT
+license Type:MIT
+
+####################################################################################################
+Package:Microsoft.NET.Test.Sdk
+Version:17.9.0
+project URL:https://github.com/microsoft/vstest
+Description:The MSbuild targets and properties for building .NET test projects.
+licenseUrl:https://www.nuget.org/packages/Microsoft.NET.Test.Sdk/17.9.0/License
+license Type:LICENSE_MIT.txt
+
+####################################################################################################
+Package:MongoDB.Bson
+Version:2.25.0
+project URL:https://www.mongodb.com/docs/drivers/csharp/
+Description:MongoDB's Official Bson Library.
+licenseUrl:https://www.nuget.org/packages/MongoDB.Bson/2.25.0/License
+license Type:LICENSE.md
+
+####################################################################################################
+Package:MongoDB.Driver
+Version:2.25.0
+project URL:https://www.mongodb.com/docs/drivers/csharp/
+Description:Official .NET driver for MongoDB.
+licenseUrl:https://www.nuget.org/packages/MongoDB.Driver/2.25.0/License
+license Type:LICENSE.md
+
+####################################################################################################
+Package:Newtonsoft.Json
+Version:13.0.3
+project URL:https://www.newtonsoft.com/json
+Description:Json.NET is a popular high-performance JSON framework for .NET
+licenseUrl:https://licenses.nuget.org/MIT
+license Type:MIT
+
+####################################################################################################
+Package:xunit
+Version:2.7.1
+project URL:
+Description:xUnit.net is a developer testing framework, built to support Test Driven Development, with a design goal of extreme simplicity and alignment with framework features.
+
+Installing this package installs xunit.core, xunit.assert, and xunit.analyzers.
+licenseUrl:https://licenses.nuget.org/Apache-2.0
+license Type:Apache-2.0
+
+####################################################################################################
+Package:xunit.runner.visualstudio
+Version:2.5.8
+project URL:
+Description:Visual Studio 2022+ Test Explorer runner for the xUnit.net framework. Capable of running xUnit.net v1.9.2 and v2.0+ tests. Supports .NET 4.6.2 or later, and .NET 6 or later.
+licenseUrl:https://licenses.nuget.org/Apache-2.0
+license Type:Apache-2.0
+
