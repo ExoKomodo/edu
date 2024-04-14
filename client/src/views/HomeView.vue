@@ -77,9 +77,7 @@ function onLanguageChange(language: string) {
     return;
   }
   state.selected = states.get(language) as CodeEditorModel;
-  if (!state.selected.content) {
-    state.selected.content = Constants.defaultLanguageContent(state.selected.language);
-  }
+  state.selected.content = Constants.defaultLanguageContent(language);
   refreshEditorContent();
 }
 
