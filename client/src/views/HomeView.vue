@@ -21,7 +21,8 @@
   <div class="bg-richBlack h-10 py-5"></div>
   <Instructors />
   <div class="bg-richBlack h-10 py-5"></div>
-  <footer class="bg-slate-700 p-5 flex justify-center text-virgil">&copy;2023 Exokomodo</footer>
+  <footer class="bg-slate-700 p-5 flex justify-center text-virgil">&copy;{{ new Date().getFullYear() }} Exokomodo
+  </footer>
 
 </template>
 
