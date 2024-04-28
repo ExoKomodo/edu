@@ -6,9 +6,9 @@
         <Spinner></Spinner>
       </div>
       <div v-else>
-        <BlogLink v-for="(blog, id) of state.blogIndex.blogs"
-          class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="castToBlogId(id)"
-          :title="castToBlogMetadata(blog).title" :description="castToBlogMetadata(blog).description" />
+        <BlogLink v-for="[id, blog] of state.blogIndex.blogs"
+          class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="id"
+          :title="blog.title" :description="blog.description" />
       </div>
     </div>
   </div>
@@ -28,19 +28,10 @@ const state = reactive({
 });
 const toast = useToast();
 
-// NOTE: Needed to fool the type checker with the loop values
-function castToBlogId(value: number) {
-  return (value as unknown) as Id;
-}
-
-// NOTE: Needed to fool the type checker with the loop values
-function castToBlogMetadata(value: [string, BlogMetadata]) {
-  return (value as unknown) as BlogMetadata;
-}
-
 onMounted(async () => {
   try {
     state.blogIndex = await BlogService.getAllAsync({ toast: toast });
+    console.log(state.blogIndex);
   }
   finally {
     state.isLoading = false;

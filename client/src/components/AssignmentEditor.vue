@@ -28,8 +28,8 @@
         <label for="required-sections">Choose required sections:</label>
         <select id="required-sections" name="required-sections" class="h-10" v-model="state.requiredSectionIds"
           multiple>
-          <option v-for="(sectionMetadata, id) of sectionIndex" :value="id" class="text-black">{{
-            castToSectionMetadata(sectionMetadata).name }}</option>
+          <option v-for="[id, sectionMetadata] of sectionIndex" :value="id" class="text-black">{{
+            sectionMetadata.name }}</option>
         </select>
       </div>
       <div class="text-white border-white border-2 rounded p-1 pl-2 my-2 mr-12">Id</div>
@@ -87,8 +87,4 @@ const sectionIndex = await SectionService.getAllAsync(
     token: await AuthService.getAccessTokenAsync(auth0, { toast: toast }),
   }
 );
-
-function castToSectionMetadata(value: [string, SectionMetadata]) {
-  return (value as unknown) as SectionMetadata;
-}
 </script>

@@ -6,10 +6,10 @@
         <Spinner></Spinner>
       </div>
       <div v-else>
-        <span v-for="(course, id) of state.courseIndex">
-          <CourseLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="castToCourseId(id)"
-            :name="castToCourseMetadata(course).name" :description="castToCourseMetadata(course).description" />
-          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteCourseAsync(castToCourseId(id))"
+        <span v-for="[id, course] of state.courseIndex">
+          <CourseLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="id"
+            :name="course.name" :description="course.description" />
+          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteCourseAsync(id)"
             text="Delete?" class="w-20"></Button>
         </span>
         <CourseEditor :handler="createCourseAsync" handlerText="Create" courseId="" courseContent=""
@@ -22,14 +22,15 @@
 <script setup lang="ts">
 import AuthService from '@/services/AuthService';
 import Button from '@/components/Button.vue';
-import CourseEditor, { type CourseEditorState } from '@/components/CourseEditor.vue';
 import CourseLink from '@/components/CourseLink.vue';
 import CourseService from '@/services/CourseService';
 import Spinner from '@/components/Spinner.vue';
-import type { CourseIndex, CourseMetadata, Id } from '@/models';
 import { onMounted, reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useToast } from "vue-toastification";
+import CourseEditor from '@/components/CourseEditor.vue';
+import type { CourseIndex } from '@/models';
+
 
 const auth0 = useAuth0();
 const toast = useToast();
@@ -39,15 +40,17 @@ const state = reactive({
   courseIndex: {} as CourseIndex,
 });
 
-async function createCourseAsync(state: CourseEditorState) {
+async function createCourseAsync(state: any) {
+  state.metadata = {
+    name: state.name,
+    description: state.description,
+  };
   const courseToCreate = {
     id: state.id,
     content: state.content,
-    metadata: {
-      name: state.name,
-      description: state.description,
-    },
+    metadata: state.metadata,
   };
+  console.log(courseToCreate);
   await CourseService.createAsync(
     courseToCreate,
     {
@@ -69,16 +72,6 @@ async function deleteCourseAsync(id: string) {
   window.location.reload();
 }
 
-// NOTE: Needed to fool the type checker with the loop values
-function castToCourseId(value: number) {
-  return (value as unknown) as Id;
-}
-
-// NOTE: Needed to fool the type checker with the loop values
-function castToCourseMetadata(value: [string, CourseMetadata]) {
-  return (value as unknown) as CourseMetadata;
-}
-
 onMounted(async () => {
   try {
     state.courseIndex = await CourseService.getAllAsync(
@@ -92,4 +85,5 @@ onMounted(async () => {
     state.isLoading = false;
   }
 })
-</script>
+</script>import type { CourseIndex, Id, CourseMetadata } from '@/models';
+

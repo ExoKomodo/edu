@@ -6,11 +6,11 @@
         <Spinner></Spinner>
       </div>
       <div v-else>
-        <span v-for="(section, id) of state.sectionIndex">
-          <SectionLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="castToSectionId(id)"
-            :courseId=props.courseId :name="castToSectionMetadata(section).name"
-            :description="castToSectionMetadata(section).description" />
-          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteSectionAsync(castToSectionId(id))"
+        <span v-for="[id, section] of state.sectionIndex">
+          <SectionLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="id"
+            :courseId=props.courseId :name="section.name"
+            :description="section.description" />
+          <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteSectionAsync(id)"
             text="Delete?" class="w-20"></Button>
         </span>
         <SectionEditor :handler="createSectionAsync" handlerText="Create" sectionId="" sectionContent=""
@@ -73,16 +73,6 @@ async function deleteSectionAsync(id: string) {
     }
   );
   window.location.reload();
-}
-
-// NOTE: Needed to fool the type checker with the loop values
-function castToSectionId(value: number) {
-  return (value as unknown) as Id;
-}
-
-// NOTE: Needed to fool the type checker with the loop values
-function castToSectionMetadata(value: [string, SectionMetadata]) {
-  return (value as unknown) as SectionMetadata;
 }
 
 onMounted(async () => {
