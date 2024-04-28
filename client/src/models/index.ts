@@ -7,6 +7,12 @@ export type ViewKey = {
   height?: number
 }
 
+export interface ModelEditorState {
+  isEditMode: boolean
+  showPreview: boolean
+  id: string
+};
+
 export abstract class ViewModel {
   id: Id;
   
@@ -78,7 +84,7 @@ export class Course extends ViewModel {
   }
 };
 
-export class CourseEditorState {
+export class CourseEditorState implements ModelEditorState {
   isEditMode: boolean = false
   showPreview: boolean = false
   id: string = ''

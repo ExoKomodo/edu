@@ -1,8 +1,9 @@
 import type { BlogIndex, Id, ViewKey } from '@/models';
 import { Blog, BlogMetadata } from '@/models';
 import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
+import type ModelService from './ModelService';
 
-export default class BlogService {
+export default class BlogService implements ModelService<Blog>  {
   objectViewKeys: ViewKey[] = [
     { key: 'id', kind: 'text' },
   ];

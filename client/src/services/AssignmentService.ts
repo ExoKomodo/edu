@@ -1,8 +1,9 @@
 import BlobService from './BlobService';
 import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import { Assignment, AssignmentMetadata, type AssignmentIndex, type Id, type ViewKey } from '@/models';
+import type ModelService from './ModelService';
 
-export default class AssignmentService  {
+export default class AssignmentService implements ModelService<Assignment>  {
   objectViewKeys: ViewKey[] = [
     { key: 'id', kind: 'text' },
   ];
@@ -15,6 +16,8 @@ export default class AssignmentService  {
     try {
       return new Assignment(
         await HttpServiceV1.postAsync('assignment', assignment, options));
+      return new Assignment(
+        await HttpServiceV1.postAsync('assignment', assignment, options));
     }
     catch (err: any) {
       options.toast?.error(`Failed to create assignment: ${err}`);
@@ -24,6 +27,8 @@ export default class AssignmentService  {
 
   static async deleteAsync(id: Id, options: HttpOptions = {}): Promise<Assignment> {
     try {
+      return new Assignment(
+        await HttpServiceV1.deleteAsync('assignment', id, options));
       return new Assignment(
         await HttpServiceV1.deleteAsync('assignment', id, options));
     }
@@ -57,6 +62,8 @@ export default class AssignmentService  {
     try {
       return new Assignment(
         await HttpServiceV1.getAsync('assignment', id, options));
+      return new Assignment(
+        await HttpServiceV1.getAsync('assignment', id, options));
     }
     catch (err: any) {
       options.toast?.error(`Failed to get assignment: ${err}`);
@@ -72,6 +79,12 @@ export default class AssignmentService  {
       });
       index = new Map<Id, AssignmentMetadata>(Object.entries(index));
       return index;
+      let index = await HttpServiceV1.getAllAsync('assignment', options) as any;
+      Object.keys(index).forEach(function(key, _) {
+        index[key] = new AssignmentMetadata(index[key]);
+      });
+      index = new Map<Id, AssignmentMetadata>(Object.entries(index));
+      return index;
     }
     catch (err: any) {
       options.toast?.error(`Failed to get all assignments: ${err}`);
@@ -81,6 +94,8 @@ export default class AssignmentService  {
 
   static async updateAsync(assignment: Assignment, options: HttpOptions = {}): Promise<Assignment> {
     try {
+      return new Assignment(
+        await HttpServiceV1.putAsync('assignment', assignment, options));
       return new Assignment(
         await HttpServiceV1.putAsync('assignment', assignment, options));
     }
