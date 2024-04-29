@@ -1,0 +1,1 @@
+import{H as a}from"./index-3492b608.js";class o{static async getPresignedUrlAsync(s,r={}){var e;try{return await a.getTextAsync(`blob?url=${s}`,r)}catch(t){throw(e=r.toast)==null||e.error(`Failed to get blob's presigned url: ${t}`),t}}}export{o as B};
