@@ -79,12 +79,6 @@ export default class AssignmentService implements ModelService<Assignment>  {
       });
       index = new Map<Id, AssignmentMetadata>(Object.entries(index));
       return index;
-      let index = await HttpServiceV1.getAllAsync('assignment', options) as any;
-      Object.keys(index).forEach(function(key, _) {
-        index[key] = new AssignmentMetadata(index[key]);
-      });
-      index = new Map<Id, AssignmentMetadata>(Object.entries(index));
-      return index;
     }
     catch (err: any) {
       options.toast?.error(`Failed to get all assignments: ${err}`);
