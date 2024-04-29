@@ -12,8 +12,7 @@
           <Button v-if="AuthService.isAdmin(auth0)" :handler="async () => await deleteCourseAsync(id)"
             text="Delete?" class="w-20"></Button>
         </span>
-        <CourseEditor :handler="createCourseAsync" handlerText="Create" courseId="" courseContent=""
-          courseDescription="" courseName=""></CourseEditor>
+        <ModelEditor :handler="createCourseAsync" handlerText="Create" modelKind="course"></ModelEditor>
       </div>
     </div>
   </div>
@@ -28,7 +27,7 @@ import Spinner from '@/components/Spinner.vue';
 import { onMounted, reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useToast } from "vue-toastification";
-import CourseEditor from '@/components/CourseEditor.vue';
+import ModelEditor from '@/components/ModelEditor.vue';
 import type { CourseIndex } from '@/models';
 
 
