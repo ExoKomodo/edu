@@ -1,7 +1,7 @@
 import type { Id } from '@/models';
 import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 
-export default class BlobService  {  
+export default class BlobService {
   static async getPresignedUrlAsync(id: Id, options: HttpOptions = {}): Promise<string> {
     try {
       return await HttpServiceV1.getTextAsync(`blob?url=${id}`, options);
