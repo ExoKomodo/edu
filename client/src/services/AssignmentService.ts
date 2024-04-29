@@ -1,9 +1,8 @@
 import BlobService from './BlobService';
 import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import { Assignment, AssignmentMetadata, type AssignmentIndex, type Id, type ViewKey } from '@/models';
-import type ModelService from './ModelService';
 
-export default class AssignmentService implements ModelService<Assignment>  {
+export default class AssignmentService  {
   objectViewKeys: ViewKey[] = [
     { key: 'id', kind: 'text' },
   ];

@@ -1,8 +1,7 @@
 import { Section, type ViewKey, type Id, type SectionIndex, SectionMetadata } from '@/models';
 import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
-import type ModelService from './ModelService';
 
-export default class SectionService implements ModelService<Section> {
+export default class SectionService {
   objectViewKeys: ViewKey[] = [
     { key: 'id', kind: 'text' },
   ];

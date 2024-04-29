@@ -1,9 +1,8 @@
 import { Course, CourseMetadata, type CourseIndex, type Id, type ViewKey } from '@/models';
 import BlobService from './BlobService';
 import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
-import type ModelService from './ModelService';
 
-export default class CourseService implements ModelService<Course> {
+export default class CourseService {
   objectViewKeys: ViewKey[] = [
     { key: 'id', kind: 'text' },
     { key: 'name', kind: 'code' },
