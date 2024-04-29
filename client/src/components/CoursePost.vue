@@ -15,9 +15,9 @@
 
 <script setup lang="ts">
 import AuthService from '@/services/AuthService';
-import CourseEditor, { type CourseEditorState } from '@/components/CourseEditor.vue';
 import CourseService from '@/services/CourseService';
-import type { Course } from '@/models';
+import CourseEditor from '@/components/CourseEditor.vue';
+import type { Course, CourseEditorState } from '@/models';
 import { reactive } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import { useToast } from 'vue-toastification';

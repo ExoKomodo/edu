@@ -1,6 +1,6 @@
 import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import type { Auth0VueClient, User } from '@auth0/auth0-vue';
-import type { UserInfo } from '@/models';
+import { UserInfo } from '@/models';
 import type { Ref } from 'vue';
 
 export default class AuthService {
@@ -10,11 +10,12 @@ export default class AuthService {
 
   static async getUserInfoAsync(auth0: Auth0VueClient, options: HttpOptions = {}): Promise<UserInfo> {
     try {
-      return await HttpServiceV1.getAsync<UserInfo>(
-        'user',
-        'info',
-        options,
-      );
+      return new UserInfo(
+        await HttpServiceV1.getAsync(
+          'user',
+          'info',
+          options,
+        ));
     }
     catch (err: any) {
       console.error(err);

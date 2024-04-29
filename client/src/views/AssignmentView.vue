@@ -6,12 +6,12 @@
         <Spinner></Spinner>
       </div>
       <div v-else>
-        <span v-for="(assignment, id) of state.assignmentIndex">
-          <AssignmentLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="castToAssignmentId(id)"
-            :courseId=props.courseId :name="castToAssignmentMetadata(assignment).name"
-            :description="castToAssignmentMetadata(assignment).description" />
+        <span v-for="[id, assignment] of state.assignmentIndex">
+          <AssignmentLink class="p-2 bg-mysticStone text-white rounded flex pl-5 my-3" :id="id"
+            :courseId=props.courseId :name="assignment.name"
+            :description="assignment.description" />
           <Button v-if="AuthService.isAdmin(auth0)"
-            :handler="async () => await deleteAssignmentAsync(castToAssignmentId(id))" text="Delete?"
+            :handler="async () => await deleteAssignmentAsync(id)" text="Delete?"
             class="w-20"></Button>
         </span>
         <AssignmentEditor :handler="createAssignmentAsync" handlerText="Create" assignmentId=""
@@ -75,16 +75,6 @@ async function deleteAssignmentAsync(id: string) {
     }
   );
   window.location.reload();
-}
-
-// NOTE: Needed to fool the type checker with the loop values
-function castToAssignmentId(value: number) {
-  return (value as unknown) as Id;
-}
-
-// NOTE: Needed to fool the type checker with the loop values
-function castToAssignmentMetadata(value: [string, AssignmentMetadata]) {
-  return (value as unknown) as AssignmentMetadata;
 }
 
 onMounted(async () => {
