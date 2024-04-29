@@ -1,4 +1,3 @@
-import BlobService from './BlobService';
 import HttpServiceV1, { type HttpOptions } from './HttpServiceV1';
 import { Assignment, AssignmentMetadata, type AssignmentIndex, type Id, type ViewKey } from '@/models';
 import type ModelService from './ModelService';
@@ -16,8 +15,6 @@ export default class AssignmentService implements ModelService<Assignment>  {
     try {
       return new Assignment(
         await HttpServiceV1.postAsync('assignment', assignment, options));
-      return new Assignment(
-        await HttpServiceV1.postAsync('assignment', assignment, options));
     }
     catch (err: any) {
       options.toast?.error(`Failed to create assignment: ${err}`);
@@ -29,8 +26,6 @@ export default class AssignmentService implements ModelService<Assignment>  {
     try {
       return new Assignment(
         await HttpServiceV1.deleteAsync('assignment', id, options));
-      return new Assignment(
-        await HttpServiceV1.deleteAsync('assignment', id, options));
     }
     catch (err: any) {
       options.toast?.error(`Failed to delete assignment: ${err}`);
@@ -38,30 +33,8 @@ export default class AssignmentService implements ModelService<Assignment>  {
     }
   }
 
-  static async fillTemplateAsync(template: string, options: HttpOptions = {}): Promise<string> {
-    if (!template) {
-      return '';
-    }
-    // NOTE: Match and captures what is between ${}, to replace with presigned URLss
-    const re = /"\${([0-9a-zA-Z_\-\/\.]+)}"/g;
-    const presignedUrls = new Map<string, string>();
-    for (let match of template.matchAll(re)) {
-      const textToReplace = match[0];
-      const filePath = match[1];
-      if (!(textToReplace in presignedUrls)) {
-        presignedUrls.set(textToReplace, await BlobService.getPresignedUrlAsync(filePath, options));
-      }
-    }
-    for (let [key, value] of presignedUrls) {
-      template = template.replace(key, value);
-    }
-    return template;
-  }
-
   static async getAsync(id: Id, options: HttpOptions = {}): Promise<Assignment> {
     try {
-      return new Assignment(
-        await HttpServiceV1.getAsync('assignment', id, options));
       return new Assignment(
         await HttpServiceV1.getAsync('assignment', id, options));
     }
@@ -88,8 +61,6 @@ export default class AssignmentService implements ModelService<Assignment>  {
 
   static async updateAsync(assignment: Assignment, options: HttpOptions = {}): Promise<Assignment> {
     try {
-      return new Assignment(
-        await HttpServiceV1.putAsync('assignment', assignment, options));
       return new Assignment(
         await HttpServiceV1.putAsync('assignment', assignment, options));
     }
