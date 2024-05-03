@@ -1,4 +1,5 @@
 import type { ToastInterface } from "vue-toastification";
+import { apiMapper } from "./MappingService";
 
 type UrlPortion = string | null | undefined;
 
@@ -54,7 +55,8 @@ export default class HttpServiceV1 {
         headers: headers,
       },
     );
-    return await response.json();
+    const apiData = await response.json();
+    return apiMapper(apiData);
   }
 
   static async getAllAsync(urlSuffix: UrlPortion, options: HttpOptions = {}): Promise<Object> {
