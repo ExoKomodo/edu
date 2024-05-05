@@ -14,9 +14,7 @@
             :handler="async () => await deleteAssignmentAsync(id)" text="Delete?"
             class="w-20"></Button>
         </span>
-        <AssignmentEditor :handler="createAssignmentAsync" handlerText="Create" assignmentId=""
-          assignmentProblemExplanation="" assignmentDescription="" assignmentName="" :assignmentSectionIds="[]">
-        </AssignmentEditor>
+        <ModelEditor :handler="createAssignmentAsync" handlerText="Create" modelKind="assignment"></ModelEditor>
       </div>
     </div>
   </div>
@@ -25,9 +23,9 @@
 <script setup lang="ts">
 import AuthService from '@/services/AuthService';
 import Button from '@/components/Button.vue';
-import AssignmentEditor, { type AssignmentEditorState } from '@/components/AssignmentEditor.vue';
 import AssignmentLink from '@/components/AssignmentLink.vue';
 import AssignmentService from '@/services/AssignmentService';
+import ModelEditor from '@/components/ModelEditor.vue';
 import Spinner from '@/components/Spinner.vue';
 import type { AssignmentIndex } from '@/models';
 import { onMounted, reactive } from 'vue';
@@ -45,7 +43,7 @@ const state = reactive({
   assignmentIndex: {} as AssignmentIndex,
 });
 
-async function createAssignmentAsync(state: AssignmentEditorState) {
+async function createAssignmentAsync(state: any) {
   const assignmentToCreate = {
     id: state.id,
     problemExplanation: state.problemExplanation,
