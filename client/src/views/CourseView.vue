@@ -49,7 +49,6 @@ async function createCourseAsync(state: any) {
     content: state.content,
     metadata: state.metadata,
   };
-  console.log(courseToCreate);
   await CourseService.createAsync(
     courseToCreate,
     {
