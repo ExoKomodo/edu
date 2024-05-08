@@ -1,5 +1,5 @@
 export type Id = string;
-export type InputKind = 'text' | 'number' | 'code';
+export type InputKind = 'text' | 'number' | 'code' | 'select';
 
 export type ViewKey = {
   key: string
