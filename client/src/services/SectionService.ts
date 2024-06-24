@@ -5,6 +5,11 @@ import type ModelService from './ModelService';
 export default class SectionService implements ModelService<Section> {
   objectViewKeys: ViewKey[] = [
     { key: 'id', kind: 'text' },
+    { key: 'content', kind: 'code' },
+    { key: 'difficulty', kind: 'number' },
+    { key: 'description', kind: 'code' },
+    { key: 'name', kind: 'text' },
+    { key: 'courseId', kind: 'select'},
   ];
 
   make(): Section {

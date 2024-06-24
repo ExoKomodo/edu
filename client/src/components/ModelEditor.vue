@@ -15,7 +15,9 @@
     <div v-if="AuthService.isAdmin(auth0) && state.isEditMode">
       <div v-for="viewKey in modelService.objectViewKeys">
         <div class="capitalize text-white border-white border-2 rounded p-1 pl-2 my-2 mr-12">{{ viewKey.key }}</div>
-        <input v-if="viewKey.kind !== 'code'" v-model="(state.viewModel as any)[viewKey.key]" :type="viewKey.kind">
+        <input v-if="viewKey.kind === 'text'" v-model="(state.viewModel as any)[viewKey.key]" type="text">
+        <input v-if="viewKey.kind === 'number'" v-model="(state.viewModel as any)[viewKey.key]" type="number">
+        <input v-if="viewKey.kind === 'select'" v-model="(state.viewModel as any)[viewKey.key]" type="text" placeholder="TODO: NOT IMPLEMENTED">
         <CodeEditor v-if="viewKey.kind === 'code'" v-model="(state.viewModel as any)[viewKey.key]" :height="viewKey.height ?? 2"></CodeEditor>
       </div>
 

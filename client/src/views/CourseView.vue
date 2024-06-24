@@ -40,6 +40,8 @@ const state = reactive({
 });
 
 async function createCourseAsync(state: any) {
+  // TODO: Move these kind of functions out
+  // of the view and into their corresponding Service
   state.metadata = {
     name: state.name,
     description: state.description,
@@ -49,7 +51,6 @@ async function createCourseAsync(state: any) {
     content: state.content,
     metadata: state.metadata,
   };
-  console.log(courseToCreate);
   await CourseService.createAsync(
     courseToCreate,
     {

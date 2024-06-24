@@ -5,6 +5,11 @@ import type ModelService from './ModelService';
 export default class AssignmentService implements ModelService<Assignment>  {
   objectViewKeys: ViewKey[] = [
     { key: 'id', kind: 'text' },
+    { key: 'name', kind: 'text' },
+    { key: 'description', kind: 'code' },
+    { key: 'problemExplanation', kind: 'code' },
+    { key: 'requiredSectionIds', kind: 'select' },
+    { key: 'courseId', kind: 'select' },
   ];
 
   make(): Assignment {
